@@ -1,0 +1,2417 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WebQuest Digital Citizen Lab</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Lora:wght@600;700&display=swap">
+<style>
+  :root{
+    --navy:#1d2327; --navy-d:#101517; --navy-l:#2271b1;
+    --teal:#00705a; --amber:#b26200;
+    --ink:#1d2327; --sub:#50575e;
+    --line:#dcdcde; --tint:#f0f6fc; --tint2:#f6f7f7; --warm:#fcf9e8;
+    --ok:#007017; --okbg:#edfaef; --no:#b32d2e; --nobg:#fcf0f1;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Be Vietnam Pro',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--ink);
+    background:#fff;font-size:15px;line-height:1.65;padding:0 4px 24px}
+  a{color:var(--navy-l);text-decoration:underline;text-underline-offset:2px}
+  a:hover{color:#135e96}
+  h1,h2,h3,h4{font-family:'Be Vietnam Pro',sans-serif;font-weight:700;line-height:1.3;color:#1d2327}
+  p{margin-bottom:12px}
+  ul{margin:0 0 12px 20px}
+  li{margin-bottom:6px}
+  .sm{font-size:14px}.xs{font-size:12.5px}.sub{color:var(--sub)}
+  .mt{margin-top:14px}
+
+  /* Thanh điều hướng phẳng chuẩn Google Sites / WordPress */
+  .nav{display:flex;flex-wrap:wrap;background:#fff;border-bottom:2px solid var(--line);
+    padding:0;margin:0 0 24px;gap:2px}
+  .nav button{display:inline-flex;align-items:center;gap:6px;background:none;border:none;
+    border-bottom:3px solid transparent;margin-bottom:-2px;padding:11px 14px;
+    font:inherit;font-size:13.5px;font-weight:600;color:var(--sub);cursor:pointer;transition:.15s}
+  .nav button:hover{color:var(--navy-l);background:var(--tint2)}
+  .nav button.on{color:var(--navy-l);border-bottom-color:var(--navy-l);background:transparent}
+  .nav button.lk{color:#8c8f94;font-weight:500}
+  .nav button.lk:hover{background:#f6f7f7;color:#646970}
+  .nav svg{width:13px;height:13px;flex-shrink:0;opacity:.75}
+
+  .page{display:none}.page.on{display:block}
+  .sec{margin-bottom:32px;max-width:1040px;margin-left:auto;margin-right:auto}
+  .sec>h2{font-size:22px;margin-bottom:6px;letter-spacing:-.01em}
+  .rule{width:40px;height:3px;background:var(--navy-l);margin:0 0 16px}
+  h3{font-size:16.5px;margin:22px 0 10px}
+
+  .card{border:1px solid var(--line);border-radius:6px;padding:18px 20px;
+    margin-bottom:14px;background:#fff}
+  .card>h4{font-size:16px;margin-bottom:8px}
+  .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+  .tint{background:var(--tint);border-color:#c5d9ed;border-left:4px solid var(--navy-l)}
+  .warm{background:var(--warm);border-color:#ebd494;border-left:4px solid #dba617}
+  .kicker{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--navy-l);margin-bottom:6px}
+  .kicker.a{color:var(--amber)}
+
+  table{width:100%;border-collapse:collapse;font-size:14px;margin-bottom:12px}
+  th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top}
+  th{background:var(--tint2);color:var(--ink);font-weight:600;font-size:13px}
+  .wrap{overflow-x:auto}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;
+    background:var(--navy-l);color:#fff;border:1px solid var(--navy-l);border-radius:4px;
+    padding:9px 18px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;
+    text-decoration:none;min-height:40px;transition:.15s}
+  .btn:hover{background:#135e96;border-color:#135e96;color:#fff}
+  .btn2{background:#f6f7f7;color:var(--ink);border-color:#c3c4c7}
+  .btn2:hover{background:#f0f0f1;border-color:#8c8f94;color:var(--ink)}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+
+  .step{display:flex;gap:12px;margin-bottom:10px;align-items:flex-start}
+  .step b{flex-shrink:0;width:24px;height:24px;border-radius:4px;background:var(--tint);
+    border:1px solid #c5d9ed;color:var(--navy-l);display:flex;align-items:center;justify-content:center;
+    font-size:12.5px;font-weight:700}
+
+  .gate{background:var(--warm);border:1px solid #dba617;border-left:4px solid #b26200;border-radius:4px;
+    padding:12px 16px;margin-bottom:16px;font-size:14px;display:none}
+  .gate.show{display:block}
+  .quick-bar{max-width:1040px;margin:-14px auto 20px;background:var(--tint2);border:1px solid var(--line);
+    border-radius:4px;padding:8px 14px;display:flex;justify-content:space-between;align-items:center;
+    flex-wrap:wrap;gap:10px;font-size:13px;color:var(--sub)}
+  .quick-bar.unlocked{background:var(--okbg);border-color:#a7dcb2;color:var(--ok)}
+  .quick-form{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .code-inp{border:1px solid #8c8f94;border-radius:4px;padding:4px 8px;font:inherit;
+    font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:700;width:96px;
+    text-transform:uppercase;background:#fff;color:var(--ink)}
+  .sm-btn{background:#fff;border:1px solid #8c8f94;border-radius:4px;padding:4px 10px;
+    font:inherit;font-size:12.5px;font-weight:600;color:var(--ink);cursor:pointer;transition:.15s}
+  .sm-btn:hover{background:#f0f0f1;border-color:#1d2327}
+  .sm-btn.pri{background:var(--navy-l);border-color:var(--navy-l);color:#fff}
+  .sm-btn.pri:hover{background:#135e96}
+  .msg-inline{font-size:12px;font-weight:600;color:var(--no);margin-left:4px}
+  .pill{display:inline-block;background:var(--tint2);border:1px solid var(--line);color:var(--ink);
+    border-radius:4px;padding:2px 9px;font-size:12px;font-weight:600;font-family:'JetBrains Mono',monospace}
+
+  /* ================= PHONG CÁCH WEB GAME 2D (ITCH.IO / ARCADE TACTICAL) ================= */
+  .game-shell{border:2px solid #2c3338;border-radius:8px;overflow:hidden;
+    background:#181c20;color:#e0e4e8;box-shadow:0 4px 0 #dcdcde;margin-top:14px;position:relative}
+  .game-hud{background:#21262d;color:#f0f6fc;padding:10px 14px;display:flex;
+    justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;
+    border-bottom:2px solid #30363d;font-family:'JetBrains Mono',monospace}
+  .hud-left{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .agent-badge{background:#161b22;border:1px solid #30363d;padding:5px 10px;
+    border-radius:4px;font-size:12px;font-weight:700;color:#58a6ff}
+  .hp-wrap{display:inline-flex;align-items:center;gap:6px;background:#161b22;
+    border:1px solid #30363d;padding:5px 10px;border-radius:4px;font-size:11.5px;font-weight:700}
+  .hp-bars{display:inline-flex;gap:3px}
+  .hp-seg{width:12px;height:12px;background:#30363d;border-radius:2px;display:inline-block}
+  .hp-seg.on{background:#ea4a5a}
+  .hud-stats{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .stat-chip{background:#161b22;border:1px solid #30363d;padding:5px 10px;
+    border-radius:4px;font-size:12px;font-weight:700;color:#c9d1d9}
+  .stat-chip.streak-hot{border-color:#d29922;color:#e3b341}
+  .snd-btn{background:#21262d;border:1px solid #30363d;color:#c9d1d9;
+    border-radius:4px;padding:5px 10px;cursor:pointer;font-family:inherit;font-size:12px;font-weight:600}
+  .snd-btn:hover{background:#30363d;color:#fff}
+
+  /* Thanh chọn chế độ & nhân vật kiểu phẳng */
+  .mode-tabs{display:flex;gap:8px;padding:8px 14px;background:#161b22;
+    border-bottom:1px solid #30363d;flex-wrap:wrap;align-items:center;justify-content:space-between}
+  .mode-group{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .mode-btn{background:#21262d;border:1px solid #30363d;border-bottom:2px solid #0d1117;color:#8b949e;
+    padding:6px 12px;border-radius:4px;font:inherit;font-size:12.5px;font-weight:600;cursor:pointer}
+  .mode-btn:hover{color:#f0f6fc;background:#30363d}
+  .mode-btn.active{background:#1f6feb;color:#fff;border-color:#388bfd;border-bottom-color:#1158c7}
+
+  .char-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;
+    gap:10px;padding:8px 14px;background:#161b22;border-bottom:1px solid #30363d;font-size:12.5px}
+  .char-list{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .char-pill{background:#21262d;border:1px solid #30363d;color:#c9d1d9;border-radius:4px;
+    padding:4px 10px;cursor:pointer;font:inherit;font-size:12px;font-weight:600}
+  .char-pill:hover{border-color:#8b949e;color:#fff}
+  .char-pill.on{background:#238636;color:#fff;border-color:#2ea043}
+
+  .boss-bar-wrap{background:#0d1117;padding:7px 14px;border-bottom:1px solid #30363d;
+    display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace}
+  .boss-label{font-size:11.5px;font-weight:700;color:#ff7b72;letter-spacing:.02em}
+  .boss-track{flex:1;min-width:180px;height:10px;background:#21262d;border-radius:2px;
+    overflow:hidden;border:1px solid #30363d}
+  .boss-fill{height:100%;width:100%;background:#da3633;transition:width .35s ease}
+
+  /* Sân chơi 2D Canvas & cụm phím Arcade vật lí */
+  .rpg-stage{position:relative;background:#161b22;border-bottom:2px solid #30363d}
+  .rpg-canvas-wrap{position:relative;width:100%;height:460px;overflow:hidden;background:#1b2028;user-select:none}
+  #rpg-canvas{display:block;width:100%;height:100%;cursor:crosshair}
+
+  .map-overlay-top{position:absolute;top:10px;left:10px;right:10px;display:flex;
+    justify-content:space-between;align-items:flex-start;pointer-events:none;gap:8px;flex-wrap:wrap;z-index:4}
+  .map-toast{background:rgba(13,17,23,.92);border:1px solid #30363d;border-left:3px solid #58a6ff;color:#e6edf3;
+    padding:6px 12px;border-radius:4px;font-size:12.5px;font-weight:500;pointer-events:auto}
+  .map-legend{background:rgba(13,17,23,.9);border:1px solid #30363d;color:#8b949e;
+    padding:5px 10px;border-radius:4px;font-size:11.5px;display:flex;gap:12px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace}
+  .lg-dot{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px}
+
+  .dpad-wrap{position:absolute;bottom:12px;left:12px;display:grid;
+    grid-template-columns:repeat(3,38px);grid-template-rows:repeat(2,38px);gap:4px;z-index:5}
+  .dpad-btn{background:#21262d;border:1px solid #30363d;border-bottom:3px solid #0d1117;color:#c9d1d9;
+    border-radius:4px;font-size:13px;font-weight:700;cursor:pointer;display:flex;
+    align-items:center;justify-content:center;user-select:none;touch-action:manipulation}
+  .dpad-btn:active{transform:translateY(2px);border-bottom-width:1px;background:#30363d}
+
+  .arcade-pad{position:absolute;bottom:12px;right:12px;z-index:5;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+  .atk-btn,.dash-btn,.action-fab{font-family:'Be Vietnam Pro',sans-serif;font-size:12.5px;font-weight:700;
+    padding:8px 13px;border-radius:4px;cursor:pointer;user-select:none;transition:.1s}
+  .atk-btn{background:#1f6feb;color:#fff;border:1px solid #388bfd;border-bottom:3px solid #1158c7}
+  .atk-btn:active{transform:translateY(2px);border-bottom-width:1px}
+  .dash-btn{background:#30363d;color:#e6edf3;border:1px solid #484f58;border-bottom:3px solid #161b22}
+  .dash-btn:active{transform:translateY(2px);border-bottom-width:1px}
+  .action-fab{background:#d29922;color:#0d1117;border:1px solid #e3b341;border-bottom:3px solid #9e6a03}
+  .action-fab:hover{background:#e3b341}
+  .action-fab:active{transform:translateY(2px);border-bottom-width:1px}
+
+  /* Hồ sơ vụ việc (Case File Dossier Modal) */
+  .case-modal-backdrop{display:none;position:absolute;inset:0;z-index:20;
+    background:rgba(13,17,23,.82);padding:14px;overflow-y:auto;align-items:flex-start;justify-content:center}
+  .case-modal-backdrop.open{display:flex}
+  .case-modal-box{width:100%;max-width:800px;background:#ffffff;color:var(--ink);
+    border:2px solid #1d2327;border-radius:6px;padding:18px 20px;
+    box-shadow:0 8px 24px rgba(0,0,0,.45);margin:auto}
+  .hack-bonus-banner{display:none;background:#edfaef;color:#007017;
+    padding:8px 12px;border-radius:4px;font-size:12.5px;font-weight:600;
+    margin-bottom:12px;border:1px solid #a7dcb2;border-left:4px solid #007017}
+  .hack-bonus-banner.show{display:block}
+
+  .case-track{display:flex;gap:6px;padding:10px 14px;background:#161b22;
+    border-bottom:1px solid #30363d;flex-wrap:wrap;align-items:center;justify-content:space-between}
+  .case-nodes-left{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+  .case-node{width:30px;height:28px;border-radius:4px;border:1px solid #30363d;
+    background:#21262d;color:#8b949e;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;
+    cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .case-node:hover{border-color:#8b949e;color:#fff}
+  .case-node.cur{border-color:#58a6ff;background:#1f6feb;color:#fff}
+  .case-node.ok{border-color:#2ea043;background:#238636;color:#fff}
+  .case-node.no{border-color:#f85149;background:#da3633;color:#fff}
+
+  .game-body{padding:18px 20px 22px;background:#ffffff;color:var(--ink)}
+  .terminal-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;
+    gap:10px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+  .npc-dialog{background:#f6f7f7;color:var(--ink);border-radius:4px;padding:14px 16px;
+    margin-bottom:14px;border:1px solid var(--line);border-left:4px solid #1d2327}
+  .evidence-top{display:flex;justify-content:space-between;align-items:center;
+    gap:10px;flex-wrap:wrap;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+  .ev-tag{font-family:'JetBrains Mono',monospace;font-size:11.5px;font-weight:700;color:#1d2327;text-transform:uppercase}
+  .ev-mock{font-size:13.5px;line-height:1.6;color:#2c3338}
+  .ev-scan-btn{background:#fff;border:1px solid #8c8f94;color:#1d2327;
+    border-radius:4px;padding:4px 10px;font:inherit;font-size:12px;font-weight:600;cursor:pointer}
+  .ev-scan-btn:hover{background:#f0f0f1}
+  .ev-clue{display:none;margin-top:10px;padding:8px 12px;border-radius:4px;
+    background:var(--tint);border:1px solid #c5d9ed;color:#1d2327;font-size:13px}
+  .ev-clue.show{display:block}
+
+  .lifelines{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+  .life-btn{display:inline-flex;align-items:center;gap:6px;background:#f6f7f7;
+    border:1px solid #c3c4c7;border-radius:4px;padding:5px 11px;font:inherit;
+    font-size:12px;font-weight:600;color:#1d2327;cursor:pointer}
+  .life-btn:hover:enabled{background:#f0f0f1;border-color:#8c8f94}
+  .life-btn:disabled{opacity:.45;cursor:not-allowed}
+  .life-cnt{background:#e0e0e0;color:#1d2327;border-radius:3px;
+    padding:1px 6px;font-size:11px;font-weight:700;font-family:'JetBrains Mono',monospace}
+
+  .qtext{font-family:Lora,Georgia,serif;font-size:17px;font-weight:600;margin:8px 0 14px;line-height:1.5;color:#1d2327}
+  .opt{display:flex;align-items:flex-start;gap:12px;width:100%;text-align:left;background:#fff;
+    border:1px solid #c3c4c7;border-radius:4px;padding:11px 14px;margin-bottom:8px;
+    font:inherit;font-size:14px;cursor:pointer;line-height:1.5;color:var(--ink)}
+  .opt:hover:enabled{border-color:var(--navy-l);background:var(--tint)}
+  .opt:disabled{cursor:default}
+  .opt-key{flex-shrink:0;width:26px;height:26px;border-radius:3px;background:#f0f0f1;
+    border:1px solid #c3c4c7;color:#1d2327;font-family:'JetBrains Mono',monospace;font-weight:700;
+    font-size:12.5px;display:flex;align-items:center;justify-content:center;margin-top:1px}
+  .opt.right{border-color:var(--ok);background:var(--okbg)}
+  .opt.right .opt-key{background:var(--ok);border-color:var(--ok);color:#fff}
+  .opt.wrong{border-color:var(--no);background:var(--nobg)}
+  .opt.wrong .opt-key{background:var(--no);border-color:var(--no);color:#fff}
+  .opt.eliminated{opacity:.35;pointer-events:none;text-decoration:line-through;background:#f6f7f7}
+
+  .fb{display:none;font-size:13.5px;padding:12px 14px;border-radius:4px;margin:12px 0;border-left:4px solid transparent}
+  .fb.y{background:var(--okbg);color:var(--ok);border-left-color:var(--ok)}
+  .fb.n{background:var(--nobg);color:var(--no);border-left-color:var(--no)}
+  .stamp-badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;
+    padding:2px 7px;border-radius:3px;text-transform:uppercase;margin-bottom:4px}
+  .fb.y .stamp-badge{background:var(--ok);color:#fff}
+  .fb.n .stamp-badge{background:var(--no);color:#fff}
+
+  .score{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .score .big{width:84px;height:84px;border-radius:6px;flex-shrink:0;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;color:#fff;background:var(--ok)}
+  .score .big.fail{background:var(--no)}
+
+  .radar-box{background:#161b22;color:#e6edf3;border-radius:6px;padding:20px;text-align:center;border:1px solid #30363d}
+  .radar-card{background:#21262d;border:1px solid #30363d;border-radius:6px;
+    padding:20px 18px;margin:14px auto;max-width:640px;min-height:120px;
+    display:flex;flex-direction:column;justify-content:center;align-items:center}
+  .radar-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+  .r-btn{padding:10px 20px;border-radius:4px;font:inherit;font-size:13.5px;
+    font-weight:700;cursor:pointer;min-width:180px}
+  .r-btn.safe{background:#238636;color:#fff;border:1px solid #2ea043;border-bottom:3px solid #196c2e}
+  .r-btn.risk{background:#da3633;color:#fff;border:1px solid #f85149;border-bottom:3px solid #b62324}
+  .fx-canvas{position:fixed;inset:0;pointer-events:none;z-index:9999}
+
+  .topic{border:1px solid var(--line);border-radius:6px;padding:16px 18px;margin-bottom:12px;background:#fff}
+  .topic h4{font-size:16px;margin-bottom:4px}
+  .topic .no{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--navy-l)}
+
+  .form-wrap{border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-top:12px}
+  .form-head{background:#1d2327;color:#fff;padding:10px 16px;display:flex;
+    justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;font-size:13.5px}
+  .form-head a{color:#72aee6}
+  iframe{display:block;width:100%;border:0;background:#fff}
+
+  .chk{display:flex;gap:10px;align-items:flex-start;margin-bottom:9px}
+  .chk input{width:17px;height:17px;margin-top:3px;flex-shrink:0}
+  .chk label{font-size:14px}
+
+  .foot{border-top:1px solid var(--line);margin-top:28px;padding-top:12px;
+    font-size:12.5px;color:var(--sub);display:flex;justify-content:space-between;
+    gap:12px;flex-wrap:wrap;max-width:1040px;margin-left:auto;margin-right:auto}
+  .link-btn{background:none;border:none;font:inherit;font-size:12.5px;color:var(--sub);
+    text-decoration:underline;cursor:pointer;padding:4px}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav"></nav>
+
+<div class="quick-bar" id="quick-bar">
+  <div id="quick-status">
+    <strong>Trạng thái:</strong> Các mục 3–9 đang khoá (Vượt qua 7/10 hồ sơ ở mục 2 để nhận Mã thông hành).
+  </div>
+  <div class="quick-form" id="quick-controls">
+    <span>Đã hoàn thành từ tiết trước?</span>
+    <input type="text" id="top-code-inp" class="code-inp" placeholder="Mã: " maxlength="10" onkeydown="if(event.key==='Enter')unlockByCode('top-code-inp','top-code-msg')">
+    <button class="sm-btn pri" onclick="unlockByCode('top-code-inp','top-code-msg')">Mở bằng mã</button>
+    <span class="msg-inline" id="top-code-msg"></span>
+  </div>
+</div>
+
+<!-- 1. GIỚI THIỆU -->
+<section class="page on" id="p-intro">
+  <div class="sec">
+    <h2>Trước khi bắt đầu</h2><div class="rule"></div>
+    <p>Hai tiết vừa rồi các em đã học những vấn đề đạo đức, pháp luật và văn hoá nảy sinh khi giao tiếp qua mạng, cùng nghĩa vụ tôn trọng bản quyền thông tin và sản phẩm số. Từ đây, lớp chuyển sang dùng phần kiến thức đó để xử lí những hồ sơ cụ thể.</p>
+
+    <div class="card tint">
+      <div class="kicker">CÂU HỎI LỚN CỦA DỰ ÁN</div>
+      <p style="font-family:Lora,Georgia,serif;font-size:18.5px;line-height:1.45;margin:0">Làm thế nào để học sinh sử dụng, tạo lập và chia sẻ thông tin, sản phẩm số một cách an toàn, hợp pháp và có trách nhiệm?</p>
+    </div>
+
+    <div class="card warm">
+      <div class="kicker a">ĐIỀU KIỆN MỞ KHOÁ NHIỆM VỤ</div>
+      <p class="sm" style="margin:0">Các mục từ <strong>3. Nhiệm vụ</strong> trở đi đang khoá. Hãy hoàn thành trò chơi tương tác tại mục <strong>2. Ôn tập</strong> (xử lí đúng tối thiểu <strong><span data-cfg="diemDat"></span>/10 hồ sơ</strong>) để mở khoá toàn bộ dự án.</p>
+    </div>
+
+    <h3>Ba việc theo thứ tự</h3>
+    <div class="step"><b>1</b><div>Vào mục 2 để tham gia trò chơi giải mã 10 hồ sơ tình huống và mở khoá dự án.</div></div>
+    <div class="step"><b>2</b><div>Đọc mục 3 và 4 để biết nhóm phải làm ra sản phẩm gì, theo tiến trình nào.</div></div>
+    <div class="step"><b>3</b><div>Xem năm hồ sơ ở mục 5, chọn đề tài và gửi phiếu đăng kí.</div></div>
+
+    <div class="btns"><button class="btn" onclick="go('ontap')">Chuyển sang mục 2: Trò chơi Ôn tập →</button></div>
+    <p class="xs sub mt">Hình ảnh dùng trong trang: <span data-cfg="nguonAnh"></span></p>
+  </div>
+</section>
+
+<!-- 2. ÔN TẬP — GAME TƯƠNG TÁC 2D -->
+<section class="page" id="p-ontap">
+  <div class="sec">
+    <div class="gate" id="gate">
+      <div style="margin-bottom:8px">
+        <strong>Mục bạn vừa chọn (<span id="gate-target-name">Nhiệm vụ</span>) đang khoá.</strong>
+        Nếu lần đầu truy cập, hãy hoàn thành trò chơi dưới đây (đạt tối thiểu <span data-cfg="diemDat"></span>/10 hồ sơ) để mở khoá.
+      </div>
+      <div class="quick-form" style="padding-top:8px;border-top:1px dashed #dba617">
+        <span><strong>Đã làm xong ở buổi học trước hoặc đổi thiết bị?</strong> Nhập mã thông hành:</span>
+        <input type="text" id="gate-code-inp" class="code-inp" placeholder="Mã: " maxlength="10" onkeydown="if(event.key==='Enter')unlockByCode('gate-code-inp','gate-code-msg')">
+        <button class="sm-btn pri" onclick="unlockByCode('gate-code-inp','gate-code-msg')">Mở ngay mục vừa chọn</button>
+        <button class="sm-btn" id="gate-self-unlock" onclick="unlockDirect()">Bỏ qua & mở trực tiếp →</button>
+        <span class="msg-inline" id="gate-code-msg"></span>
+      </div>
+    </div>
+
+    <h2>Phòng Lab Điều Tra Số (Mini-Game Mở Khoá)</h2><div class="rule"></div>
+    <p class="sub sm">Di chuyển bằng phím <strong>W, A, S, D / Mũi tên</strong> hoặc <strong>Click chuột</strong> trên bản đồ · Bắn hạ Drone đỏ quanh bàn máy tính bằng phím <strong>J (hoặc Click)</strong> để tự động loại 1 phương án sai · Nhấn <strong>SPACE</strong> khi đứng gần bàn máy tính để mở hồ sơ.</p>
+
+    <div class="game-shell">
+      <!-- HUD PHẲNG KIỂU RETRO WEB GAME -->
+      <div class="game-hud">
+        <div class="hud-left">
+          <span class="agent-badge" id="g-rank">CẤP BẬC: TẬP SỰ</span>
+          <div class="hp-wrap" title="Giáp bảo vệ nhân vật">
+            <span>GIÁP:</span>
+            <div class="hp-bars" id="g-hp"></div>
+          </div>
+        </div>
+        <div class="hud-stats">
+          <span class="stat-chip" id="g-solved">HỒ SƠ: 0/10</span>
+          <span class="stat-chip" id="g-xp">0 XP</span>
+          <span class="stat-chip" id="g-streak">CHUỖI: 0</span>
+          <span class="stat-chip" id="g-shield">KHIÊN: 1</span>
+          <button class="snd-btn" id="g-snd" onclick="toggleSound()">Âm thanh: BẬT</button>
+        </div>
+      </div>
+
+      <!-- THANH TIẾN ĐỘ XỬ LÍ HỆ THỐNG -->
+      <div class="boss-bar-wrap">
+        <span class="boss-label">MỨC ĐỘ NHIỄM ĐỘC HỆ THỐNG: <span id="boss-hp-txt">100%</span></span>
+        <div class="boss-track"><div class="boss-fill" id="boss-fill"></div></div>
+        <span class="xs" style="color:#8b949e">Mỗi hồ sơ giải đúng giúp làm sạch 10% hệ thống</span>
+      </div>
+
+      <!-- CHỌN NHÂN VẬT -->
+      <div class="char-bar">
+        <div class="char-list">
+          <span style="color:#8b949e;font-weight:600">Nhân vật:</span>
+          <button class="char-pill on" onclick="pickAvatar(0,this)">Minh (Bắn tia kép)</button>
+          <button class="char-pill" onclick="pickAvatar(1,this)">Linh (Chạy nhanh)</button>
+          <button class="char-pill" onclick="pickAvatar(2,this)">Khoa (Đạn phá giáp)</button>
+          <button class="char-pill" onclick="pickAvatar(3,this)">AI-10 (Tự ngắm)</button>
+        </div>
+        <span class="xs" style="color:#8b949e">Mẹo: Hạ Drone đỏ quanh trạm trước khi mở hồ sơ sẽ giúp gạch bớt 1 đáp án nhiễu.</span>
+      </div>
+
+      <!-- CHUYỂN CHẾ ĐỘ -->
+      <div class="mode-tabs">
+        <div class="mode-group">
+          <button class="mode-btn active" id="m-main" onclick="switchGameMode('main')">Bản đồ Phòng Lab (10 Hồ sơ)</button>
+          <button class="mode-btn" id="m-radar" onclick="switchGameMode('radar')">Phản xạ phân loại nhanh (+1 Khiên)</button>
+        </div>
+        <span class="pill" id="q-count" style="background:#21262d;color:#58a6ff;border-color:#30363d">Hồ sơ #01 / 10</span>
+      </div>
+
+      <!-- CHẾ ĐỘ 1: BẢN ĐỒ 2D -->
+      <div id="mode-main-wrap">
+        <div class="rpg-stage" id="rpg-stage-wrap">
+          <div class="rpg-canvas-wrap">
+            <canvas id="rpg-canvas"></canvas>
+            <div class="map-overlay-top">
+              <div class="map-toast" id="map-prompt">Nhấn [W,A,S,D] để di chuyển · [J] hoặc Click để bắn Drone · [SPACE] mở Trạm hồ sơ</div>
+              <div class="map-legend">
+                <span><i class="lg-dot" style="background:#58a6ff"></i>Chưa mở</span>
+                <span><i class="lg-dot" style="background:#d29922"></i>Đã hạ Drone</span>
+                <span><i class="lg-dot" style="background:#2ea043"></i>Đã giải đúng</span>
+                <span><i class="lg-dot" style="background:#f85149"></i>Cần làm lại</span>
+              </div>
+            </div>
+
+            <!-- Phím điều hướng -->
+            <div class="dpad-wrap" title="Di chuyển">
+              <div></div>
+              <button class="dpad-btn" onmousedown="holdDir(0,-1)" onmouseup="stopDir()" ontouchstart="holdDir(0,-1);event.preventDefault()" ontouchend="stopDir()">▲</button>
+              <div></div>
+              <button class="dpad-btn" onmousedown="holdDir(-1,0)" onmouseup="stopDir()" ontouchstart="holdDir(-1,0);event.preventDefault()" ontouchend="stopDir()">◀</button>
+              <button class="dpad-btn" onmousedown="holdDir(0,1)" onmouseup="stopDir()" ontouchstart="holdDir(0,1);event.preventDefault()" ontouchend="stopDir()">▼</button>
+              <button class="dpad-btn" onmousedown="holdDir(1,0)" onmouseup="stopDir()" ontouchstart="holdDir(1,0);event.preventDefault()" ontouchend="stopDir()">▶</button>
+            </div>
+
+            <!-- Cụm nút hành động -->
+            <div class="arcade-pad">
+              <button class="atk-btn" onclick="firePlayerShot()">Bắn tia [J]</button>
+              <button class="dash-btn" onclick="triggerDash()">Lướt nhanh [Shift]</button>
+              <button class="action-fab" id="fab-investigate" onclick="triggerNearestStation()">
+                Mở Hồ sơ #1 [SPACE]
+              </button>
+            </div>
+
+            <!-- CỬA SỔ HỒ SƠ VỤ VIỆC -->
+            <div class="case-modal-backdrop" id="case-modal">
+              <div class="case-modal-box" id="q-run">
+                <div class="terminal-header">
+                  <div>
+                    <span class="kicker" id="q-zone-name">KHU VỰC 1</span>
+                    <h3 style="margin:2px 0 0" id="q-station-title">Hồ sơ #01</h3>
+                    <span class="xs sub" id="q-round"></span>
+                  </div>
+                  <button class="btn btn2" style="padding:5px 12px;min-height:32px;font-size:12px" onclick="closeCaseModal()">
+                    Đóng hồ sơ [ESC]
+                  </button>
+                </div>
+
+                <div class="hack-bonus-banner" id="hack-bonus-msg">
+                  Đã hạ Drone canh gác tại trạm này: Hệ thống tự động gạch bỏ 01 phương án nhiễu.
+                </div>
+
+                <div class="npc-dialog">
+                  <div class="evidence-top">
+                    <span class="ev-tag" id="q-ev-title">TANG VẬT HIỆN TRƯỜNG #01</span>
+                    <button class="ev-scan-btn" id="q-scan-btn" onclick="scanClue()">Xem gợi ý căn cứ pháp lí</button>
+                  </div>
+                  <div class="ev-mock" id="q-ev-mock"></div>
+                  <div class="ev-clue" id="q-ev-clue"></div>
+                </div>
+
+                <div class="lifelines">
+                  <span class="xs sub" style="font-weight:600;margin-right:4px">Quyền trợ giúp:</span>
+                  <button class="life-btn" id="lf-50" onclick="use5050()">
+                    Loại 2 phương án sai <span class="life-cnt" id="cnt-50">2</span>
+                  </button>
+                  <button class="life-btn" id="lf-hint" onclick="scanClue(true)">
+                    Mở từ khoá luật <span class="life-cnt" id="cnt-hint">2</span>
+                  </button>
+                  <button class="life-btn" id="lf-shield" onclick="activateShield()">
+                    Dùng Khiên chọn lại <span class="life-cnt" id="cnt-shield">1</span>
+                  </button>
+                </div>
+
+                <p class="qtext" id="q-text"></p>
+                <div id="q-opts"></div>
+                <div id="q-fb" class="fb"></div>
+                <div class="btns" id="q-nextwrap" style="display:none">
+                  <button class="btn btn2" onclick="closeCaseModal()">Quay lại bản đồ Lab</button>
+                  <button class="btn" id="q-next" onclick="qNext()">Chuyển sang Hồ sơ tiếp theo →</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- THANH CHỌN NHANH 10 TRẠM -->
+        <div class="case-track">
+          <div class="case-nodes-left">
+            <span class="xs" style="color:#8b949e;font-weight:600;margin-right:4px">Chọn nhanh hồ sơ:</span>
+            <div id="q-nodes" style="display:flex;gap:5px;flex-wrap:wrap"></div>
+          </div>
+          <span class="xs" style="color:#8b949e">Có thể bấm trực tiếp số 1–10 để di chuyển nhanh tới bàn máy tính tương ứng.</span>
+        </div>
+
+        <!-- MÀN HÌNH TỔNG KẾT -->
+        <div class="game-body" id="q-done" style="display:none">
+          <div class="score">
+            <div class="big" id="q-circle">0/10</div>
+            <div style="flex:1">
+              <div class="kicker" id="q-final-rank">KẾT QUẢ VÒNG ÔN TẬP</div>
+              <h4 id="q-title" style="font-size:19px;margin-bottom:6px"></h4>
+              <p class="sm sub" id="q-advice" style="margin-bottom:8px"></p>
+              <div id="q-stats-summary" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+            </div>
+          </div>
+          <div class="btns" id="q-after"></div>
+        </div>
+      </div>
+
+      <!-- CHẾ ĐỘ 2: MINI-GAME PHẢN XẠ -->
+      <div class="game-body" id="mode-radar-wrap" style="display:none;background:#0d1117">
+        <div class="radar-box">
+          <div class="kicker" style="color:#58a6ff">BÀI TẬP PHẢN XẠ NHANH</div>
+          <h3 style="color:#fff;margin:4px 0 6px">Phân loại nhanh hành vi trên mạng</h3>
+          <p class="xs" style="color:#8b949e;max-width:580px;margin:0 auto">
+            Xác định nhanh tình huống dưới đây là <strong>Hợp pháp & An toàn</strong> hay <strong>Vi phạm / Rủi ro</strong>. Đạt từ <strong>5/6 câu đúng</strong> sẽ được cộng thêm <strong>+1 Khiên</strong> để dùng ở 10 hồ sơ chính.
+          </p>
+          <div style="margin-top:12px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap">
+            <span class="stat-chip" id="r-progress">Tình huống: 1 / 6</span>
+            <span class="stat-chip" id="r-score">Đúng: 0</span>
+          </div>
+          <div class="radar-card" id="r-card">
+            <p style="font-size:15.5px;font-weight:600;margin:0;color:#f0f6fc" id="r-text"></p>
+            <p class="xs" id="r-explain" style="margin-top:10px;color:#58a6ff;display:none"></p>
+          </div>
+          <div class="radar-btns" id="r-actions">
+            <button class="r-btn safe" onclick="radarPick(true)">HỢP PHÁP & AN TOÀN</button>
+            <button class="r-btn risk" onclick="radarPick(false)">VI PHẠM / RỦI RO</button>
+          </div>
+          <div class="btns" style="justify-content:center;margin-top:14px">
+            <button class="btn btn2" onclick="radarStart()">Làm lại lượt mới</button>
+            <button class="btn" onclick="switchGameMode('main')">Quay lại Bản đồ Phòng Lab</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <canvas id="fx-canvas" class="fx-canvas"></canvas>
+  </div>
+</section>
+
+<!-- 3. NHIỆM VỤ -->
+<section class="page" id="p-task">
+  <div class="sec">
+    <h2>Nhiệm vụ của nhóm</h2><div class="rule"></div>
+    <p>Nhóm của em là tổ tư vấn của Trung tâm Công dân số. Một hồ sơ được chuyển đến, kèm dữ kiện có sẵn. Nhiệm vụ của tổ là trả lời được hành vi nào hợp pháp, hành vi nào không, vì sao, và các bạn khác nên làm gì trong tình huống tương tự.</p>
+
+    <div class="cols">
+      <div class="card">
+        <div class="kicker">SẢN PHẨM 1</div>
+        <h4>Bài trình chiếu</h4>
+        <p class="sm sub">Phân tích chuyên sâu, 10 slide nội dung theo thứ tự cố định, ngoài bìa và tài liệu tham khảo.</p>
+        <ul class="sm">
+          <li>Slide 1–2: tình huống, hành vi, các bên liên quan</li>
+          <li>Slide 3–4: quy định pháp luật liên quan và ví dụ</li>
+          <li>Slide 5: một ví dụ bản quyền phân tích đến nơi</li>
+          <li>Slide 6: bảng đối chiếu hành vi với quy định</li>
+          <li>Slide 7–8: tác hại và phương án được chọn</li>
+          <li>Slide 9–10: quy trình hành động và kết quả thử nghiệm</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="kicker a">SẢN PHẨM 2</div>
+        <h4>Infographic</h4>
+        <p class="sm sub">Truyền thông một trang, rút ra từ chính phân tích ở trên. Một bạn chưa học bài vẫn phải dùng được.</p>
+        <ul class="sm">
+          <li>Nhận diện vấn đề</li>
+          <li>Điều cần lưu ý</li>
+          <li>Nên làm gì — không nên làm gì</li>
+          <li>Quy trình hoặc checklist áp dụng được</li>
+          <li>Thông điệp hành động</li>
+          <li>Nguồn tham chiếu ngắn</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Quy cách nộp</h3>
+    <div class="wrap"><table>
+      <tr><th style="width:170px">Thuộc tính</th><th>Quy định</th></tr>
+      <tr><td>Định dạng</td><td>Trình chiếu: PPTX hoặc PDF · Infographic: PNG hoặc PDF</td></tr>
+      <tr><td>Dung lượng</td><td>Trình chiếu 10 slide nội dung · infographic 1 trang</td></tr>
+      <tr><td>Công cụ</td><td>Tự chọn: PowerPoint, Google Slides, Canva…</td></tr>
+      <tr><td>Đặt tên tệp</td><td>Nhom0X_TenDeTai_LoaiSanPham</td></tr>
+      <tr><td>Nguồn</td><td>Mọi số liệu, hình ảnh, trích dẫn đều phải ghi nguồn</td></tr>
+      <tr><td>Quyền riêng tư</td><td>Không dùng hội thoại, tên hoặc hình ảnh thật của bạn học</td></tr>
+      <tr><td>Công cụ hành động</td><td>Bắt buộc có ít nhất 01 checklist, sơ đồ quyết định hoặc quy trình</td></tr>
+    </table></div>
+
+    <div class="card warm">
+      <div class="kicker a">SẢN PHẨM MẪU CỦA GIÁO VIÊN</div>
+      <p class="sm" style="margin-bottom:4px">Đề tài “Tin nhắn quảng cáo không mong muốn — xử lí thế nào cho đúng?”. Mẫu cho thấy cấu trúc, độ sâu và cách trình bày. Không nhóm nào được sao chép nội dung mẫu.</p>
+      <div class="btns">
+        <a class="btn btn2" target="_blank" rel="noopener" data-cfg-href="mauTrinhChieu">Bài trình chiếu mẫu</a>
+        <a class="btn btn2" target="_blank" rel="noopener" data-cfg-href="mauInfographic">Infographic mẫu</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. TIẾN TRÌNH -->
+<section class="page" id="p-process">
+  <div class="sec">
+    <h2>Tiến trình thực hiện</h2><div class="rule"></div>
+    <p class="sub sm">Hai tiết đầu học trên lớp. WebQuest dùng từ cuối tiết 2 trở đi.</p>
+    <div class="wrap"><table>
+      <tr><th style="width:120px">Thời điểm</th><th>Học sinh làm gì</th><th style="width:220px">Phải có gì khi kết thúc</th></tr>
+      <tr><td>Tiết 1</td><td>Học những vấn đề đạo đức, pháp luật, văn hoá nảy sinh khi giao tiếp qua mạng</td><td>Phiếu học tập tiết 1</td></tr>
+      <tr><td>Tiết 2</td><td>Học về bản quyền thông tin, sản phẩm số và nghĩa vụ khi sử dụng, chia sẻ</td><td>Phiếu học tập tiết 2</td></tr>
+      <tr><td>Cuối tiết 2<br>hoặc ở nhà</td><td>Vào WebQuest, làm vòng ôn tập để mở khoá nhiệm vụ dự án</td><td>Đã mở khoá, đọc xong mục 3 và 4</td></tr>
+      <tr><td>Tiết 3</td><td>Nhận nhiệm vụ, lập nhóm, chọn đề tài, phân vai, gửi phiếu đăng kí</td><td>Phiếu đăng kí đã gửi · bảng phân vai</td></tr>
+      <tr><td>Ngoài lớp<br>tuần 1</td><td>Điều tra hồ sơ đề tài, đối chiếu từng hành vi với quy định</td><td>Bảng đối chiếu · nhật kí nhóm tuần 1</td></tr>
+      <tr><td>Ngoài lớp<br>tuần 2</td><td>Dựng hai sản phẩm, cho 2–3 bạn ngoài nhóm dùng thử infographic</td><td>Bản nháp · phiếu phản hồi chéo</td></tr>
+      <tr><td>Tiết 4</td><td>Báo cáo, phản biện, chấm chéo; cuối tiết tổng kết và làm phiếu vận dụng cá nhân</td><td>Sản phẩm đã nộp · phiếu cá nhân</td></tr>
+    </table></div>
+
+    <h3>Phân vai trong nhóm</h3>
+    <p class="sm sub">Mỗi bạn vẫn phải phân tích ít nhất một hành vi và giải thích một căn cứ. Không ai chỉ làm trang trí.</p>
+    <div class="wrap"><table>
+      <tr><th style="width:170px">Vai</th><th>Phần việc</th></tr>
+      <tr><td>Nhóm trưởng</td><td>Chia việc, giữ tiến độ, nộp bài đúng hạn, tổng hợp nhật kí nhóm</td></tr>
+      <tr><td>Tổ điều tra</td><td>Tìm nguồn, kiểm chứng dữ kiện trong hồ sơ, ghi lại nguồn đã dùng</td></tr>
+      <tr><td>Tổ pháp lí</td><td>Dựng bảng đối chiếu hành vi — quy định — kết luận — cách điều chỉnh</td></tr>
+      <tr><td>Tổ thiết kế</td><td>Dựng bài trình chiếu và infographic, kiểm tra nguồn mọi hình ảnh</td></tr>
+      <tr><td>Người phát ngôn</td><td>Báo cáo 7–8 phút và trả lời phản biện của nhóm bạn</td></tr>
+    </table></div>
+  </div>
+</section>
+
+<!-- 5. ĐỀ TÀI & ĐĂNG KÍ -->
+<section class="page" id="p-topics">
+  <div class="sec">
+    <h2>Năm đề tài và hồ sơ</h2><div class="rule"></div>
+    <p class="sub sm">Mỗi hồ sơ có bối cảnh riêng nhưng cùng khối lượng tài liệu và cùng số hành vi phải phân tích.</p>
+    <div id="topic-list"></div>
+    <div id="topic-detail"></div>
+
+    <h2 style="margin-top:28px">Đăng kí nhóm và đề tài</h2><div class="rule"></div>
+    <p class="sm">Nhóm trưởng điền thay cả nhóm. Hạn đăng kí: <strong data-cfg="hanDangKy"></strong>.</p>
+    <div class="card tint">
+      <div class="kicker">LƯU Ý BẮT BUỘC</div>
+      <p class="sm" style="margin:0"><strong>Chọn đúng lớp của em.</strong> Giáo viên dạy nhiều lớp nên dữ liệu đăng kí phải tách được theo lớp. Quy tắc mỗi đề tài chỉ một nhóm chỉ áp dụng trong cùng một lớp; hai lớp khác nhau được phép trùng đề tài.</p>
+    </div>
+    <div class="form-wrap">
+      <div class="form-head">
+        <span>Phiếu đăng kí đề tài</span>
+        <a target="_blank" rel="noopener" data-cfg-href="formDangKy">Mở trong tab mới</a>
+      </div>
+      <iframe data-cfg-src="formDangKy" height="820" loading="lazy" title="Form đăng kí đề tài"></iframe>
+    </div>
+    <p class="xs sub">Tám trường: Lớp · Tên nhóm · Nhóm trưởng · Email · Danh sách thành viên · Đề tài đăng kí · Đề tài dự phòng · Cam kết tự làm và ghi nguồn.</p>
+    <p class="sm">Xem đề tài nào trong lớp còn trống: <a target="_blank" rel="noopener" data-cfg-href="sheetTongHop">bảng tổng hợp đăng kí</a>.</p>
+  </div>
+</section>
+
+<!-- 6. TÀI NGUYÊN -->
+<section class="page" id="p-res">
+  <div class="sec">
+    <h2>Tài nguyên</h2><div class="rule"></div>
+    <p>Dùng học liệu của lớp làm gốc. Nguồn bên ngoài chỉ dùng khi xác định được ai công bố và công bố khi nào.</p>
+
+    <div class="cols">
+      <div class="card">
+        <h4>Học liệu bắt buộc</h4>
+        <ul class="sm">
+          <li><a target="_blank" rel="noopener" data-cfg-href="hocLieuPhapLy">Học liệu pháp lí của lớp</a> — trích đoạn có chú giải, ví dụ, kèm thời điểm áp dụng của từng văn bản.</li>
+          <li>SGK Tin học 10, Bài 11 và phiếu học tập hai tiết đầu.</li>
+          <li><a target="_blank" rel="noopener" data-cfg-href="huongDanGhiNguon">Hướng dẫn ghi nguồn</a> — cho ảnh, số liệu, văn bản và phần mềm.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Nguồn tra cứu đáng tin</h4>
+        <ul class="sm">
+          <li>Cổng thông tin điện tử của cơ quan nhà nước và Công báo — nơi tra số hiệu và hiệu lực văn bản.</li>
+          <li>Trang chính thức của nền tảng mà tình huống nhắc tới — điều khoản sử dụng, chính sách nội dung.</li>
+          <li>Báo chí chính thống khi cần ví dụ thực tế — ghi rõ tên báo và ngày đăng.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card warm">
+      <div class="kicker a">KIỂM TRA TRƯỚC KHI TRÍCH</div>
+      <p class="sm" style="margin:0">Một văn bản có thể đã được thay thế. Luôn kiểm tra văn bản còn hiệu lực ở thời điểm của tình huống, ghi rõ thời điểm đó trong bài, và hỏi giáo viên khi không chắc. Không chép lại số hiệu hay số điều từ tài liệu cũ mà chưa tra lại.</p>
+    </div>
+
+    <h3>Kho ảnh và tài nguyên dùng được</h3>
+    <p class="sm"><a target="_blank" rel="noopener" data-cfg-href="khoAnh">Danh mục kho ảnh và biểu tượng</a> lớp được phép dùng, kèm cách ghi nguồn cho từng kho. Ảnh ngoài danh mục phải tự xác định chủ thể quyền và điều kiện sử dụng trước khi dùng.</p>
+
+    <h3>Biểu mẫu nhóm</h3>
+    <ul class="sm">
+      <li><a target="_blank" rel="noopener" data-cfg-href="mauNhatKy">Mẫu nhật kí dự án</a> — ghi theo tuần, nộp kèm sản phẩm.</li>
+      <li><a target="_blank" rel="noopener" data-cfg-href="mauBangDoiChieu">Mẫu bảng đối chiếu hành vi</a> — năm cột: hành vi và dữ kiện · quy định liên quan · giải thích việc áp dụng · kết luận · cách điều chỉnh.</li>
+      <li><a target="_blank" rel="noopener" data-cfg-href="mauPhanHoiCheo">Phiếu phản hồi chéo</a> — dùng khi cho bạn ngoài nhóm thử infographic.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 7. ĐÁNH GIÁ -->
+<section class="page" id="p-eval">
+  <div class="sec">
+    <h2>Đánh giá</h2><div class="rule"></div>
+    <p class="sub sm">Toàn bộ tiêu chí công bố trước khi các em bắt đầu làm. Năm nhóm dùng chung một bộ rubric.</p>
+    <div class="wrap"><table>
+      <tr><th style="width:220px">Thành phần</th><th style="width:80px">Tỉ trọng</th><th>Căn cứ chấm</th></tr>
+      <tr><td>Quá trình làm việc</td><td>20%</td><td>Nhật kí dự án, phân công, tiến độ. Giáo viên chấm cùng phần tự đánh giá của nhóm.</td></tr>
+      <tr><td>Sản phẩm</td><td>50%</td><td>Bài trình chiếu và infographic, theo bảng rubric bên dưới.</td></tr>
+      <tr><td>Báo cáo và phản biện</td><td>30%</td><td>Phần trình bày và trả lời chất vấn. Giáo viên chấm cùng nhóm bạn.</td></tr>
+    </table></div>
+
+    <h3>Rubric sản phẩm — tự chấm thử</h3>
+    <p class="sm sub">Chọn một ô trên mỗi dòng. Thang quy đổi: Tốt 100% · Khá 75% · Đạt 50% · Chưa đạt 25% của tỉ trọng dòng đó. Điểm tự chấm chỉ để nhóm tự rà.</p>
+    <p><span class="pill">Điểm phần sản phẩm: <span id="score-out">chưa chọn</span></span></p>
+    <div class="wrap"><table id="rubric">
+      <thead><tr><th style="width:190px">Tiêu chí</th><th style="width:60px">Tỉ trọng</th><th>Tốt</th><th>Khá</th><th>Đạt</th><th>Chưa đạt</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+
+    <h3>Các công cụ đánh giá khác</h3>
+    <div class="cols">
+      <div class="card"><h4>Rubric A — quá trình</h4><p class="sm sub" style="margin:0">Nhật kí dự án, phân công và tiến độ.</p></div>
+      <div class="card"><h4>Rubric C — báo cáo</h4><p class="sm sub" style="margin:0">Trình bày rõ, trả lời được chất vấn bằng căn cứ.</p></div>
+      <div class="card"><h4>Phiếu đồng đẳng</h4><p class="sm sub" style="margin:0">Mỗi bạn đánh giá đóng góp của các thành viên; thành hệ số điều chỉnh điểm cá nhân.</p></div>
+      <div class="card"><h4>Phiếu vận dụng cá nhân</h4><p class="sm sub" style="margin:0">Làm cuối tiết 4, kiểm phần kiến thức em không trực tiếp phụ trách.</p></div>
+    </div>
+    <p class="sm mt"><a target="_blank" rel="noopener" data-cfg-href="rubricPdf">Tải bộ rubric đầy đủ (PDF)</a></p>
+  </div>
+</section>
+
+<!-- 8. NỘP BÀI -->
+<section class="page" id="p-submit">
+  <div class="sec">
+    <h2>Nộp sản phẩm</h2><div class="rule"></div>
+    <div class="cols">
+      <div class="card tint">
+        <div class="kicker">HẠN NỘP</div>
+        <p style="font-family:Lora,Georgia,serif;font-size:21px;font-weight:700;margin:0" data-cfg="hanNop"></p>
+        <p class="sm sub" style="margin:6px 0 0">Trước tiết 4, để nhóm bạn kịp đọc và chuẩn bị phản biện.</p>
+      </div>
+      <div class="card">
+        <h4>Quy định đặt tên tệp</h4>
+        <p style="font-family:ui-monospace,Menlo,Consolas,monospace;background:var(--tint2);border:1px solid var(--line);border-radius:6px;padding:9px 11px;font-size:14px;margin:0">Nhom0X_TenDeTai_LoaiSanPham</p>
+        <p class="xs sub" style="margin:8px 0 0">Ví dụ: Nhom02_AnhLopLenMang_TrinhChieu</p>
+      </div>
+    </div>
+
+    <h3>Rà lại trước khi gửi <span class="pill" style="margin-left:6px">đã rà <span id="chk-count">0</span>/6</span></h3>
+    <div class="card"><div id="checklist"></div></div>
+
+    <h3>Phiếu nộp bài</h3>
+    <p class="sm sub">Bảy trường, một trang: Lớp · Tên nhóm · Đề tài · Bài trình chiếu · Infographic · Nhật kí dự án · Xác nhận đã ghi nguồn.</p>
+    <div class="form-wrap">
+      <div class="form-head">
+        <span>Phiếu nộp sản phẩm</span>
+        <a target="_blank" rel="noopener" data-cfg-href="formNop">Mở trong tab mới</a>
+      </div>
+      <iframe data-cfg-src="formNop" height="700" loading="lazy" title="Form nộp sản phẩm"></iframe>
+    </div>
+    <p class="xs sub">Form nộp chỉ thu sản phẩm. Tiêu chí chấm ở mục 7; phiếu tự đánh giá và phản tư phát riêng ở tiết 4.</p>
+  </div>
+</section>
+
+<!-- 9. KẾT LUẬN -->
+<section class="page" id="p-end">
+  <div class="sec">
+    <h2>Kết luận</h2><div class="rule"></div>
+    <p>Hết dự án, năm nhóm có năm bộ hướng dẫn khác nhau nhưng cùng trả lời một câu hỏi: trước khi chia sẻ, đăng, dùng lại hay cài đặt một thứ gì đó, em đã kiểm tra những gì?</p>
+
+    <div class="card tint">
+      <div class="kicker">ĐIỀU MANG VỀ SAU DỰ ÁN</div>
+      <ul class="sm" style="margin-bottom:0">
+        <li>Phân biệt được nhận xét đạo đức với nhận định có căn cứ pháp lí.</li>
+        <li>Biết “có trên Internet” không đồng nghĩa với “được phép dùng”.</li>
+        <li>Có một quy trình kiểm tra của riêng mình, dùng được cho tình huống mới.</li>
+      </ul>
+    </div>
+
+    <h3>Khu trưng bày sản phẩm</h3>
+    <p class="sm">Sản phẩm của năm nhóm sau khi chấm: <a target="_blank" rel="noopener" data-cfg-href="khuTrungBay">xem tại đây</a>. Chỉ đăng sau khi đã rà quyền riêng tư và nguồn tài nguyên.</p>
+
+    <h3>Câu hỏi phản tư</h3>
+    <ul class="sm">
+      <li>Lập luận nào của nhóm em thay đổi sau khi đọc hồ sơ kĩ hơn?</li>
+      <li>Chỗ nào nhóm phải dừng lại vì thiếu dữ kiện, và cần xác minh điều gì?</li>
+      <li>Hướng dẫn của nhóm có khiến bạn thử nghiệm làm khác đi không? Khác ở đâu?</li>
+    </ul>
+  </div>
+</section>
+
+<div class="foot">
+  <span>Digital Citizen Lab · Tin học 10 · Chủ đề D</span>
+  <button class="link-btn" onclick="resetAll()">Giáo viên: đặt lại tiến trình trên máy này</button>
+</div>
+
+<!-- CHÂN TRANG TỰ ĐỘNG BÁM SÁT NỘI DUNG TỪNG TAB -->
+<div style="background:#1c6391; color:#ffffff; text-align:center; padding:26px 16px; margin-top:18px; border-radius:4px; font-size:13px; font-weight:600; letter-spacing:0.06em;">
+  TRẠM CÔNG DÂN SỐ
+</div>
+
+<script>
+var CONFIG = {
+  formDangKy:       "https://docs.google.com/forms/d/e/DAN_MA_FORM_DANG_KY/viewform",
+  formNop:          "https://docs.google.com/forms/d/e/DAN_MA_FORM_NOP_BAI/viewform",
+  sheetTongHop:     "#",
+  mauTrinhChieu:    "#",
+  mauInfographic:   "#",
+  hocLieuPhapLy:    "#",
+  huongDanGhiNguon: "#",
+  khoAnh:           "#",
+  mauNhatKy:        "#",
+  mauBangDoiChieu:  "#",
+  mauPhanHoiCheo:   "#",
+  rubricPdf:        "#",
+  khuTrungBay:      "#",
+  hanDangKy:        "[NGÀY] · [GIỜ]",
+  hanNop:           "[NGÀY] · [GIỜ]",
+  nguonAnh:         "[TÊN NGUỒN ẢNH] — [GIẤY PHÉP SỬ DỤNG]",
+
+  batBuocMoKhoa:    true,
+  diemDat:          7,
+  maMoKhoaNhanh:    "CD10", // Mã cấp cho HS khi qua màn để dùng cho các buổi sau
+  choPhepBoQuaNhanh: true   // Đặt false nếu chỉ cho phép mở bằng mã CD10 hoặc làm đủ 7/10 câu
+};
+
+var TABS = [
+  ["intro","1. Giới thiệu", false],
+  ["ontap","2. Ôn tập", false],
+  ["task","3. Nhiệm vụ", true],
+  ["process","4. Tiến trình", true],
+  ["topics","5. Đề tài & đăng kí", true],
+  ["res","6. Tài nguyên", true],
+  ["eval","7. Đánh giá", true],
+  ["submit","8. Nộp bài", true],
+  ["end","9. Kết luận", true]
+];
+
+var QUIZ = [
+  { round:"Hồ sơ 01 · Pháp luật, đạo đức và văn hoá số", fixed:false, ans:0,
+    zone:"KHU A · DIỄN ĐÀN TRƯỜNG", npc:"💬", x:0.13, y:0.24,
+    evTitle:"BẰNG CHỨNG #01: NHẬT KÍ DIỄN ĐÀN TRƯỜNG",
+    evMock:"💬 [Tài khoản thật - Bạn A]: \"Ý tưởng cắm trại của lớp C quá dở, thiếu sáng tạo!\"<br>🕵️ [Tài khoản ẩn danh - Bạn B]: Đăng ảnh ghép giả mạo kèm bài viết: \"Thủ quỹ lớp C biển thủ 5 triệu tiền quỹ lớp!\" khiến bạn thủ quỹ khủng hoảng tâm lí.",
+    clue:"Hãy tách bạch giữa chuẩn mực ứng xử (nói năng gay gắt, thiếu lịch sự) với hành vi bịa đặt, vu khống xâm phạm danh dự, nhân phẩm được pháp luật bảo hộ.",
+    q:"Trong cuộc tranh luận về kế hoạch cắm trại trên diễn đàn trường, bạn A dùng lời lẽ gay gắt, thiếu tôn trọng để chê bai ý tưởng của lớp khác; còn bạn B lập tài khoản ẩn danh tung tin bịa đặt rằng thủ quỹ lớp C biển thủ tiền quỹ kèm ảnh ghép giả mạo khiến bạn đó suy sụp tinh thần. Nhận định nào phân tích đúng bản chất đạo đức, văn hoá và pháp luật của hai hành vi trên?",
+    opts:[
+      "Hành vi của A chủ yếu là ứng xử thiếu văn hoá, đạo đức giao tiếp trên mạng; còn hành vi của B vừa suy thoái đạo đức vừa vi phạm pháp luật vì vu khống, bịa đặt thông tin xúc phạm nghiêm trọng danh dự, nhân phẩm của người khác.",
+      "Cả hai hành vi của A và B đều chỉ dừng ở mức độ vi phạm chuẩn mực đạo đức và nội quy nhà trường, chưa thuộc phạm vi điều chỉnh của pháp luật vì diễn ra trên diễn đàn học sinh.",
+      "Hành vi của A vi phạm pháp luật vì dùng tài khoản thật để chê bai công khai; còn hành vi của B chỉ vi phạm đạo đức vì dùng tài khoản ẩn danh nên không xác định được chủ thể pháp lí.",
+      "Mọi phát ngôn gây tranh cãi trên không gian mạng đều cấu thành hành vi vi phạm Luật An ninh mạng ở mức độ ngang nhau, không phân biệt giữa thái độ thiếu lịch sự và hành vi vu khống."
+    ],
+    fb:"Giao tiếp qua mạng nảy sinh cả vấn đề văn hoá, đạo đức lẫn pháp luật. Lời lẽ thiếu lịch sự của A thuộc phạm trù văn hoá ứng xử, còn hành vi bịa đặt, ghép ảnh vu khống của B xâm phạm trực tiếp quyền nhân thân được pháp luật bảo vệ (dù dùng tài khoản ẩn danh vẫn phải chịu trách nhiệm pháp lí)." },
+
+  { round:"Hồ sơ 02 · Vi phạm bản quyền thông tin và sản phẩm số", fixed:false, ans:0,
+    zone:"KHU B · KHO DỮ LIỆU & BẢN QUYỀN", npc:"📚", x:0.28, y:0.70,
+    evTitle:"BẰNG CHỨNG #02: SIÊU DỮ LIỆU TỆP E-BOOK",
+    evMock:"📄 Tệp gốc: \"ChinhPhucThuatToan.pdf\" (Đang bán 120.000đ trên trang tác giả).<br>🔧 Thao tác của nhóm Nam: Tải bản phát tán lậu ➔ Xoá trang ghi tên tác giả ➔ Chèn logo CLB ➔ Đăng lên kho tài liệu miễn phí của trường để câu lượt truy cập.",
+    clue:"Quyền tác giả gồm Quyền nhân thân (đứng tên tác phẩm, bảo vệ sự toàn vẹn) và Quyền tài sản (sao chép, phân phối). Phát tán miễn phí bản lậu vẫn làm tác giả mất doanh thu.",
+    q:"Nhóm của Nam tải một cuốn sách điện tử (e-book) có bản quyền đang được tác giả bán trên trang cá nhân (do một người mua trước đó phát tán lậu), sau đó xoá trang ghi tên tác giả, chèn logo câu lạc bộ của mình vào rồi đăng công khai lên kho tài liệu miễn phí của trường để tăng lượt truy cập. Sự vi phạm bản quyền trong ví dụ này đã diễn ra như thế nào và dẫn tới hậu quả gì?",
+    opts:[
+      "Xâm phạm đồng thời quyền nhân thân (xoá tên tác giả, mạo danh nguồn gốc) và quyền tài sản (sao chép, phân phối bản sao tác phẩm không phép); gây thất thoát doanh thu hợp pháp của tác giả, triệt tiêu động lực sáng tạo và khiến người vi phạm phải chịu chế tài pháp lí.",
+      "Chỉ xâm phạm quyền nhân thân vì đã xoá tên tác giả; việc đăng tải lên kho tài liệu học tập không thu tiền (phi thương mại) nên không xâm phạm quyền tài sản và không gây thiệt hại kinh tế.",
+      "Chỉ người mua đầu tiên phát tán tệp sách lên mạng mới vi phạm bản quyền, còn nhóm của Nam tải về từ nguồn đã công khai trên Internet để phục vụ học tập nên hoàn toàn hợp pháp.",
+      "Không vi phạm bản quyền tác giả mà chỉ vi phạm quy chế hoạt động của câu lạc bộ trường, hậu quả duy nhất là bài đăng bị quản trị viên gỡ bỏ."
+    ],
+    fb:"Bản quyền bao gồm quyền nhân thân (đặt tên, đứng tên tác phẩm, bảo vệ sự toàn vẹn) và quyền tài sản (sao chép, phân phối, truyền đạt tác phẩm tới công chúng). Dù phát tán miễn phí, việc đăng công khai bản sao lậu vẫn làm tác giả mất người mua hợp pháp và là hành vi xâm phạm quyền tác giả." },
+
+  { round:"Hồ sơ 03 · Luật Công nghệ thông tin và Nghị định quản lí", fixed:false, ans:0,
+    zone:"KHU C · TRỤ SỞ PHÁP LÍ SỐ", npc:"⚖️", x:0.34, y:0.25,
+    evTitle:"BẰNG CHỨNG #03: BIÊN BẢN TRÁCH NHIỆM PHÁP LÍ",
+    evMock:"⚖️ Trích hồ sơ đối chiếu: Một người dùng mạng xã hội cho rằng \"Tôi chỉ lưu trữ và chia sẻ lại đường dẫn (link) bài viết sai sự thật chứ không tự viết ra, nếu có lỗi thì nhà mạng (ISP) phải chịu hoàn toàn trách nhiệm\".",
+    clue:"Theo Luật Công nghệ thông tin (Điều 12) và Nghị định quản lí dịch vụ Internet: cá nhân tự chịu trách nhiệm về nội dung thông tin mình lưu trữ, truyền đưa, cung cấp hoặc phát tán.",
+    q:"Theo quy định của Luật Công nghệ thông tin và Nghị định về quản lí, cung cấp, sử dụng dịch vụ Internet và thông tin trên mạng, nội dung nào dưới đây phản ánh đúng nguyên tắc pháp lí đối với cá nhân, tổ chức khi lưu trữ, truyền đưa và cung cấp thông tin số?",
+    opts:[
+      "Cá nhân, tổ chức phải tự chịu trách nhiệm trước pháp luật về nội dung thông tin do mình lưu trữ, truyền đưa, cung cấp hoặc phát tán; nghiêm cấm việc giả mạo tổ chức, cá nhân hoặc tung tin sai sự thật xâm hại quyền và lợi ích hợp pháp của chủ thể khác.",
+      "Trách nhiệm pháp lí đối với mọi thông tin sai sự thật trên mạng xã hội hoàn toàn thuộc về doanh nghiệp cung cấp dịch vụ Internet (ISP) và chủ quản nền tảng, người dùng chỉ chịu trách nhiệm đạo đức.",
+      "Người dùng chỉ chịu trách nhiệm pháp lí khi trực tiếp biên soạn thông tin gốc; hoạt động lưu trữ hoặc chia sẻ lại đường dẫn (link) tới thông tin vi phạm được miễn trừ trách nhiệm theo Luật Công nghệ thông tin.",
+      "Các quy định của Luật Công nghệ thông tin chỉ áp dụng đối với cơ quan nhà nước và doanh nghiệp thương mại điện tử, không điều chỉnh hoạt động trao đổi thông tin của học sinh trên mạng xã hội."
+    ],
+    fb:"Luật Công nghệ thông tin (Điều 12 và các quy định về trách nhiệm của tổ chức, cá nhân) cùng Nghị định quản lí dịch vụ Internet quy định rõ: người sử dụng chịu trách nhiệm về nội dung thông tin mình tự đăng tải, lưu trữ, truyền đưa và không được phát tán thông tin vi phạm pháp luật." },
+
+  { round:"Hồ sơ 04 · Nội dung cơ bản của Luật An ninh mạng", fixed:false, ans:0,
+    zone:"KHU D · TRUNG TÂM AN NINH MẠNG", npc:"🚨", x:0.48, y:0.68,
+    evTitle:"BẰNG CHỨNG #04: CẢNH BÁO AN NINH MẠNG",
+    evMock:"🚨 Hệ thống giám sát ghi nhận 4 hoạt động trong tuần:<br>(1) Dùng phần mềm làm tê liệt Cổng thông tin trường & tung tin giả về dịch bệnh;<br>(2) Gửi email phản ánh giao thông cho cơ quan chức năng;<br>(3) Dùng phần mềm nguồn mở;<br>(4) Từ chối cung cấp mã OTP ngân hàng.",
+    clue:"Điều 8 Luật An ninh mạng nghiêm cấm hành vi tấn công, làm gián đoạn hệ thống thông tin hoặc tung tin sai sự thật gây hoang mang trong nhân dân.",
+    q:"Luật An ninh mạng quy định việc bảo vệ an ninh quốc gia, trật tự, an toàn xã hội và quyền, lợi ích hợp pháp của cơ quan, tổ chức, cá nhân trên không gian mạng. Trường hợp nào dưới đây là ví dụ minh hoạ đúng về hành vi bị nghiêm cấm theo Luật An ninh mạng?",
+    opts:[
+      "Sử dụng công cụ phần mềm làm gián đoạn, tê liệt Cổng thông tin điện tử của trường học hoặc đăng tải thông tin bịa đặt về dịch bệnh gây hoang mang trong nhân dân.",
+      "Gửi kiến nghị phản ánh tình trạng mất an toàn giao thông trước cổng trường kèm ảnh chụp thực tế vào hộp thư điện tử chính thức của cơ quan chức năng.",
+      "Sử dụng phần mềm mã nguồn mở miễn phí để thiết kế trang web học tập thay cho phần mềm thương mại có bản quyền đắt tiền.",
+      "Từ chối cung cấp mật khẩu tài khoản mạng xã hội và mã OTP ngân hàng khi nhận được tin nhắn tự xưng là nhân viên hỗ trợ kĩ thuật."
+    ],
+    fb:"Theo Luật An ninh mạng (Điều 8), các hành vi tấn công mạng, cản trở hoạt động bình thường của hệ thống thông tin hoặc thông tin sai sự thật gây hoang mang trong nhân dân, thiệt hại cho hoạt động kinh tế - xã hội đều bị nghiêm cấm." },
+
+  { round:"Hồ sơ 05 · Khía cạnh pháp lí của quyền sở hữu và quyền sử dụng", fixed:false, ans:0,
+    zone:"KHU B · PHÒNG CẤP PHÉP PHẦN MỀM", npc:"🔑", x:0.54, y:0.26,
+    evTitle:"BẰNG CHỨNG #05: HỢP ĐỒNG CẤP PHÉP PHẦN MỀM (EULA)",
+    evMock:"🔑 Gói bản quyền: Phần mềm Đồ hoạ Pro (Thời hạn: 01 năm).<br>📜 Điều khoản EULA: \"Cấp quyền sử dụng cho 01 cá nhân trên tối đa 02 thiết bị cá nhân. Nghiêm cấm chia sẻ khoá kích hoạt (License Key) hoặc phân phối lại bản sao.\"",
+    clue:"Người mua chỉ mua 'quyền sử dụng theo điều kiện cấp phép', không phải mua đứt 'quyền sở hữu trí tuệ' của phần mềm đó.",
+    q:"Một học sinh bỏ tiền mua gói bản quyền 01 năm của phần mềm thiết kế đồ hoạ (hợp đồng cấp phép EULA quy định: dùng cho 01 cá nhân trên tối đa 02 thiết bị). Giải thích nào dưới đây nêu đúng khía cạnh pháp lí về quyền sở hữu, sử dụng và trao đổi sản phẩm số trong trường hợp này?",
+    opts:[
+      "Học sinh chỉ mua “quyền sử dụng” bản sao phần mềm trong giới hạn giấy phép, còn “quyền sở hữu” quyền tác giả vẫn thuộc về nhà sản xuất; việc chia sẻ khoá kích hoạt cho cả nhóm dùng chung là vượt phạm vi được cấp và vi phạm pháp luật.",
+      "Khi đã thanh toán hợp pháp, học sinh trở thành chủ sở hữu toàn bộ phần mềm nên có toàn quyền sao chép, chỉnh sửa mã nguồn hoặc tặng lại khoá kích hoạt cho bất kì ai nếu không thu tiền.",
+      "Hợp đồng cấp phép phần mềm chỉ là khuyến nghị kĩ thuật của nhà sản xuất, không có giá trị ràng buộc pháp lí đối với người tiêu dùng cá nhân trong môi trường giáo dục.",
+      "Học sinh được phép cài đặt cho cả lớp dùng chung trên nhiều máy tính miễn là tại mỗi thời điểm chỉ có tối đa 02 bạn mở phần mềm lên cùng lúc."
+    ],
+    fb:"Trong môi trường số, cần phân biệt rõ quyền sở hữu trí tuệ đối với phần mềm (thuộc về tác giả/nhà phát triển) và quyền sử dụng bản sao theo giấy phép (thuộc về người mua). Mọi hành vi sao chép, chia sẻ khoá kích hoạt vượt quá phạm vi cấp phép đều xâm phạm quyền tài sản của chủ sở hữu." },
+
+  { round:"Hồ sơ 06 · Pháp lí về trao đổi tài nguyên và giấy phép mở", fixed:false, ans:0,
+    zone:"KHU B · THƯ VIỆN TÀI NGUYÊN MỞ", npc:"🏷️", x:0.66, y:0.72,
+    evTitle:"BẰNG CHỨNG #06: THẺ GIẤY PHÉP CREATIVE COMMONS",
+    evMock:"🏷️ Nhãn giấy phép trên sơ đồ gốc: [CC BY-NC-ND 4.0]<br>• BY (Attribution): Ghi nhận công của tác giả<br>• NC (NonCommercial): Phi thương mại<br>• ND (NoDerivatives): Không phái sinh / Không chỉnh sửa biến đổi tác phẩm gốc.",
+    clue:"Chú ý chữ 'ND' (NoDerivatives): không được phép cắt ghép, sửa chữ hay vẽ lại làm thay đổi sơ đồ gốc.",
+    q:"Khi tìm tư liệu cho dự án, nhóm thấy một sơ đồ thông tin được tác giả công bố công khai kèm giấy phép Creative Commons kí hiệu CC BY-NC-ND (Ghi nhận công của tác giả – Phi thương mại – Không phái sinh). Nếu nhóm đưa tư liệu này vào sản phẩm học tập của lớp, cách trao đổi và sử dụng nào dưới đây là hợp pháp?",
+    opts:[
+      "Giữ nguyên vẹn sơ đồ gốc (không cắt ghép, sửa chữ hay vẽ lại bố cục), đưa vào bài phục vụ mục đích học tập phi thương mại và ghi rõ tên tác giả, nguồn gốc cùng loại giấy phép.",
+      "Việt hoá và chỉnh sửa lại số liệu trực tiếp trên sơ đồ của tác giả cho phù hợp với đề tài của nhóm, sau đó ghi đầy đủ tên tác giả ở góc dưới trang.",
+      "Giữ nguyên sơ đồ nhưng cắt bỏ phần khung viền có tên tác giả để bố cục infographic gọn hơn, đồng thời chú thích “Nguồn: sưu tầm từ Internet” ở cuối bài.",
+      "In sơ đồ đó lên sổ tay kỉ niệm để bán gây quỹ hoạt động cho câu lạc bộ của lớp, miễn là giữ nguyên bản gốc và ghi tên tác giả đầy đủ."
+    ],
+    fb:"Điều kiện ND (NoDerivatives - Không phái sinh) không cho phép chỉnh sửa, cắt ghép làm biến đổi tác phẩm gốc; NC (NonCommercial) cấm mục đích thương mại; BY (Attribution) bắt buộc ghi nhận đúng tên tác giả và nguồn gốc." },
+
+  { round:"Hồ sơ 07 · Vận dụng Luật để xác định tính hợp pháp", fixed:false, ans:0,
+    zone:"KHU C · PHÒNG GIÁM ĐỊNH VĂN BẢN", npc:"📢", x:0.72, y:0.28,
+    evTitle:"BẰNG CHỨNG #07: ẢNH CHỤP THÔNG BÁO GIẢ MẠO",
+    evMock:"📢 Bài đăng công khai của bạn H: Ghép hình con dấu đỏ và chữ kí Hiệu trưởng vào thông báo tự chế: \"Nhà trường thu phí sử dụng phòng máy tính 50.000đ/tiết từ tuần sau\".<br>💬 Bình luận nhỏ bên dưới: \"Thử phản ứng mọi người nhân ngày Cá tháng Tư thôi!\"",
+    clue:"Giả mạo văn bản cơ quan/tổ chức và tung tin sai sự thật là hành vi bị nghiêm cấm theo Luật CNTT và Luật An ninh mạng, bất kể mục đích trêu đùa.",
+    q:"Để câu lạc bộ được chú ý, bạn H cắt hình con dấu và chữ kí từ một văn bản cũ trên trang web nhà trường, ghép vào một thông báo tự chế với nội dung “Nhà trường thu phí sử dụng phòng máy tính 50.000đ/tiết từ tuần sau” rồi đăng công khai lên mạng xã hội, nhưng ở phần bình luận bên dưới có ghi dòng chữ nhỏ “Thử phản ứng mọi người nhân ngày Cá tháng Tư thôi!”. Vận dụng Luật Công nghệ thông tin và Luật An ninh mạng, hãy xác định tính hợp pháp của hành vi trên.",
+    opts:[
+      "Hành vi vi phạm pháp luật, vì đã giả mạo văn bản của cơ quan, tổ chức và phát tán thông tin sai sự thật gây hoang mang, xâm hại uy tín của nhà trường; dòng đính chính ở phần bình luận không làm miễn trừ trách nhiệm pháp lí.",
+      "Hành vi hợp pháp vì mục đích của H chỉ là trêu đùa giải trí trong ngày Cá tháng Tư, không nhằm chiếm đoạt tài sản và đã chủ động giải thích ở phần bình luận.",
+      "Hành vi chỉ thiếu chuẩn mực văn hoá giao tiếp chứ không vi phạm Luật Công nghệ thông tin hay Luật An ninh mạng vì con dấu được cắt từ văn bản đã công khai của trường.",
+      "Chưa đủ căn cứ xác định tính hợp pháp vì phải chờ xem có học sinh nào nộp tiền thật hay không mới kết luận được hành vi giả mạo thông báo là đúng hay sai."
+    ],
+    fb:"Vận dụng Luật CNTT và Luật An ninh mạng: hành vi cắt ghép con dấu, giả mạo văn bản chính thức của tổ chức và tung tin sai sự thật lên không gian mạng là hành vi bị nghiêm cấm. Mục đích trêu đùa không làm thay đổi bản chất vi phạm pháp luật của hành vi." },
+
+  { round:"Hồ sơ 08 · Vận dụng quy định pháp lí về dữ liệu cá nhân", fixed:false, ans:0,
+    zone:"KHU D · KÉT BẢO MẬT DỮ LIỆU CÁ NHÂN", npc:"📋", x:0.83, y:0.66,
+    evTitle:"BẰNG CHỨNG #08: ẢNH CHỤP DANH SÁCH Y TẾ LỚP",
+    evMock:"📋 Bài đăng trên diễn đàn 15.000 thành viên của bạn K: Chụp nguyên bảng danh sách khám sức khoẻ gồm: Họ tên, Ngày sinh, Số định danh cá nhân (CCCD), SĐT phụ huynh và Kết luận bệnh lí của 40 bạn trong lớp.",
+    clue:"Số định danh, SĐT và tình trạng bệnh lí là thông tin riêng tư / dữ liệu cá nhân nhạy cảm được pháp luật bảo vệ nghiêm ngặt.",
+    q:"Trong đợt khám sức khoẻ học đường, bạn K chụp lại bảng danh sách của y tế trường (chứa đầy đủ họ tên, ngày sinh, số định danh cá nhân, số điện thoại phụ huynh và kết luận bệnh lí của 40 bạn trong lớp) rồi đăng công khai lên một diễn đàn học sinh có 15.000 thành viên để hỏi “Có ai cùng nhóm máu hiếm với mình không?”. Đánh giá nào dưới đây xác định đúng tính hợp pháp của hành vi này?",
+    opts:[
+      "Bất hợp pháp, vì đã tiết lộ, phát tán trái phép dữ liệu cá nhân và thông tin riêng tư nhạy cảm (số định danh, tình trạng sức khoẻ) của nhiều người lên không gian mạng mà không có sự đồng ý của chủ thể thông tin.",
+      "Hợp pháp, vì bảng danh sách là thông tin có thật do bộ phận y tế lập chứ K không hề bịa đặt hay vu khống ai trong lớp.",
+      "Chỉ là sự bất cẩn về mặt đạo đức bạn bè, hoàn toàn không vi phạm pháp luật vì K đăng bài với động cơ tìm người cùng nhóm máu chứ không bán dữ liệu cho kẻ xấu.",
+      "Hợp pháp nếu sau 24 giờ K tự xoá bài đăng hoặc chỉnh bài đăng về chế độ chỉ bạn bè trên mạng xã hội mới xem được."
+    ],
+    fb:"Theo Luật Công nghệ thông tin (Điều 21, 22), Luật An ninh mạng và các nghị định về bảo vệ dữ liệu cá nhân, thông tin về số định danh, số điện thoại và hồ sơ sức khoẻ là thông tin riêng tư/dữ liệu cá nhân nhạy cảm; việc tự ý công khai khi chưa được phép là hành vi vi phạm pháp luật." },
+
+  { round:"Hồ sơ 09 · Hệ luỵ của việc chia sẻ thông tin bất cẩn", fixed:false, ans:0,
+    zone:"KHU A · TRẠM GIÁM SÁT MẠNG XÃ HỘI", npc:"📹", x:0.87, y:0.24,
+    evTitle:"BẰNG CHỨNG #09: SƠ ĐỒ PHÁT TÁN VIDEO CHƯA KIỂM CHỨNG",
+    evMock:"📹 Video gốc (chưa rõ đầu đuôi) ➔ Bạn M chia sẻ công khai kèm link trang cá nhân của bạn trong video + lời kêu gọi \"Vào dạy cho một bài học!\" ➔ Hơn 300 bình luận tấn công, xúc phạm dù sự thật chỉ là nhặt đồ trả lại.",
+    clue:"Chia sẻ tin chưa kiểm chứng kèm công khai danh tính (doxxing) sẽ kích động bắt nạt hội đồng và làm người chia sẻ chịu trách nhiệm liên đới.",
+    q:"Thấy một đoạn video ngắn quay cảnh tranh cãi giữa hai học sinh ở trạm xe buýt kèm lời buộc tội chưa kiểm chứng “Học sinh trường X trấn lột tiền của em nhỏ”, bạn M lập tức chia sẻ công khai kèm địa chỉ trang cá nhân của bạn học sinh trong video và kêu gọi cộng đồng mạng vào “dạy cho một bài học”, dù thực tế đó chỉ là hiểu lầm khi trả lại đồ đánh rơi. Sự bất cẩn của M dẫn tới chuỗi tác hại nào dưới đây?",
+    opts:[
+      "Kích động bạo lực mạng và bắt nạt hội đồng (cyberbullying) gây sang chấn tâm lí, xâm hại danh dự của người vô tội và uy tín nhà trường, đồng thời biến chính M thành người tiếp tay phát tán thông tin sai sự thật phải chịu trách nhiệm pháp lí.",
+      "Chỉ gây phiền hà nhỏ cho bạn học sinh trong video vài ngày nhưng giúp cộng đồng mạng nâng cao tinh thần cảnh giác trước tệ nạn học đường nên không bị xem là hành vi có hại.",
+      "Tác hại hoàn toàn thuộc về người quay và đăng video đầu tiên, còn việc chia sẻ lại của M chỉ làm tăng lượt xem chứ không tạo ra hậu quả pháp lí hay đạo đức mới.",
+      "Chỉ làm giảm uy tín cá nhân của M với bạn bè trong lớp khi sự thật được sáng tỏ, không ảnh hưởng tới an toàn của người trong video vì sự việc xảy ra ngoài cổng trường."
+    ],
+    fb:"Chia sẻ thông tin bất cẩn kết hợp với việc công khai danh tính (doxxing) và kêu gọi công kích sẽ khuếch đại tin giả, gây tổn thương tinh thần nghiêm trọng cho nạn nhân và khiến người chia sẻ phải chịu trách nhiệm liên đới trước pháp luật." },
+
+  { round:"Hồ sơ 10 · Biện pháp nâng cao tính an toàn và hợp pháp", fixed:false, ans:0,
+    zone:"KHU E · CỔNG XUẤT BẢN CÔNG DÂN SỐ", npc:"🚀", x:0.93, y:0.50,
+    evTitle:"BẰNG CHỨNG #10: DANH MỤC TRƯỚC GIỜ XUẤT BẢN",
+    evMock:"📦 Dự thảo Cẩm nang \"Công dân số\" của nhóm gồm:<br>• 02 biểu đồ thống kê tội phạm mạng<br>• 05 ảnh chụp các bạn đang thảo luận<br>• 04 trích dẫn điều khoản Luật An ninh mạng & Luật CNTT.",
+    clue:"Một quy trình chuẩn phải kiểm tra đủ 4 khía cạnh: Nguồn & hiệu lực pháp lí, Bản quyền & ghi nguồn, Dữ liệu cá nhân/hình ảnh, và Quyền truy cập.",
+    q:"Nhóm của em chuẩn bị xuất bản bộ cẩm nang “Công dân số” lên trang web công khai của lớp, trong đó có sử dụng biểu đồ thống kê tội phạm mạng, ảnh chụp hoạt động thảo luận của các bạn và trích dẫn văn bản pháp luật. Quy trình kiểm tra 4 bước nào dưới đây đảm bảo tính an toàn và hợp pháp cao nhất trước khi công bố?",
+    opts:[
+      "(1) Xác minh tính chính xác và hiệu lực của văn bản luật, số liệu tại nguồn chính thống; (2) Kiểm tra giấy phép bản quyền và ghi nguồn đầy đủ cho mọi biểu đồ, hình ảnh; (3) Xin phép người có mặt trong ảnh và che mờ thông tin định danh cá nhân; (4) Rà soát cài đặt quyền truy cập phù hợp.",
+      "(1) Chọn các ảnh có độ phân giải cao nhất trên Google Hình ảnh; (2) Xoá bỏ các dòng chữ chìm (watermark) trên biểu đồ cho đẹp mắt; (3) Gắn thẻ (tag) tài khoản thật của tất cả các bạn trong ảnh; (4) Ghi dòng chữ “Chỉ phục vụ học tập” ở cuối trang.",
+      "(1) Chuyển toàn bộ ảnh tìm trên mạng sang màu đen trắng để tránh bản quyền; (2) Sao chép lại số điều luật từ một bài viết bất kì trên mạng xã hội; (3) Đăng công khai toàn bộ nhật kí nhóm có kèm số điện thoại thành viên; (4) Khoá phần bình luận.",
+      "(1) Chỉ cần nhóm trưởng duyệt nội dung mà không cần kiểm tra nguồn gốc ảnh; (2) Ghi chung một dòng “Nguồn: Internet và SGK” cho mọi tài liệu; (3) Giữ nguyên thông tin cá nhân trên ảnh chụp màn hình để tăng tính chân thực; (4) Xuất bản ngay cho kịp hạn."
+    ],
+    fb:"Để chia sẻ thông tin an toàn và hợp pháp trong môi trường số, cần kết hợp đồng bộ: kiểm chứng nguồn tin & hiệu lực pháp lí, tuân thủ điều kiện bản quyền & ghi nguồn, bảo vệ dữ liệu cá nhân/quyền hình ảnh của người liên quan, và kiểm soát phạm vi chia sẻ." }
+];
+
+var RADAR_DATA = [
+  { text:"Tải ảnh từ kho ảnh Creative Commons (CC BY), giữ nguyên tác phẩm và ghi rõ tên tác giả ở chân trang.", safe:true, exp:"Hợp pháp vì tuân thủ đúng điều kiện ghi công tác giả (BY) của giấy phép mở." },
+  { text:"Chia sẻ bộ cài phần mềm thương mại kèm công cụ bẻ khoá (crack) vào nhóm lớp để giúp các bạn tiết kiệm chi phí.", safe:false, exp:"Vi phạm bản quyền phần mềm và tiềm ẩn nguy cơ phát tán mã độc." },
+  { text:"Kiểm tra hiệu lực văn bản luật trên Cổng thông tin điện tử chính thống trước khi trích dẫn vào bài trình chiếu.", safe:true, exp:"Thói quen chuẩn mực giúp đảm bảo tính chính xác và hợp pháp của thông tin." },
+  { text:"Chụp màn hình tin nhắn riêng tư và số điện thoại của một bạn rồi đăng lên trang cá nhân để cả trường vào bình luận.", safe:false, exp:"Vi phạm quyền bí mật đời tư và bảo vệ dữ liệu cá nhân." },
+  { text:"Xin phép các bạn có mặt trong ảnh và làm mờ thông tin thẻ học sinh trước khi đăng ảnh hoạt động lớp lên web.", safe:true, exp:"Bảo vệ an toàn dữ liệu định danh cá nhân và tôn trọng quyền đối với hình ảnh." },
+  { text:"Thấy tin đồn thất thiệt gây hoang mang nhưng vẫn bấm chia sẻ kèm dòng chữ 'Chưa rõ thật giả, cứ đăng cho mọi người biết'.", safe:false, exp:"Phát tán thông tin sai sự thật chưa kiểm chứng vẫn phải chịu trách nhiệm pháp lí." }
+];
+
+var TOPICS = [
+  { no:1, name:"Bản tin lớp học đáng tin cậy",
+    teaser:"Một ảnh chụp thông báo bị sửa ngày tháng rồi lan trong nhóm lớp, kèm infographic của người khác đã bị xoá tên tác giả.",
+    question:"Làm thế nào để bản tin chia sẻ trong nhóm lớp vừa đáng tin cậy, vừa tôn trọng quyền đối với nội dung được dùng?",
+    context:"Một học sinh lấy ảnh thông báo từ bài đăng cũ, chỉnh ngày tháng rồi chia sẻ lại. Nhiều bạn chuyển tiếp vì thấy có tên trường. Bài đăng còn dùng một infographic do người khác thiết kế nhưng đã bỏ tên tác giả.",
+    facts:[["Thông báo gốc","Đăng trên trang trường, còn truy được bản lưu"],
+           ["Bản đã sửa","Thay ngày tháng, giữ nguyên logo và chữ kí"],
+           ["Infographic","Có tác giả và điều kiện sử dụng ghi trong hồ sơ"],
+           ["Thời điểm","[NGÀY THÁNG] năm học này"]],
+    tasks:["Tách ba hành vi: tạo thông tin sai, chia sẻ lại, và đính chính.",
+           "Xem riêng việc dùng infographic: tác giả là ai, điều kiện nào, bỏ tên có phù hợp không.",
+           "Lập bảng đối chiếu từng hành vi với quy định và kết luận.",
+           "Dựng quy trình kiểm tra trước khi chia sẻ, cho bạn ngoài nhóm thử."],
+    output:"Infographic: “Trước khi chia sẻ: kiểm tra nguồn — kiểm tra nội dung — kiểm tra quyền”." },
+
+  { no:2, name:"Ảnh lớp lên mạng",
+    teaser:"Bộ ảnh ngoại khoá bị đăng công khai kèm tên và thông tin liên hệ; vài ảnh bị cắt tên người chụp để làm poster.",
+    question:"Trước khi đăng hoặc dùng lại một bức ảnh, học sinh cần kiểm tra những quyền và điều kiện nào?",
+    context:"Một bạn trong câu lạc bộ nhiếp ảnh chụp và gửi ảnh vào kho của lớp. Một bạn khác tải 18 tấm lên tài khoản công khai, gắn tên từng người, có ảnh để lộ số điện thoại. Hai bạn trong ảnh nhắn tin xin gỡ. Cùng lúc, ban truyền thông cắt bỏ chữ kí người chụp rồi ghép ảnh vào poster.",
+    facts:[["Người chụp","Thành viên CLB nhiếp ảnh của trường"],
+           ["Điều kiện đã thống nhất","Dùng trong nội bộ lớp, giữ tên người chụp"],
+           ["Sự cho phép","Chưa hỏi những người xuất hiện trong ảnh"],
+           ["Thời điểm","[NGÀY THÁNG] năm học này"]],
+    tasks:["Tách các chủ thể: người chụp, người trong ảnh, người đăng, người dùng lại.",
+           "Tách ba vấn đề: hình ảnh cá nhân, thông tin cá nhân, quyền tác giả.",
+           "Đối chiếu từng hành vi với quy định, chỉ ra điều kiện quyết định kết luận.",
+           "Đề xuất quy trình đăng ảnh, xử lí được cả ảnh đã trót đăng và yêu cầu gỡ."],
+    output:"Infographic: “Một bức ảnh — kiểm tra quyền trước khi đăng”." },
+
+  { no:3, name:"Nhóm chat không gây tổn thương",
+    teaser:"Trao đổi chuyển thành công kích một bạn; tranh minh hoạ của người khác bị chỉnh sửa để chế giễu rồi đưa ra ngoài nhóm.",
+    question:"Làm thế nào để tham gia nhóm chat mà không xâm phạm quyền của người khác và biết xử lí khi có nội dung gây tổn thương?",
+    context:"Một cuộc trao đổi trong nhóm chat chuyển thành công kích một học sinh. Một thành viên lấy tranh minh hoạ của người khác, chỉnh sửa để chế giễu bạn, rồi đăng ảnh chụp hội thoại ra ngoài nhóm. Những người khác tiếp tục bình luận và chuyển tiếp.",
+    facts:[["Tranh minh hoạ","Có tác giả và điều kiện sử dụng ghi trong hồ sơ"],
+           ["Nội dung đã thay đổi","Ghép mặt, thêm chữ chế giễu"],
+           ["Phạm vi lan truyền","Từ nhóm lớp ra hai nhóm khác"],
+           ["Thời điểm","[NGÀY THÁNG] năm học này"]],
+    tasks:["Phân tích vai trò: người tạo nội dung, người bình luận, người chuyển tiếp, người chứng kiến.",
+           "Tách nhận xét về giao tiếp thiếu văn hoá khỏi nhận định pháp lí về từng hành vi.",
+           "Phân tích riêng việc lấy và chỉnh sửa tranh minh hoạ theo dữ kiện trong hồ sơ.",
+           "Dựng quy trình hai giai đoạn: ngăn lan truyền và hỗ trợ khắc phục."],
+    output:"Infographic: “Dừng công kích — không phát tán — hỗ trợ đúng cách”." },
+
+  { no:4, name:"Sản phẩm học tập số đúng quyền",
+    teaser:"Một nhóm dùng ảnh, nhạc và tài liệu lấy trên mạng, không rõ tác giả và giấy phép, rồi định đăng toàn bộ sản phẩm lên WebQuest.",
+    question:"Làm thế nào để tạo và chia sẻ sản phẩm học tập hấp dẫn mà vẫn đúng nghĩa vụ với sản phẩm số của người khác?",
+    context:"Nhóm chuẩn bị bài trình chiếu cho ngày hội của trường: tải ảnh trên Internet, lấy nhạc từ một video, sao chép một phần tài liệu điện tử. Danh sách tài nguyên không ghi tác giả, giấy phép hay phạm vi được dùng.",
+    facts:[["Bộ tài nguyên","Giáo viên cung cấp, mỗi tài nguyên một điều kiện sử dụng khác nhau"],
+           ["Cách dùng dự kiến","Chèn nguyên, cắt ghép, hoặc chỉnh sửa"],
+           ["Nơi công bố","Đăng công khai trên WebQuest của lớp"],
+           ["Thời điểm","[NGÀY THÁNG] năm học này"]],
+    tasks:["Lập bảng: tài nguyên — chủ thể quyền — nguồn — điều kiện — cách dùng dự kiến — kết luận.",
+           "Phân tích một ví dụ bản quyền đến cùng: hành vi diễn ra thế nào, hậu quả có thể là gì.",
+           "Xem xét trách nhiệm khi đăng sản phẩm chứa nội dung của người khác lên mạng.",
+           "Với mỗi tài nguyên, chọn: dùng theo điều kiện, xin phép, thay thế hay tự tạo — và giải thích."],
+    output:"Infographic: “Kiểm tra quyền — dùng đúng phạm vi — ghi nguồn — chia sẻ có trách nhiệm”." },
+
+  { no:5, name:"Góc phần mềm học tập hợp pháp",
+    teaser:"Một bạn đề nghị chia sẻ bộ cài và khoá kích hoạt cấp cho một tài khoản; nhóm còn định đăng ảnh chụp màn hình có thông tin tài khoản.",
+    question:"Làm thế nào để lớp dùng được phần mềm cần thiết mà không sử dụng, sao chép hay chia sẻ vượt quyền được cấp?",
+    context:"Lớp cần vài phần mềm phục vụ học tập. Một bạn đề nghị chia sẻ bộ cài và khoá kích hoạt vốn cấp cho một tài khoản. Một bạn khác cho rằng phần mềm tải miễn phí thì tuỳ ý sửa đổi, sao chép và phân phối.",
+    facts:[["Điều khoản","Giáo viên tuyển chọn sẵn: đối tượng, thiết bị, thời hạn, sao chép, chỉnh sửa, phân phối"],
+           ["Khoá kích hoạt","Cấp cho một tài khoản hoặc phạm vi sử dụng nhất định"],
+           ["Dự định của nhóm","Đăng ảnh chụp màn hình có thông tin tài khoản để hướng dẫn cài"],
+           ["Thời điểm","[NGÀY THÁNG] năm học này"]],
+    tasks:["So sánh các lựa chọn phần mềm đáp ứng cùng nhu cầu học tập.",
+           "Phân tích hành vi chia sẻ bộ cài, khoá kích hoạt và thông tin tài khoản.",
+           "Phân biệt căn cứ pháp luật với điều khoản quyền sử dụng, chỉ rõ mối liên hệ.",
+           "Dựng hướng dẫn kiểm tra trước khi cài hoặc chia sẻ. Không tìm, tải hay hướng dẫn dùng phần mềm bẻ khoá."],
+    output:"Infographic: “Trước khi cài hoặc chia sẻ: kiểm tra nguồn và quyền sử dụng”." }
+];
+
+var RUBRIC = [
+  { name:"Nhận diện vấn đề, hành vi và các bên liên quan", w:10,
+    lv:["Tình huống và vấn đề trung tâm nêu rõ, đủ các bên","Nêu được vấn đề, còn sót một bên liên quan","Nêu chung chung, chưa tách được các bên","Chưa nhận diện được vấn đề"] },
+  { name:"Phân tích ví dụ bản quyền, sở hữu, sử dụng và trao đổi thông tin", w:20,
+    lv:["Một ví dụ cụ thể phân tích đến cùng: tài nguyên, chủ thể quyền, hành vi, hậu quả","Có ví dụ nhưng thiếu một thành phần","Chỉ mô tả, chưa phân tích quyền","Không có ví dụ bản quyền"] },
+  { name:"Trình bày, giải thích nội dung pháp lí và ví dụ", w:15,
+    lv:["Giải thích bằng lời nhóm, có ví dụ minh hoạ","Giải thích được nhưng ví dụ còn mờ","Chủ yếu liệt kê tên văn bản","Không có phần pháp lí"] },
+  { name:"Vận dụng quy định để xác định tính hợp pháp", w:25,
+    lv:["Bảng đối chiếu đủ 5 cột, kết luận có căn cứ cho từng hành vi","Có bảng, một vài kết luận còn treo","Bảng sơ sài, phần lớn dừng ở “cần tìm hiểu thêm”","Không có bảng đối chiếu"] },
+  { name:"Phân tích tác hại; đề xuất biện pháp an toàn, hợp pháp", w:20,
+    lv:["Hậu quả cụ thể theo từng bên; quy trình người khác dùng lại được","Có hậu quả và quy trình nhưng còn chung","Chỉ khuyên chung chung","Không có đề xuất"] },
+  { name:"Truyền đạt rõ ràng, nhất quán giữa trình chiếu và infographic", w:10,
+    lv:["Hai sản phẩm khớp nhau, trình bày rõ, ghi nguồn đủ","Rõ ràng, còn vài chỗ lệch","Khó theo dõi hoặc thiếu nguồn","Rời rạc, không ghi nguồn"] }
+];
+var LV_NAME = ["Tốt","Khá","Đạt","Chưa đạt"];
+var LV_RATE = [1, 0.75, 0.5, 0.25];
+
+var CHECKS = [
+  "Đủ 10 slide nội dung, có slide bìa và tài liệu tham khảo",
+  "Slide 6 có bảng đối chiếu hành vi với quy định, có kết luận",
+  "Infographic có ít nhất một checklist, sơ đồ hoặc quy trình",
+  "Mọi hình ảnh và số liệu đều ghi nguồn",
+  "Không dùng tên, hình ảnh hoặc hội thoại thật của bạn học",
+  "Đã cho 2–3 bạn ngoài nhóm dùng thử và ghi lại phản hồi"
+];
+
+var LOCK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+var KEY = 'dcl_unlocked_v1';
+var unlocked = false, current = 'intro', pendingTab = null;
+
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){
+  return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+
+function loadState(){
+  if (!CONFIG.batBuocMoKhoa){ unlocked = true; return; }
+  try {
+    if (localStorage.getItem(KEY) === '1' || window.name === KEY) unlocked = true;
+  } catch(e){
+    if (window.name === KEY) unlocked = true;
+  }
+}
+function saveState(){
+  try { localStorage.setItem(KEY,'1'); } catch(e){}
+  try { window.name = KEY; } catch(e){}
+}
+function resetAll(){
+  try { localStorage.removeItem(KEY); } catch(e){}
+  try { if (window.name === KEY) window.name = ''; } catch(e){}
+  unlocked = !CONFIG.batBuocMoKhoa;
+  pendingTab = null;
+  updateQuickBar();
+  qStart(); go('intro');
+}
+
+function updateQuickBar(){
+  var bar = document.getElementById('quick-bar');
+  var st = document.getElementById('quick-status');
+  var ctrl = document.getElementById('quick-controls');
+  var btnSelf1 = document.getElementById('btn-self-unlock');
+  var btnSelf2 = document.getElementById('gate-self-unlock');
+  if (btnSelf1) btnSelf1.style.display = CONFIG.choPhepBoQuaNhanh ? '' : 'none';
+  if (btnSelf2) btnSelf2.style.display = CONFIG.choPhepBoQuaNhanh ? '' : 'none';
+
+  if (!bar) return;
+  if (unlocked){
+    bar.classList.add('unlocked');
+    st.innerHTML = '<strong>Trạng thái: Đã mở khoá toàn bộ dự án.</strong> Mã thông hành cho các lần truy cập sau: <span class="pill">' + esc(CONFIG.maMoKhoaNhanh) + '</span>';
+    if (ctrl) ctrl.style.display = 'none';
+  } else {
+    bar.classList.remove('unlocked');
+    st.innerHTML = '<strong>Trạng thái:</strong> Các mục 3–9 đang khoá (Cần đạt ' + CONFIG.diemDat + '/10 hồ sơ ở mục 2 hoặc nhập mã thông hành).';
+    if (ctrl) ctrl.style.display = 'flex';
+  }
+}
+
+function unlockByCode(inpId, msgId){
+  var inp = document.getElementById(inpId);
+  var msg = document.getElementById(msgId);
+  if (!inp) return;
+  var val = inp.value.replace(/\s+/g,'').toUpperCase();
+  var targetCode = String(CONFIG.maMoKhoaNhanh || 'CD10').toUpperCase();
+  if (val === targetCode){
+    unlocked = true;
+    saveState();
+    playTone('ok');
+    if (msg) msg.textContent = '';
+    document.getElementById('gate').classList.remove('show');
+    updateQuickBar();
+    buildNav();
+    if (pendingTab){
+      var dest = pendingTab;
+      pendingTab = null;
+      go(dest);
+    }
+  } else {
+    playTone('no');
+    if (msg) msg.textContent = 'Mã chưa đúng';
+  }
+}
+
+function unlockDirect(){
+  if (!CONFIG.choPhepBoQuaNhanh) return;
+  unlocked = true;
+  saveState();
+  playTone('ok');
+  document.getElementById('gate').classList.remove('show');
+  updateQuickBar();
+  buildNav();
+  if (pendingTab){
+    var dest = pendingTab;
+    pendingTab = null;
+    go(dest);
+  } else if (current === 'intro' || current === 'ontap'){
+    go('task');
+  }
+}
+
+function getTabTitle(id){
+  for (var i=0;i<TABS.length;i++) if (TABS[i][0] === id) return TABS[i][1];
+  return id;
+}
+
+function buildNav(){
+  var h = '';
+  for (var i=0;i<TABS.length;i++){
+    var lk = TABS[i][2] && !unlocked;
+    h += '<button id="nav-' + TABS[i][0] + '" class="' + (lk ? 'lk' : '')
+       + (TABS[i][0] === current ? ' on' : '') + '" onclick="go(\'' + TABS[i][0] + '\')">'
+       + (lk ? LOCK_SVG : '') + TABS[i][1] + '</button>';
+  }
+  document.getElementById('nav').innerHTML = h;
+  updateQuickBar();
+}
+function isLocked(id){
+  for (var i=0;i<TABS.length;i++) if (TABS[i][0] === id) return TABS[i][2] && !unlocked;
+  return false;
+}
+function go(id){
+  if (isLocked(id)){
+    pendingTab = id;
+    var gt = document.getElementById('gate-target-name');
+    if (gt) gt.textContent = getTabTitle(id);
+    document.getElementById('gate').classList.add('show');
+    id = 'ontap';
+  } else if (id !== 'ontap'){
+    pendingTab = null;
+    document.getElementById('gate').classList.remove('show');
+  }
+  current = id;
+  var ps = document.querySelectorAll('.page');
+  for (var i=0;i<ps.length;i++) ps[i].classList.remove('on');
+  document.getElementById('p-' + id).classList.add('on');
+  buildNav();
+  if (id === 'ontap') setTimeout(resizeRpgCanvas, 50);
+  window.scrollTo(0,0);
+}
+
+/* ---- Hệ thống Game Nhập vai & Âm thanh ---- */
+var order = [], qi = 0, qScore = 0, qBusy = false;
+var gXP = 0, gStreak = 0, gBestStreak = 0;
+var lf50 = 2, lfHint = 2, lfShield = 1, shieldActive = false;
+var caseResults = [];
+var soundOn = true, audioCtx = null;
+
+function playTone(type){
+  if (!soundOn) return;
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    var now = audioCtx.currentTime;
+    var osc = audioCtx.createOscillator();
+    var gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    if (type === 'ok'){
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(523.25, now);
+      osc.frequency.setValueAtTime(659.25, now + 0.08);
+      osc.frequency.setValueAtTime(783.99, now + 0.16);
+      gain.gain.setValueAtTime(0.16, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.36);
+      osc.start(now); osc.stop(now + 0.36);
+    } else if (type === 'no'){
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(220, now);
+      osc.frequency.setValueAtTime(160, now + 0.14);
+      gain.gain.setValueAtTime(0.13, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.32);
+      osc.start(now); osc.stop(now + 0.32);
+    } else if (type === 'scan'){
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(660, now);
+      osc.frequency.setValueAtTime(920, now + 0.08);
+      gain.gain.setValueAtTime(0.1, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+      osc.start(now); osc.stop(now + 0.2);
+    } else if (type === 'item'){
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(587.33, now);
+      osc.frequency.setValueAtTime(880, now + 0.07);
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+      osc.start(now); osc.stop(now + 0.22);
+    }
+  } catch(e){}
+}
+
+function toggleSound(){
+  soundOn = !soundOn;
+  document.getElementById('g-snd').textContent = soundOn ? '🔊 Âm thanh: Bật' : '🔇 Âm thanh: Tắt';
+}
+
+function fireConfetti(count){
+  var c = document.getElementById('fx-canvas');
+  if (!c) return;
+  c.width = window.innerWidth; c.height = window.innerHeight;
+  var ctx = c.getContext('2d'), parts = [];
+  var cols = ['#0f7d74','#2b5f8c','#f59e0b','#10b981','#38bdf8','#ec4899'];
+  for (var i=0;i<(count||45);i++){
+    parts.push({
+      x: window.innerWidth/2 + (Math.random()-0.5)*220,
+      y: window.innerHeight/2,
+      vx: (Math.random()-0.5)*11,
+      vy: -Math.random()*10 - 3,
+      sz: Math.random()*7 + 4,
+      col: cols[i%cols.length],
+      a: 1
+    });
+  }
+  var frame = 0;
+  function tick(){
+    ctx.clearRect(0,0,c.width,c.height);
+    for (var i=0;i<parts.length;i++){
+      var p = parts[i];
+      p.x += p.vx; p.y += p.vy; p.vy += 0.32; p.a -= 0.018;
+      if (p.a > 0){
+        ctx.globalAlpha = p.a;
+        ctx.fillStyle = p.col;
+        ctx.fillRect(p.x, p.y, p.sz, p.sz);
+      }
+    }
+    if (++frame < 60) requestAnimationFrame(tick);
+    else ctx.clearRect(0,0,c.width,c.height);
+  }
+  tick();
+}
+
+var AVATARS = [
+  { code:"M1", name:"Minh", color:"#388bfd", suit:"#1f6feb", visor:"#79c0ff" },
+  { code:"L2", name:"Linh", color:"#2ea043", suit:"#238636", visor:"#7ee787" },
+  { code:"K3", name:"Khoa", color:"#d29922", suit:"#9e6a03", visor:"#f2cc60" },
+  { code:"AI", name:"AI-10", color:"#a371f7", suit:"#6e40c9", visor:"#d2a8ff" }
+];
+var curAvatar = 0;
+
+var player = {
+  x: 0.06, y: 0.50,
+  tx: null, ty: null,
+  dirX: 1, dirY: 0,
+  walkStep: 0,
+  speed: 0.0044,
+  hp: 5, maxHp: 5,
+  dashTime: 0, dashCd: 0, invuln: 0,
+  nearStation: 0,
+  trail: []
+};
+var keysDown = {};
+var holdVec = { dx:0, dy:0 };
+var mapItems = [];
+var mapParticles = [];
+var bullets = [];
+var enemyBullets = [];
+var enemies = [];
+var lasers = [];
+var orbitalBeams = [];
+var stationHacked = [];
+var modalOpen = false;
+var rpgCanvas = null, rpgCtx = null;
+
+function pickAvatar(idx, btn){
+  curAvatar = idx;
+  var pills = document.querySelectorAll('.char-pill');
+  for (var i=0;i<pills.length;i++) pills[i].classList.remove('on');
+  if (btn) btn.classList.add('on');
+  player.speed = (idx === 1) ? 0.0055 : 0.0044;
+  playTone('scan');
+  setMapToast('Đã chọn nhân vật: ' + AVATARS[idx].name + '. Di chuyển tới các trạm máy tính để điều tra.');
+}
+
+function openCaseModal(stationIdx){
+  if (stationIdx !== undefined && stationIdx !== null) qi = stationIdx;
+  modalOpen = true;
+  qShow();
+  document.getElementById('case-modal').classList.add('open');
+}
+
+function closeCaseModal(){
+  modalOpen = false;
+  document.getElementById('case-modal').classList.remove('open');
+}
+
+function setMapToast(msg){
+  var el = document.getElementById('map-prompt');
+  if (el) el.textContent = msg;
+}
+
+function spawnArenaEntities(){
+  mapItems = [
+    { x:0.21, y:0.46, type:'xp',     label:'+50 XP', taken:false },
+    { x:0.42, y:0.48, type:'shield', label:'+1 Khiên', taken:false },
+    { x:0.60, y:0.48, type:'hp',     label:'+1 Giáp', taken:false },
+    { x:0.78, y:0.46, type:'hint',   label:'+1 Gợi ý luật', taken:false }
+  ];
+
+  lasers = [
+    { x:0.25, y1:0.12, y2:0.44, period:140, offset:0 },
+    { x:0.46, y1:0.52, y2:0.86, period:140, offset:70 },
+    { x:0.67, y1:0.12, y2:0.46, period:130, offset:35 },
+    { x:0.87, y1:0.15, y2:0.85, period:160, offset:20 }
+  ];
+
+  enemies = [];
+  stationHacked = [];
+  for (var i=0;i<order.length;i++){
+    stationHacked.push(false);
+    enemies.push({
+      stationIdx: i,
+      x: order[i].x,
+      y: order[i].y,
+      baseX: order[i].x,
+      baseY: order[i].y,
+      angle: i * 1.1,
+      radius: 0.052,
+      hp: 2, maxHp: 2,
+      alive: true,
+      fireCd: 85 + (i * 19) % 90
+    });
+  }
+}
+
+function firePlayerShot(targetX, targetY){
+  if (modalOpen) return;
+  var vx = player.dirX, vy = player.dirY;
+
+  if (typeof targetX === 'number' && typeof targetY === 'number'){
+    var dx = targetX - player.x, dy = targetY - player.y;
+    var d = Math.hypot(dx, dy);
+    if (d > 0.005){ vx = dx / d; vy = dy / d; }
+  } else {
+    var bestD = 0.38, bestE = null;
+    for (var i=0;i<enemies.length;i++){
+      if (!enemies[i].alive) continue;
+      var ed = Math.hypot(enemies[i].x - player.x, enemies[i].y - player.y);
+      if (ed < bestD){ bestD = ed; bestE = enemies[i]; }
+    }
+    if (bestE){
+      var adx = bestE.x - player.x, ady = bestE.y - player.y;
+      var alen = Math.hypot(adx, ady) || 1;
+      vx = adx / alen; vy = ady / alen;
+    }
+  }
+
+  player.dirX = vx; player.dirY = vy;
+  playTone('scan');
+
+  var dmg = (curAvatar === 2) ? 2 : 1;
+  bullets.push({
+    x: player.x, y: player.y,
+    vx: vx * 0.015, vy: vy * 0.020,
+    dmg: dmg, life: 55,
+    col: AVATARS[curAvatar].color
+  });
+
+  if (curAvatar === 0){
+    bullets.push({
+      x: player.x - vy*0.012, y: player.y + vx*0.012,
+      vx: vx * 0.015, vy: vy * 0.020,
+      dmg: 1, life: 55,
+      col: '#79c0ff'
+    });
+  }
+}
+
+function triggerDash(){
+  if (modalOpen || player.dashCd > 0) return;
+  player.dashTime = 14;
+  player.invuln = 28;
+  player.dashCd = 55;
+  playTone('item');
+  for (var i=0;i<10;i++){
+    mapParticles.push({
+      x: player.x, y: player.y,
+      vx: (Math.random()-0.5)*0.01, vy: (Math.random()-0.5)*0.01,
+      life: 18, col: '#58a6ff'
+    });
+  }
+}
+
+function hurtPlayer(reason){
+  if (player.invuln > 0 || modalOpen) return;
+  player.invuln = 45;
+  playTone('no');
+  if (player.hp > 1){
+    player.hp--;
+    setMapToast('Cảnh báo: ' + reason + ' (-1 Giáp). Nhấn [Shift] để lướt qua tia chắn hoặc [J] để bắn hạ Drone.');
+  } else {
+    player.hp = player.maxHp;
+    setMapToast('Hệ thống đã tự động khôi phục lại đầy 5 vạch Giáp bảo vệ.');
+  }
+  updateHUD();
+}
+
+function resizeRpgCanvas(){
+  rpgCanvas = document.getElementById('rpg-canvas');
+  if (!rpgCanvas) return;
+  var rect = rpgCanvas.parentElement.getBoundingClientRect();
+  if (rect.width > 0 && rect.height > 0){
+    rpgCanvas.width = rect.width;
+    rpgCanvas.height = rect.height;
+  }
+}
+
+function holdDir(dx, dy){
+  holdVec.dx = dx; holdVec.dy = dy;
+  if (dx !== 0 || dy !== 0){
+    var l = Math.hypot(dx, dy);
+    player.dirX = dx / l; player.dirY = dy / l;
+  }
+  player.tx = null; player.ty = null;
+}
+function stopDir(){
+  holdVec.dx = 0; holdVec.dy = 0;
+}
+
+function teleportToCase(idx){
+  if (idx < 0 || idx >= order.length) return;
+  var st = order[idx];
+  player.x = st.x;
+  player.y = Math.min(0.86, st.y + 0.06);
+  player.tx = null; player.ty = null;
+  openCaseModal(idx);
+}
+
+function triggerNearestStation(){
+  if (player.nearStation !== null && player.nearStation >= 0){
+    var st = order[player.nearStation];
+    var dist = Math.hypot(player.x - st.x, player.y - st.y);
+    if (dist > 0.14){
+      player.x = st.x;
+      player.y = Math.min(0.86, st.y + 0.05);
+    }
+    playTone('scan');
+    openCaseModal(player.nearStation);
+  }
+}
+
+function drawTerminalSprite(ctx, x, y, num, status, hacked, isNear, time){
+  // Desk shadow & base
+  ctx.fillStyle = 'rgba(0,0,0,0.35)';
+  ctx.fillRect(x - 20, y - 12, 40, 28);
+
+  var borderCol = '#58a6ff';
+  var screenCol = '#1f6feb';
+  if (status === true){ borderCol = '#2ea043'; screenCol = '#238636'; }
+  else if (status === false){ borderCol = '#f85149'; screenCol = '#da3633'; }
+  else if (hacked){ borderCol = '#d29922'; screenCol = '#9e6a03'; }
+
+  if (isNear){
+    ctx.strokeStyle = borderCol;
+    ctx.lineWidth = 2;
+    ctx.strokeRect(x - 24 - Math.sin(time*2)*2, y - 18 - Math.sin(time*2)*2, 48 + Math.sin(time*2)*4, 36 + Math.sin(time*2)*4);
+  }
+
+  // Desk body
+  ctx.fillStyle = '#21262d';
+  ctx.strokeStyle = borderCol;
+  ctx.lineWidth = 2;
+  ctx.fillRect(x - 18, y - 14, 36, 26);
+  ctx.strokeRect(x - 18, y - 14, 36, 26);
+
+  // Monitor screen
+  ctx.fillStyle = screenCol;
+  ctx.fillRect(x - 13, y - 10, 26, 14);
+
+  // Terminal number on screen
+  ctx.fillStyle = '#ffffff';
+  ctx.font = '700 10px "JetBrains Mono", monospace';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('#' + (num < 10 ? '0'+num : num), x, y - 3);
+
+  // Keyboard strip
+  ctx.fillStyle = '#484f58';
+  ctx.fillRect(x - 10, y + 6, 20, 3);
+}
+
+function drawDroneSprite(ctx, ex, ey, dr, time){
+  ctx.save();
+  ctx.translate(ex, ey);
+  // Outer rotor ring
+  ctx.strokeStyle = '#f85149';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.arc(0, 0, 12, time*3, time*3 + Math.PI*1.3);
+  ctx.stroke();
+
+  // Cross arms
+  ctx.strokeStyle = '#8b949e';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(-10, -10); ctx.lineTo(10, 10);
+  ctx.moveTo(10, -10); ctx.lineTo(-10, 10);
+  ctx.stroke();
+
+  // Chassis
+  ctx.fillStyle = '#21262d';
+  ctx.strokeStyle = '#ff7b72';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.arc(0, 0, 7, 0, Math.PI*2);
+  ctx.fill(); ctx.stroke();
+
+  // Red eye core
+  ctx.fillStyle = '#da3633';
+  ctx.beginPath();
+  ctx.arc(0, 0, 3.5, 0, Math.PI*2);
+  ctx.fill();
+  ctx.restore();
+
+  // HP bar
+  ctx.fillStyle = '#0d1117';
+  ctx.fillRect(ex - 11, ey - 18, 22, 4);
+  ctx.fillStyle = '#f85149';
+  ctx.fillRect(ex - 11, ey - 18, 22 * (dr.hp / dr.maxHp), 4);
+}
+
+function drawPlayerSprite(ctx, px, py, av){
+  ctx.save();
+  ctx.translate(px, py);
+
+  // Shadow
+  ctx.fillStyle = 'rgba(0,0,0,0.4)';
+  ctx.beginPath();
+  ctx.ellipse(0, 12, 11, 5, 0, 0, Math.PI*2);
+  ctx.fill();
+
+  // Animated feet
+  var legOffset = Math.sin(player.walkStep) * 4;
+  ctx.fillStyle = '#0d1117';
+  ctx.fillRect(-6, 6 + legOffset, 4, 6);
+  ctx.fillRect(2, 6 - legOffset, 4, 6);
+
+  // Body suit
+  ctx.fillStyle = av.suit;
+  ctx.strokeStyle = '#f0f6fc';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.roundRect(-9, -7, 18, 16, 4);
+  ctx.fill(); ctx.stroke();
+
+  // Head
+  ctx.fillStyle = '#21262d';
+  ctx.beginPath();
+  ctx.arc(0, -9, 8, 0, Math.PI*2);
+  ctx.fill(); ctx.stroke();
+
+  // Tactical Visor oriented toward movement direction
+  var vx = Math.max(-3, Math.min(3, player.dirX * 3));
+  ctx.fillStyle = av.visor;
+  ctx.fillRect(-5 + vx, -12, 10, 4);
+
+  // Aiming blaster pointer
+  ctx.strokeStyle = av.color;
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(player.dirX * 6, player.dirY * 6);
+  ctx.lineTo(player.dirX * 16, player.dirY * 16);
+  ctx.stroke();
+
+  ctx.restore();
+
+  // Nameplate
+  ctx.fillStyle = '#c9d1d9';
+  ctx.font = '700 10.5px "JetBrains Mono", monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText(av.name, px, py + 24);
+}
+
+function updateRpgLoop(){
+  if (rpgCanvas && current === 'ontap'){
+    var w = rpgCanvas.width, h = rpgCanvas.height;
+    if (w === 0 || h === 0) resizeRpgCanvas();
+    var ctx = rpgCtx;
+    var frameNow = Math.floor(Date.now() / 16);
+
+    if (!modalOpen){
+      if (player.dashCd > 0) player.dashCd--;
+      if (player.invuln > 0) player.invuln--;
+
+      var dx = holdVec.dx, dy = holdVec.dy;
+      if (keysDown['ArrowUp'] || keysDown['w'] || keysDown['W']) dy -= 1;
+      if (keysDown['ArrowDown'] || keysDown['s'] || keysDown['S']) dy += 1;
+      if (keysDown['ArrowLeft'] || keysDown['a'] || keysDown['A']) dx -= 1;
+      if (keysDown['ArrowRight'] || keysDown['d'] || keysDown['D']) dx += 1;
+
+      var spd = player.speed * (player.dashTime > 0 ? 2.6 : 1);
+      if (player.dashTime > 0) player.dashTime--;
+
+      if (dx !== 0 || dy !== 0){
+        player.tx = null; player.ty = null;
+        var len = Math.sqrt(dx*dx + dy*dy);
+        player.dirX = dx / len; player.dirY = dy / len;
+        player.x += player.dirX * spd;
+        player.y += player.dirY * (spd * 1.4);
+        player.walkStep += 0.35;
+      } else if (player.tx !== null && player.ty !== null){
+        var tdx = player.tx - player.x;
+        var tdy = player.ty - player.y;
+        var dist = Math.sqrt(tdx*tdx + tdy*tdy);
+        if (dist < 0.012){
+          player.x = player.tx; player.y = player.ty;
+          player.tx = null; player.ty = null;
+        } else {
+          player.dirX = tdx / dist; player.dirY = tdy / dist;
+          player.x += player.dirX * (spd * 1.2);
+          player.y += player.dirY * (spd * 1.5);
+          player.walkStep += 0.35;
+        }
+      }
+
+      player.x = Math.max(0.04, Math.min(0.96, player.x));
+      player.y = Math.max(0.12, Math.min(0.88, player.y));
+
+      for (var m=0;m<mapItems.length;m++){
+        var itm = mapItems[m];
+        if (!itm.taken && Math.hypot(player.x - itm.x, player.y - itm.y) < 0.04){
+          itm.taken = true;
+          playTone('item');
+          if (itm.type === 'xp') gXP += 50;
+          else if (itm.type === 'shield') lfShield++;
+          else if (itm.type === 'hint') lfHint++;
+          else if (itm.type === 'hp') player.hp = Math.min(player.maxHp, player.hp + 1);
+          updateHUD();
+          setMapToast('Đã thu thập hộp tiếp tế: ' + itm.label);
+        }
+      }
+
+      for (var l=0;l<lasers.length;l++){
+        var lz = lasers[l];
+        lz.active = ((frameNow + lz.offset) % lz.period) < (lz.period * 0.58);
+        if (lz.active && Math.abs(player.x - lz.x) < 0.013 && player.y >= lz.y1 && player.y <= lz.y2){
+          hurtPlayer('Va vào hàng rào Laser an ninh');
+        }
+      }
+
+      for (var e=0;e<enemies.length;e++){
+        var en = enemies[e];
+        if (!en.alive) continue;
+        en.angle += 0.03;
+        en.x = en.baseX + Math.cos(en.angle) * en.radius;
+        en.y = en.baseY + Math.sin(en.angle) * (en.radius * 1.15);
+
+        var pDist = Math.hypot(player.x - en.x, player.y - en.y);
+        en.fireCd--;
+        if (en.fireCd <= 0 && pDist < 0.30){
+          en.fireCd = 110;
+          var edx = (player.x - en.x) / (pDist || 1);
+          var edy = (player.y - en.y) / (pDist || 1);
+          enemyBullets.push({
+            x: en.x, y: en.y,
+            vx: edx * 0.005, vy: edy * 0.007,
+            life: 75
+          });
+        }
+        if (pDist < 0.032){
+          hurtPlayer('Chạm phải Drone tuần tra');
+        }
+      }
+
+      for (var b=bullets.length-1;b>=0;b--){
+        var bl = bullets[b];
+        bl.x += bl.vx; bl.y += bl.vy; bl.life--;
+        var hit = false;
+        for (var ee=0;ee<enemies.length;ee++){
+          var target = enemies[ee];
+          if (target.alive && Math.hypot(bl.x - target.x, bl.y - target.y) < 0.035){
+            target.hp -= bl.dmg;
+            hit = true;
+            for (var kp=0;kp<8;kp++){
+              mapParticles.push({
+                x: target.x, y: target.y,
+                vx: (Math.random()-0.5)*0.012, vy: (Math.random()-0.5)*0.012,
+                life: 18, col: '#f85149'
+              });
+            }
+            if (target.hp <= 0){
+              target.alive = false;
+              stationHacked[target.stationIdx] = true;
+              gXP += 35;
+              playTone('ok');
+              updateHUD();
+              setMapToast('Đã bắn hạ Drone tại Trạm #' + (target.stationIdx+1) + ' (+35 XP & Tự động loại 1 phương án sai).');
+            } else {
+              playTone('item');
+            }
+            break;
+          }
+        }
+        if (hit || bl.life <= 0 || bl.x < 0 || bl.x > 1 || bl.y < 0 || bl.y > 1){
+          bullets.splice(b, 1);
+        }
+      }
+
+      for (var eb=enemyBullets.length-1;eb>=0;eb--){
+        var ebl = enemyBullets[eb];
+        ebl.x += ebl.vx; ebl.y += ebl.vy; ebl.life--;
+        if (Math.hypot(ebl.x - player.x, ebl.y - player.y) < 0.026){
+          enemyBullets.splice(eb, 1);
+          hurtPlayer('Trúng đạn nhiễu từ Drone');
+          continue;
+        }
+        if (ebl.life <= 0) enemyBullets.splice(eb, 1);
+      }
+    }
+
+    var bestIdx = qi, bestDist = 999;
+    for (var s=0;s<order.length;s++){
+      var d = Math.hypot(player.x - order[s].x, player.y - order[s].y);
+      if (d < bestDist){ bestDist = d; bestIdx = s; }
+    }
+    player.nearStation = bestIdx;
+    var fab = document.getElementById('fab-investigate');
+    if (fab && order[bestIdx]){
+      fab.textContent = 'Mở Hồ sơ #' + (bestIdx+1) + ' [SPACE]';
+    }
+
+    // ================= VẼ SÀN PHÒNG LAB 2D =================
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle = '#161b22';
+    ctx.fillRect(0,0,w,h);
+
+    // Tiled floor pattern
+    ctx.strokeStyle = '#21262d';
+    ctx.lineWidth = 1;
+    var step = 32;
+    for (var gx=0;gx<w;gx+=step){ ctx.beginPath(); ctx.moveTo(gx,0); ctx.lineTo(gx,h); ctx.stroke(); }
+    for (var gy=0;gy<h;gy+=step){ ctx.beginPath(); ctx.moveTo(0,gy); ctx.lineTo(w,gy); ctx.stroke(); }
+
+    // 5 Lab Rooms
+    var zones = [
+      { x:0.02, y:0.09, w:0.22, h:0.82, name:"PHÒNG A: MẠNG XÃ HỘI" },
+      { x:0.25, y:0.09, w:0.20, h:0.82, name:"PHÒNG B: BẢN QUYỀN SỐ" },
+      { x:0.46, y:0.09, w:0.20, h:0.82, name:"PHÒNG C: PHÁP LÍ & CẤP PHÉP" },
+      { x:0.67, y:0.09, w:0.19, h:0.82, name:"PHÒNG D: AN NINH MẠNG" },
+      { x:0.87, y:0.09, w:0.11, h:0.82, name:"PHÒNG MÁY CHỦ" }
+    ];
+    for (var z=0;z<zones.length;z++){
+      var zn = zones[z];
+      ctx.fillStyle = 'rgba(33,38,45,0.45)';
+      ctx.strokeStyle = '#30363d';
+      ctx.lineWidth = 2;
+      ctx.fillRect(zn.x*w, zn.y*h, zn.w*w, zn.h*h);
+      ctx.strokeRect(zn.x*w, zn.y*h, zn.w*w, zn.h*h);
+      ctx.fillStyle = '#8b949e';
+      ctx.font = '700 10px "JetBrains Mono", monospace';
+      ctx.textAlign = 'left';
+      ctx.fillText(zn.name, zn.x*w + 8, (zn.y+zn.h)*h - 8);
+    }
+
+    // Cable line connecting terminals
+    ctx.strokeStyle = '#30363d';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    for (var p=0;p<order.length;p++){
+      var sx = order[p].x * w, sy = order[p].y * h;
+      if (p === 0) ctx.moveTo(sx, sy);
+      else ctx.lineTo(sx, sy);
+    }
+    ctx.stroke();
+
+    // Laser gates
+    var time = Date.now() * 0.004;
+    for (var lg=0;lg<lasers.length;lg++){
+      var lzr = lasers[lg];
+      var lx = lzr.x * w, ly1 = lzr.y1 * h, ly2 = lzr.y2 * h;
+      ctx.fillStyle = '#8b949e';
+      ctx.fillRect(lx - 4, ly1 - 4, 8, 8);
+      ctx.fillRect(lx - 4, ly2 - 4, 8, 8);
+      if (lzr.active){
+        ctx.strokeStyle = '#f85149';
+        ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.moveTo(lx, ly1); ctx.lineTo(lx, ly2); ctx.stroke();
+      } else {
+        ctx.strokeStyle = '#238636';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath(); ctx.moveTo(lx, ly1); ctx.lineTo(lx, ly2); ctx.stroke();
+        ctx.setLineDash([]);
+      }
+    }
+
+    // Supply Crates (Power-ups drawn as vector crates)
+    for (var c=0;c<mapItems.length;c++){
+      var ci = mapItems[c];
+      if (ci.taken) continue;
+      var cx = ci.x * w, cy = ci.y * h + Math.sin(time*1.5 + c)*3;
+      ctx.fillStyle = '#1f6feb';
+      ctx.strokeStyle = '#79c0ff';
+      ctx.lineWidth = 1.5;
+      ctx.fillRect(cx - 9, cy - 9, 18, 18);
+      ctx.strokeRect(cx - 9, cy - 9, 18, 18);
+      ctx.fillStyle = '#fff';
+      ctx.font = '700 9px "JetBrains Mono", monospace';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(ci.type.toUpperCase(), cx, cy);
+    }
+
+    // 10 Computer Terminals
+    for (var i=0;i<order.length;i++){
+      var st = order[i];
+      drawTerminalSprite(ctx, st.x * w, st.y * h, i + 1, caseResults[i], stationHacked[i], i === player.nearStation, time);
+    }
+
+    // Malware Patrol Drones
+    for (var ed=0;ed<enemies.length;ed++){
+      var dr = enemies[ed];
+      if (!dr.alive) continue;
+      drawDroneSprite(ctx, dr.x * w, dr.y * h, dr, time);
+    }
+
+    // Projectiles
+    for (var pb=0;pb<bullets.length;pb++){
+      var pbl = bullets[pb];
+      ctx.fillStyle = pbl.col;
+      ctx.fillRect(pbl.x*w - 4, pbl.y*h - 4, 8, 8);
+    }
+    for (var ebi=0;ebi<enemyBullets.length;ebi++){
+      var ebItem = enemyBullets[ebi];
+      ctx.fillStyle = '#f85149';
+      ctx.beginPath(); ctx.arc(ebItem.x*w, ebItem.y*h, 4, 0, Math.PI*2); ctx.fill();
+    }
+
+    // Satellite Scan Beams
+    for (var ob=orbitalBeams.length-1;ob>=0;ob--){
+      var beam = orbitalBeams[ob];
+      beam.life--;
+      ctx.strokeStyle = 'rgba(88,166,255,' + (beam.life/30) + ')';
+      ctx.lineWidth = beam.life * 0.7;
+      ctx.beginPath(); ctx.moveTo(beam.x*w, 0); ctx.lineTo(beam.x*w, beam.y*h); ctx.stroke();
+      if (beam.life <= 0) orbitalBeams.splice(ob, 1);
+    }
+
+    // Particles
+    for (var k=mapParticles.length-1;k>=0;k--){
+      var pt = mapParticles[k];
+      pt.x += pt.vx; pt.y += pt.vy; pt.life--;
+      ctx.fillStyle = pt.col;
+      ctx.globalAlpha = pt.life / 20;
+      ctx.fillRect(pt.x*w - 2, pt.y*h - 2, 5, 5);
+      ctx.globalAlpha = 1;
+      if (pt.life <= 0) mapParticles.splice(k,1);
+    }
+
+    // Player Character
+    if (player.invuln % 4 < 2){
+      drawPlayerSprite(ctx, player.x * w, player.y * h, AVATARS[curAvatar]);
+    }
+  }
+  requestAnimationFrame(updateRpgLoop);
+}
+
+function initRpgEvents(){
+  rpgCanvas = document.getElementById('rpg-canvas');
+  if (!rpgCanvas) return;
+  rpgCtx = rpgCanvas.getContext('2d');
+  resizeRpgCanvas();
+  window.addEventListener('resize', resizeRpgCanvas);
+
+  rpgCanvas.addEventListener('mousedown', function(e){
+    if (modalOpen) return;
+    var rect = rpgCanvas.getBoundingClientRect();
+    var cx = (e.clientX - rect.left) / rect.width;
+    var cy = (e.clientY - rect.top) / rect.height;
+
+    for (var i=0;i<order.length;i++){
+      if (Math.hypot(cx - order[i].x, cy - order[i].y) < 0.048){
+        player.tx = order[i].x; player.ty = order[i].y + 0.04;
+        if (Math.hypot(player.x - order[i].x, player.y - order[i].y) < 0.16){
+          openCaseModal(i);
+        } else {
+          setMapToast('Đang di chuyển tới Trạm #' + (i+1) + ' (Nhấn SPACE hoặc Click lần nữa để mở ngay).');
+        }
+        return;
+      }
+    }
+
+    firePlayerShot(cx, cy);
+    player.tx = cx; player.ty = cy;
+  });
+}
+
+function getRankTitle(sc){
+  if (sc >= 9) return 'CẤP BẬC: THẨM PHÁN SỐ';
+  if (sc >= 7) return 'CẤP BẬC: CHUYÊN GIA PHÁP LÍ';
+  if (sc >= 4) return 'CẤP BẬC: ĐIỀU TRA VIÊN';
+  return 'CẤP BẬC: TẬP SỰ';
+}
+
+function updateHUD(){
+  document.getElementById('g-rank').textContent = getRankTitle(qScore);
+  var hpHtml = '';
+  for (var h=0;h<player.maxHp;h++){
+    hpHtml += '<span class="hp-seg' + (h < player.hp ? ' on' : '') + '"></span>';
+  }
+  var hpEl = document.getElementById('g-hp');
+  if (hpEl) hpEl.innerHTML = hpHtml;
+
+  var bossPct = Math.max(0, 100 - qScore * 10);
+  var bf = document.getElementById('boss-fill');
+  var bt = document.getElementById('boss-hp-txt');
+  if (bf) bf.style.width = bossPct + '%';
+  if (bt) bt.textContent = bossPct + '%';
+
+  document.getElementById('g-solved').textContent = 'HỒ SƠ: ' + qScore + '/10';
+  document.getElementById('g-xp').textContent = gXP + ' XP';
+  var st = document.getElementById('g-streak');
+  st.textContent = 'CHUỖI: ' + gStreak;
+  st.className = 'stat-chip' + (gStreak >= 2 ? ' streak-hot' : '');
+  document.getElementById('g-shield').textContent =
+    'KHIÊN: ' + lfShield + (shieldActive ? ' (ĐANG BẬT)' : '');
+  document.getElementById('cnt-50').textContent = lf50;
+  document.getElementById('cnt-hint').textContent = lfHint;
+  document.getElementById('cnt-shield').textContent = lfShield;
+  document.getElementById('lf-50').disabled = (lf50 <= 0 || qBusy);
+  document.getElementById('lf-hint').disabled = (lfHint <= 0 || qBusy);
+  document.getElementById('lf-shield').disabled = (lfShield <= 0 || shieldActive || qBusy);
+}
+
+function renderCaseNodes(){
+  var h = '';
+  for (var i=0;i<order.length;i++){
+    var cls = 'case-node';
+    if (i === qi) cls += ' cur';
+    else if (caseResults[i] === true) cls += ' ok';
+    else if (caseResults[i] === false) cls += ' no';
+    h += '<button class="' + cls + '" title="Mở Hồ sơ #' + (i+1) + '" onclick="teleportToCase(' + i + ')">' + (i+1) + '</button>';
+  }
+  document.getElementById('q-nodes').innerHTML = h;
+}
+
+function shuffleOpts(it){
+  if (it.fixed) return { opts: it.opts.slice(), ans: it.ans };
+  var idx = [], i;
+  for (i=0;i<it.opts.length;i++) idx.push(i);
+  for (i=idx.length-1;i>0;i--){
+    var j = Math.floor(Math.random()*(i+1)), t = idx[i]; idx[i] = idx[j]; idx[j] = t;
+  }
+  var o = [], a = 0;
+  for (i=0;i<idx.length;i++){ o.push(it.opts[idx[i]]); if (idx[i] === it.ans) a = i; }
+  return { opts:o, ans:a };
+}
+
+function qStart(){
+  qi = 0; qScore = 0; gXP = 0; gStreak = 0; gBestStreak = 0;
+  lf50 = 2; lfHint = 2; lfShield = Math.max(lfShield, 1); shieldActive = false;
+  player.hp = player.maxHp; modalOpen = false;
+  var cm = document.getElementById('case-modal');
+  if (cm) cm.classList.remove('open');
+  order = []; caseResults = [];
+  for (var i=0;i<QUIZ.length;i++){
+    var s = shuffleOpts(QUIZ[i]);
+    order.push({
+      round:QUIZ[i].round, q:QUIZ[i].q, fb:QUIZ[i].fb,
+      zone:QUIZ[i].zone, npc:QUIZ[i].npc, x:QUIZ[i].x, y:QUIZ[i].y,
+      evTitle:QUIZ[i].evTitle, evMock:QUIZ[i].evMock, clue:QUIZ[i].clue,
+      opts:s.opts, ans:s.ans
+    });
+    caseResults.push(null);
+  }
+  spawnArenaEntities();
+  player.x = order[0].x; player.y = order[0].y + 0.08;
+  document.getElementById('q-done').style.display = 'none';
+  qShow();
+}
+
+function qShow(){
+  qBusy = false; shieldActive = false;
+  var it = order[qi];
+  document.getElementById('q-count').textContent = 'Hồ sơ #' + (qi+1) + ' / ' + order.length;
+  document.getElementById('q-round').textContent = it.round;
+  document.getElementById('q-zone-name').textContent = it.zone;
+  document.getElementById('q-station-title').textContent = 'Trạm Hồ sơ #' + (qi+1) + ' — ' + it.round;
+  document.getElementById('q-ev-title').textContent = it.evTitle;
+  document.getElementById('q-ev-mock').innerHTML = it.evMock;
+  var clueEl = document.getElementById('q-ev-clue');
+  clueEl.className = 'ev-clue';
+  clueEl.innerHTML = '<strong>Gợi ý pháp lí:</strong> ' + esc(it.clue);
+  document.getElementById('q-text').textContent = it.q;
+  var keys = ['A','B','C','D'], h = '';
+  for (var i=0;i<it.opts.length;i++){
+    h += '<button class="opt" onclick="qPick(this,' + i + ')">'
+       + '<span class="opt-key">' + keys[i] + '</span>'
+       + '<span>' + esc(it.opts[i]) + '</span></button>';
+  }
+  document.getElementById('q-opts').innerHTML = h;
+
+  var bonusBanner = document.getElementById('hack-bonus-msg');
+  if (stationHacked[qi]){
+    if (bonusBanner) bonusBanner.classList.add('show');
+    var opts = document.getElementById('q-opts').querySelectorAll('.opt');
+    for (var wIdx=0;wIdx<opts.length;wIdx++){
+      if (wIdx !== it.ans){
+        opts[wIdx].classList.add('eliminated');
+        opts[wIdx].disabled = true;
+        break;
+      }
+    }
+  } else if (bonusBanner){
+    bonusBanner.classList.remove('show');
+  }
+
+  var fb = document.getElementById('q-fb');
+  fb.style.display = 'none'; fb.className = 'fb';
+  document.getElementById('q-nextwrap').style.display = 'none';
+  document.getElementById('q-next').textContent =
+    (qi === order.length - 1) ? 'Xem tổng kết vòng ôn tập' : 'Chuyển sang Hồ sơ tiếp theo →';
+  renderCaseNodes();
+  updateHUD();
+}
+
+function scanClue(useLifeline){
+  var clueEl = document.getElementById('q-ev-clue');
+  if (clueEl.classList.contains('show')) return;
+  if (useLifeline){
+    if (lfHint <= 0) return;
+    lfHint--;
+  }
+  playTone('scan');
+  clueEl.classList.add('show');
+  updateHUD();
+}
+
+function use5050(){
+  if (qBusy || lf50 <= 0) return;
+  var it = order[qi];
+  var opts = document.getElementById('q-opts').querySelectorAll('.opt');
+  var wrongIdx = [];
+  for (var i=0;i<opts.length;i++){
+    if (i !== it.ans && !opts[i].classList.contains('eliminated')) wrongIdx.push(i);
+  }
+  if (wrongIdx.length < 2) return;
+  lf50--;
+  playTone('scan');
+  for (var k=0;k<2;k++){
+    var pick = Math.floor(Math.random()*wrongIdx.length);
+    var target = wrongIdx.splice(pick,1)[0];
+    opts[target].classList.add('eliminated');
+    opts[target].disabled = true;
+  }
+  updateHUD();
+}
+
+function activateShield(){
+  if (qBusy || lfShield <= 0 || shieldActive) return;
+  lfShield--;
+  shieldActive = true;
+  playTone('scan');
+  updateHUD();
+}
+
+function qPick(btn, idx){
+  if (qBusy) return;
+  var it = order[qi];
+  var opts = document.getElementById('q-opts').querySelectorAll('.opt');
+  var ok = (idx === it.ans);
+
+  if (!ok && shieldActive){
+    shieldActive = false;
+    btn.classList.add('eliminated');
+    btn.disabled = true;
+    playTone('scan');
+    var fbShield = document.getElementById('q-fb');
+    fbShield.className = 'fb y';
+    fbShield.innerHTML = '<div class="stamp-badge">ĐÃ DÙNG KHIÊN BẢO VỆ</div><br>Phương án vừa chọn chưa đúng. Hệ thống đã gạch bỏ phương án đó, em hãy chọn lại phương án chính xác.';
+    fbShield.style.display = 'block';
+    updateHUD();
+    return;
+  }
+
+  qBusy = true;
+  for (var i=0;i<opts.length;i++) opts[i].disabled = true;
+  opts[it.ans].classList.add('right');
+  var prevResult = caseResults[qi];
+  caseResults[qi] = ok;
+
+  if (ok){
+    if (prevResult !== true) qScore++;
+    gStreak++;
+    if (gStreak > gBestStreak) gBestStreak = gStreak;
+    gXP += 100 + (gStreak > 1 ? (gStreak - 1) * 25 : 0);
+    orbitalBeams.push({ x: it.x, y: it.y, life: 30 });
+    if (enemies[qi]) enemies[qi].alive = false;
+    playTone('ok');
+    fireConfetti(28);
+    setMapToast('Đã giải quyết đúng Hồ sơ #' + (qi+1) + ' (+100 XP).');
+  } else {
+    gStreak = 0;
+    btn.classList.add('wrong');
+    playTone('no');
+    setMapToast('Hồ sơ #' + (qi+1) + ' trả lời chưa chính xác. Hãy xem giải thích pháp lí.');
+  }
+
+  renderCaseNodes();
+  updateHUD();
+
+  var fb = document.getElementById('q-fb');
+  fb.className = 'fb ' + (ok ? 'y' : 'n');
+  fb.innerHTML = '<div class="stamp-badge">'
+    + (ok ? 'KẾT LUẬN CHÍNH XÁC (+100 XP)' : 'KẾT LUẬN CHƯA ĐÚNG CĂN CỨ')
+    + '</div><br>' + esc(it.fb);
+  fb.style.display = 'block';
+  document.getElementById('q-nextwrap').style.display = 'flex';
+}
+
+function qNext(){
+  if (qi < order.length - 1){
+    teleportToCase(qi + 1);
+    return;
+  }
+  closeCaseModal();
+  document.getElementById('q-done').style.display = '';
+  document.getElementById('q-done').scrollIntoView({behavior:'smooth', block:'center'});
+
+  var pass = qScore >= CONFIG.diemDat;
+  var circle = document.getElementById('q-circle');
+  circle.textContent = qScore + '/' + order.length;
+  circle.className = 'big' + (pass ? '' : ' fail');
+
+  if (pass){
+    fireConfetti(65);
+    playTone('ok');
+    if (!unlocked){ unlocked = true; saveState(); buildNav(); }
+  }
+
+  document.getElementById('q-final-rank').textContent = getRankTitle(qScore);
+  document.getElementById('q-title').textContent =
+    pass ? 'Đã mở khoá toàn bộ Nhiệm vụ Dự án' : 'Chưa đủ số hồ sơ đúng để mở khoá';
+  document.getElementById('q-advice').textContent = pass
+    ? 'Toàn bộ các mục từ 3 đến 9 đã mở. Hãy nhớ Mã thông hành [' + CONFIG.maMoKhoaNhanh + '] để mở nhanh trong 1 giây khi truy cập từ máy khác.'
+    : 'Cần đạt tối thiểu ' + CONFIG.diemDat + '/' + order.length + ' hồ sơ đúng để mở khoá dự án. Em có thể xem lại giải thích ở từng trạm và thử lại.';
+
+  document.getElementById('q-stats-summary').innerHTML =
+    '<span class="pill">Tổng điểm: ' + gXP + ' XP</span>'
+    + '<span class="pill">Chuỗi đúng liên tiếp: ' + gBestStreak + '</span>'
+    + (pass ? '<span class="pill" style="background:var(--okbg);border-color:#a7dcb2;color:var(--ok)">Mã thông hành: ' + esc(CONFIG.maMoKhoaNhanh) + '</span>' : '');
+
+  var h = '<button class="btn btn2" onclick="qStart()">Chơi lại lượt mới (Đổi vị trí đáp án)</button>';
+  if (pass) h += '<button class="btn" onclick="go(\'task\')">Sang mục 3: Nhiệm vụ nhóm →</button>';
+  document.getElementById('q-after').innerHTML = h;
+}
+
+var rIdx = 0, rCorrect = 0, rBusy = false;
+function switchGameMode(m){
+  document.getElementById('m-main').classList.toggle('active', m === 'main');
+  document.getElementById('m-radar').classList.toggle('active', m === 'radar');
+  document.getElementById('mode-main-wrap').style.display = (m === 'main') ? '' : 'none';
+  document.getElementById('mode-radar-wrap').style.display = (m === 'radar') ? '' : 'none';
+  if (m === 'radar') radarStart();
+  else setTimeout(resizeRpgCanvas, 40);
+}
+
+function radarStart(){
+  rIdx = 0; rCorrect = 0; rBusy = false;
+  document.getElementById('r-actions').style.display = 'flex';
+  radarShow();
+}
+
+function radarShow(){
+  rBusy = false;
+  var item = RADAR_DATA[rIdx];
+  document.getElementById('r-progress').textContent = 'Tình huống: ' + (rIdx+1) + ' / ' + RADAR_DATA.length;
+  document.getElementById('r-score').textContent = 'Đúng: ' + rCorrect;
+  var card = document.getElementById('r-card');
+  card.style.borderColor = '#334155';
+  document.getElementById('r-text').textContent = item.text;
+  var exp = document.getElementById('r-explain');
+  exp.style.display = 'none';
+}
+
+function radarPick(choiceSafe){
+  if (rBusy) return;
+  rBusy = true;
+  var item = RADAR_DATA[rIdx];
+  var ok = (choiceSafe === item.safe);
+  var card = document.getElementById('r-card');
+  var exp = document.getElementById('r-explain');
+  if (ok){
+    rCorrect++; gXP += 40;
+    card.style.borderColor = '#10b981';
+    playTone('ok');
+  } else {
+    card.style.borderColor = '#ef4444';
+    playTone('no');
+  }
+  document.getElementById('r-score').textContent = 'Đúng: ' + rCorrect;
+  exp.textContent = (ok ? '✓ Chính xác! ' : '✕ Chưa đúng! ') + item.exp;
+  exp.style.display = 'block';
+  updateHUD();
+
+  setTimeout(function(){
+    if (rIdx < RADAR_DATA.length - 1){
+      rIdx++; radarShow();
+    } else {
+      var winShield = rCorrect >= 5;
+      if (winShield){ lfShield++; fireConfetti(40); updateHUD(); }
+      document.getElementById('r-text').textContent = winShield
+        ? '🎉 Hoàn thành Radar (' + rCorrect + '/' + RADAR_DATA.length + ')! Em được thưởng +1 Khiên Bảo Hộ 🛡️ để dùng trong 10 Hồ sơ mở khoá!'
+        : 'Hoàn thành Radar (' + rCorrect + '/' + RADAR_DATA.length + '). Hãy đạt từ 5/6 câu đúng để nhận +1 Khiên Bảo Hộ nhé!';
+      document.getElementById('r-explain').style.display = 'none';
+      document.getElementById('r-actions').style.display = 'none';
+    }
+  }, 1600);
+}
+
+document.addEventListener('keydown', function(e){
+  if (current !== 'ontap') return;
+  if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].indexOf(e.key) > -1){
+    if (document.activeElement && ['INPUT','TEXTAREA'].indexOf(document.activeElement.tagName) === -1){
+      e.preventDefault();
+    }
+  }
+  keysDown[e.key] = true;
+
+  if (e.key === 'Escape' && modalOpen){
+    closeCaseModal();
+    return;
+  }
+  if (!modalOpen){
+    if (e.key === ' ' || e.key === 'e' || e.key === 'E'){
+      triggerNearestStation();
+      return;
+    }
+    if (e.key === 'j' || e.key === 'J' || e.key === 'f' || e.key === 'F'){
+      firePlayerShot();
+      return;
+    }
+    if (e.key === 'Shift' || e.key === 'k' || e.key === 'K'){
+      triggerDash();
+      return;
+    }
+    return;
+  }
+
+  if (qBusy) return;
+  var map = {'1':0, '2':1, '3':2, '4':3};
+  var k = e.key ? e.key.toLowerCase() : '';
+  if (k in map){
+    var opts = document.getElementById('q-opts').querySelectorAll('.opt');
+    if (opts[map[k]] && !opts[map[k]].disabled) qPick(opts[map[k]], map[k]);
+  }
+});
+
+document.addEventListener('keyup', function(e){
+  keysDown[e.key] = false;
+});
+
+/* ---- đề tài ---- */
+function renderTopics(){
+  var h = '';
+  for (var i=0;i<TOPICS.length;i++){
+    var t = TOPICS[i];
+    h += '<div class="topic"><div class="no">ĐỀ TÀI ' + t.no + '</div><h4>' + esc(t.name) + '</h4>'
+       + '<p class="sm sub" style="margin-bottom:10px">' + esc(t.teaser) + '</p>'
+       + '<button class="btn btn2" onclick="openTopic(' + i + ')">Xem hồ sơ đầy đủ</button></div>';
+  }
+  document.getElementById('topic-list').innerHTML = h;
+}
+function openTopic(i){
+  var t = TOPICS[i], h = '';
+  h += '<div class="card" id="topic-open" style="border-color:#c3d2df">';
+  h += '<div class="kicker">HỒ SƠ ĐỀ TÀI ' + t.no + '</div>';
+  h += '<h4 style="font-size:19px">' + esc(t.name) + '</h4>';
+  h += '<p class="sm"><strong>Câu hỏi dẫn dắt:</strong> ' + esc(t.question) + '</p>';
+  h += '<h3 style="font-size:15px">Khối 2 · Bối cảnh</h3><p class="sm">' + esc(t.context) + '</p>';
+  h += '<h3 style="font-size:15px">Khối 3 · Dữ kiện cho sẵn</h3><div class="wrap"><table>'
+     + '<tr><th style="width:180px">Dữ kiện</th><th>Nội dung</th></tr>';
+  for (var k=0;k<t.facts.length;k++)
+    h += '<tr><td>' + esc(t.facts[k][0]) + '</td><td>' + esc(t.facts[k][1]) + '</td></tr>';
+  h += '</table></div>';
+  h += '<h3 style="font-size:15px">Khối 4 · Bốn nhiệm vụ bắt buộc</h3>';
+  for (var m=0;m<t.tasks.length;m++)
+    h += '<div class="step"><b>' + (m+1) + '</b><div class="sm">' + esc(t.tasks[m]) + '</div></div>';
+  h += '<h3 style="font-size:15px">Khối 5 · Gợi ý nguồn tra cứu</h3><ul class="sm">'
+     + '<li>Học liệu pháp lí của lớp, phần liên quan trực tiếp tới hồ sơ này</li>'
+     + '<li>SGK Tin học 10, Bài 11 và phiếu học tập hai tiết đầu</li>'
+     + '<li>Điều khoản sử dụng của nền tảng hoặc tài nguyên được nhắc trong hồ sơ</li></ul>'
+     + '<p class="xs" style="color:var(--amber)">Kiểm tra văn bản còn hiệu lực ở thời điểm của tình huống trước khi trích. Hỏi giáo viên nếu không chắc.</p>';
+  h += '<h3 style="font-size:15px">Khối 6 · Sản phẩm đầu ra</h3><p class="sm">Bài trình chiếu 10 slide nội dung theo cấu trúc chung. '
+     + esc(t.output) + ' Hạn nộp: ' + esc(CONFIG.hanNop) + '.</p>';
+  h += '<div class="btns"><button class="btn btn2" onclick="closeTopic()">Đóng hồ sơ</button></div></div>';
+  document.getElementById('topic-detail').innerHTML = h;
+  document.getElementById('topic-open').scrollIntoView({behavior:'smooth', block:'start'});
+}
+function closeTopic(){ document.getElementById('topic-detail').innerHTML = ''; }
+
+/* ---- rubric ---- */
+var picked = [];
+function renderRubric(){
+  var h = '';
+  for (var i=0;i<RUBRIC.length;i++){
+    picked.push(null);
+    h += '<tr><td>' + esc(RUBRIC[i].name) + '</td><td>' + RUBRIC[i].w + '%</td>';
+    for (var j=0;j<4;j++)
+      h += '<td style="cursor:pointer" onclick="pickRubric(this,' + i + ',' + j + ')">'
+         + '<strong class="xs">' + LV_NAME[j] + '</strong><br><span class="xs">' + esc(RUBRIC[i].lv[j]) + '</span></td>';
+    h += '</tr>';
+  }
+  document.querySelector('#rubric tbody').innerHTML = h;
+}
+function pickRubric(cell, row, lv){
+  var cells = cell.parentElement.querySelectorAll('td');
+  for (var i=2;i<cells.length;i++){ cells[i].style.background = ''; cells[i].style.boxShadow = ''; }
+  cell.style.background = '#e4eef7';
+  cell.style.boxShadow = 'inset 0 0 0 2px #2b5f8c';
+  picked[row] = lv;
+  var done = true, total = 0;
+  for (var r=0;r<RUBRIC.length;r++){
+    if (picked[r] === null) done = false;
+    else total += RUBRIC[r].w * LV_RATE[picked[r]];
+  }
+  document.getElementById('score-out').textContent =
+    Math.round(total) + '/100' + (done ? '' : ' (chưa chọn đủ dòng)');
+}
+
+/* ---- checklist ---- */
+function renderChecks(){
+  var h = '';
+  for (var i=0;i<CHECKS.length;i++)
+    h += '<div class="chk"><input type="checkbox" id="c' + i + '" onchange="countChecks()">'
+       + '<label for="c' + i + '">' + esc(CHECKS[i]) + '</label></div>';
+  document.getElementById('checklist').innerHTML = h;
+}
+function countChecks(){
+  document.getElementById('chk-count').textContent =
+    document.querySelectorAll('#checklist input:checked').length;
+}
+
+/* ---- config ---- */
+function applyConfig(){
+  var t = document.querySelectorAll('[data-cfg]');
+  for (var i=0;i<t.length;i++) t[i].textContent = CONFIG[t[i].getAttribute('data-cfg')] || '';
+  var a = document.querySelectorAll('[data-cfg-href]');
+  for (var j=0;j<a.length;j++) a[j].href = CONFIG[a[j].getAttribute('data-cfg-href')] || '#';
+  var f = document.querySelectorAll('[data-cfg-src]');
+  for (var k=0;k<f.length;k++){
+    var u = CONFIG[f[k].getAttribute('data-cfg-src')] || '';
+    f[k].src = u ? u + (u.indexOf('?') > -1 ? '&' : '?') + 'embedded=true' : 'about:blank';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  loadState();
+  applyConfig();
+  buildNav();
+  qStart();
+  initRpgEvents();
+  updateRpgLoop();
+  renderTopics();
+  renderRubric();
+  renderChecks();
+});
+</script>
+</body>
+</html>
