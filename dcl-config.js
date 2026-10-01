@@ -7,7 +7,7 @@
 /* ---------- 1. Kết nối Google Sheets qua Apps Script ---------- */
 var DCL_API = {
   // Link lấy ở bước Triển khai > Ứng dụng web trong Apps Script
-  url:   "https://script.google.com/macros/s/DAN_MA_TRIEN_KHAI_VAO_DAY/exec",
+  url:   "https://script.google.com/macros/s/AKfycbzVbtAVhCip0oThZGxXrfSFJVBw8G7L7GOHxuGxApc0FgSeq94MStNVJtHBYiGfXziz/exec",
 
   // Phải trùng hệt biến TOKEN trong tệp Code.gs
   token: "DOI_CHUOI_NAY_THANH_CUA_BAN",
