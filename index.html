@@ -28,10 +28,16 @@ ul{margin:0 0 12px 20px}li{margin-bottom:6px}
 .sm{font-size:14px}.xs{font-size:12.5px}.sub{color:var(--sub)}.mt{margin-top:14px}
 .shell{max-width:1060px;margin:0 auto;padding:0 16px}
 
-.hero{background:var(--pri-d);color:#fff;padding:30px 0 0}
-.hero .eyebrow{font-size:11.5px;letter-spacing:.16em;font-weight:700;color:#9cc2e4}
-.hero h1{color:#fff;font-size:30px;margin:9px 0 10px}
-.hero p{color:#d3e4f2;max-width:730px;margin:0}
+.hero{background:var(--pri-d);color:#fff;padding:26px 0 0}
+.brand{display:flex;align-items:center;gap:18px}
+.brand img{width:76px;height:76px;flex-shrink:0;object-fit:contain;
+  background:#fff;border-radius:50%;padding:4px}
+.hero .school{font-size:12px;letter-spacing:.2em;font-weight:700;color:#9cc2e4;
+  text-transform:uppercase}
+.hero h1{color:#fff;font-size:42px;line-height:1.05;margin:6px 0 4px;
+  letter-spacing:-.015em;font-weight:700}
+.hero .tagline{font-size:13.5px;color:#b9d4ea;letter-spacing:.04em}
+.hero p{color:#d3e4f2;max-width:730px;margin:16px 0 0}
 .hero .facts{display:flex;gap:9px;flex-wrap:wrap;margin:16px 0 0;padding-bottom:20px}
 .hero .fact{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);
   border-radius:999px;padding:5px 13px;font-size:12.5px;color:#e4eff8}
@@ -291,8 +297,14 @@ tbody tr:nth-child(even) td{background:#fcfdfe}
 
 <header class="hero">
   <div class="shell">
-    <div class="eyebrow">TIN HỌC 10 · CHỦ ĐỀ D · BÀI 11</div>
-    <h1>Digital Citizen Lab — Trung tâm Công dân số</h1>
+    <div class="brand">
+      <img src="logo-hn1.png" alt="Logo Trường THPT Hồng Ngự 1">
+      <div>
+        <div class="school">Trường THPT Hồng Ngự 1</div>
+        <h1>Digital Citizen Lab</h1>
+        <div class="tagline">Tin học 10 · Chủ đề D</div>
+      </div>
+    </div>
     <p>Dự án học tập về nghĩa vụ tuân thủ pháp lí trong môi trường số. Năm nhóm nhận năm hồ sơ khác nhau và trả lời bằng căn cứ, không bằng cảm tính.</p>
     <div class="facts">
       <span class="fact">Tiếp nối 2 tiết lí thuyết</span>
@@ -524,10 +536,10 @@ tbody tr:nth-child(even) td{background:#fcfdfe}
     <div class="wrap"><table>
       <thead><tr><th style="width:170px">Thuộc tính</th><th>Quy định</th></tr></thead>
       <tbody>
-      <tr><td>Định dạng</td><td>Trình chiếu: PPTX hoặc PDF · Infographic: PNG hoặc PDF</td></tr>
-      <tr><td>Dung lượng</td><td>Trình chiếu 10 slide nội dung · infographic 1 trang</td></tr>
+      <tr><td>Trình chiếu</td><td>PPTX · 10 slide nội dung bắt buộc đúng thứ tự, được thêm tối đa 5 slide phụ; bìa và tài liệu tham khảo không tính</td></tr>
+      <tr><td>Infographic</td><td>800 × 2000 px · PNG hoặc PDF · không quá 10 MB</td></tr>
       <tr><td>Công cụ</td><td>Tự chọn: PowerPoint, Google Slides, Canva…</td></tr>
-      <tr><td>Đặt tên tệp</td><td>Nhom0X_TenDeTai_LoaiSanPham</td></tr>
+      <tr><td>Đặt tên tệp</td><td>Lop_NhomXX_BaiTrinhChieu.pptx và Lop_NhomXX_Infographic.pdf</td></tr>
       <tr><td>Nguồn</td><td>Mọi số liệu, hình ảnh, trích dẫn đều phải ghi nguồn</td></tr>
       <tr><td>Quyền riêng tư</td><td>Không dùng hội thoại, tên hoặc hình ảnh thật của bạn học</td></tr>
       <tr><td>Công cụ hành động</td><td>Bắt buộc có ít nhất một checklist, sơ đồ quyết định hoặc quy trình</td></tr>
@@ -556,10 +568,10 @@ tbody tr:nth-child(even) td{background:#fcfdfe}
       <tr><td>Tiết 1</td><td>Học những vấn đề đạo đức, pháp luật, văn hoá nảy sinh khi giao tiếp qua mạng</td><td>Phiếu học tập tiết 1</td></tr>
       <tr><td>Tiết 2</td><td>Học về bản quyền thông tin, sản phẩm số và nghĩa vụ khi sử dụng, chia sẻ</td><td>Phiếu học tập tiết 2</td></tr>
       <tr><td>Cuối tiết 2<br>hoặc ở nhà</td><td>Vào WebQuest, làm vòng ôn tập để mở khoá nhiệm vụ dự án</td><td>Đã mở khoá, đọc xong mục 3 và 4</td></tr>
-      <tr><td>Tiết 3</td><td>Nhận nhiệm vụ, lập nhóm, chọn đề tài, phân vai, gửi phiếu đăng kí</td><td>Phiếu đăng kí đã gửi · bảng phân vai</td></tr>
+      <tr><td>Tiết 3</td><td>Nhận nhiệm vụ, lập nhóm, <strong>bốc thăm đề tài</strong>, phân vai, gửi phiếu xác nhận</td><td>Phiếu đăng kí đã gửi · bảng phân vai</td></tr>
       <tr><td>Ngoài lớp<br>tuần 1</td><td>Điều tra hồ sơ đề tài, đối chiếu từng hành vi với quy định</td><td>Bảng đối chiếu · nhật kí nhóm tuần 1</td></tr>
       <tr><td>Ngoài lớp<br>tuần 2</td><td>Dựng hai sản phẩm, cho 2–3 bạn ngoài nhóm dùng thử infographic</td><td>Bản nháp · phiếu phản hồi chéo</td></tr>
-      <tr><td>Tiết 4</td><td>Báo cáo, phản biện, chấm chéo; cuối tiết tổng kết và làm phiếu vận dụng cá nhân</td><td>Sản phẩm đã nộp · phiếu cá nhân</td></tr>
+      <tr><td>Tiết 4</td><td>Báo cáo 10 phút + hỏi đáp 4 phút mỗi nhóm, chấm chéo bằng Rubric 3; cuối tiết tổng kết và làm phiếu vận dụng cá nhân</td><td>Sản phẩm đã nộp · phiếu chấm nhóm bạn · phiếu cá nhân</td></tr>
       </tbody>
     </table></div>
 
@@ -647,30 +659,90 @@ tbody tr:nth-child(even) td{background:#fcfdfe}
 <section class="page" id="p-eval">
   <div class="sec">
     <h2>Đánh giá</h2><div class="rule"></div>
-    <p class="sub sm">Toàn bộ tiêu chí công bố trước khi các em bắt đầu làm. Năm nhóm dùng chung một bộ rubric.</p>
+    <p class="sub sm">Toàn bộ tiêu chí công bố trước khi các em bắt đầu làm. Năm nhóm dùng chung một bộ rubric. Mọi tiêu chí chấm trên cùng thang bốn mức: <strong>Xuất sắc 100% · Tốt 75% · Đạt 50% · Chưa đạt 25%</strong> của điểm tối đa tiêu chí đó. Điểm tối đa các tiêu chí trong mỗi rubric cộng lại bằng 10.</p>
+    <p class="sm">Việc chấm thực hiện ở <strong>mục 10 — Bảng điều khiển chấm điểm</strong>: nhóm trưởng và thành viên đăng nhập bằng mã giáo viên phát, chấm Rubric 1 cho nhau và chấm Rubric 3 cho nhóm bạn; hệ thống tự tổng hợp điểm.</p>
+
+    <h3>Cơ cấu điểm</h3>
     <div class="wrap"><table>
-      <thead><tr><th style="width:210px">Thành phần</th><th style="width:80px">Tỉ trọng</th><th>Căn cứ chấm</th></tr></thead>
+      <thead><tr><th style="width:230px">Công cụ</th><th style="width:90px">Trọng số</th><th>Ai chấm</th></tr></thead>
       <tbody>
-      <tr><td>Quá trình làm việc</td><td>20%</td><td>Nhật kí dự án, phân công, tiến độ. Giáo viên chấm cùng phần tự đánh giá của nhóm.</td></tr>
-      <tr><td>Sản phẩm</td><td>50%</td><td>Bài trình chiếu và infographic, theo bảng rubric bên dưới.</td></tr>
-      <tr><td>Báo cáo và phản biện</td><td>30%</td><td>Phần trình bày và trả lời chất vấn. Giáo viên chấm cùng nhóm bạn.</td></tr>
+      <tr><td>Rubric 1 — Hoạt động nhóm</td><td>10%</td><td>Từng học sinh tự chấm và nhóm chấm chéo, giáo viên duyệt theo nhật kí dự án</td></tr>
+      <tr><td>Rubric 2 — Sản phẩm</td><td>60%</td><td>Giáo viên</td></tr>
+      <tr><td>Rubric 3 — Báo cáo và phản biện</td><td>30%</td><td>Giáo viên 70% + trung bình bốn nhóm bạn 30%</td></tr>
+      <tr><td>Bảng kiểm điều kiện nộp</td><td>—</td><td>Nhóm tự rà, giáo viên kiểm khi nhận bài. Là điều kiện nhận bài, không tính điểm</td></tr>
+      <tr><td>Phiếu vận dụng cá nhân</td><td>—</td><td>Giáo viên. Tính vào điểm thường xuyên, tách khỏi điểm dự án</td></tr>
+      </tbody>
+    </table></div>
+    <div class="card tint">
+      <p class="sm" style="margin:0"><strong>Điểm dự án của mỗi học sinh</strong> = 0,1 × Rubric 1 (cá nhân) + 0,6 × Rubric 2 (nhóm) + 0,3 × Rubric 3 (nhóm).<br>
+      Trong đó Rubric 3 của nhóm = 0,7 × điểm giáo viên + 0,3 × trung bình điểm bốn nhóm bạn.</p>
+    </div>
+    <p class="sm sub">Nhóm không nộp sản phẩm nhận 0 điểm ở Rubric 2 và Rubric 3. Đây là quy định ngoài thang, không phải mức Chưa đạt.</p>
+
+    <h3>Mỗi yêu cầu cần đạt được chấm ở đâu</h3>
+    <p class="sm sub">Minh chứng có vị trí cố định trong sản phẩm, nên nhóm biết trước phải đặt gì ở slide nào.</p>
+    <div class="wrap"><table>
+      <thead><tr><th style="width:46px">Mã</th><th>Minh chứng bắt buộc và vị trí</th><th style="width:150px">Chấm ở tiêu chí</th></tr></thead>
+      <tbody>
+      <tr><td><strong>Y1</strong></td><td>Slide 1: phát biểu vấn đề. Slide 2: danh sách hành vi, danh sách các bên liên quan, và hai mục tách riêng “góc độ đạo đức – văn hoá” / “góc độ pháp lí”</td><td>Rubric 2 · TC1</td></tr>
+      <tr><td><strong>Y2</strong></td><td>Slide 5: ví dụ nêu đủ tài nguyên – chủ thể quyền – hành vi – quyền bị ảnh hưởng, kèm diễn biến và hậu quả</td><td>Rubric 2 · TC2</td></tr>
+      <tr><td><strong>Y3</strong></td><td>Slide 3–4: mỗi quy định diễn đạt bằng lời của nhóm, ghi tên văn bản và điều khoản, kèm ví dụ</td><td>Rubric 2 · TC3</td></tr>
+      <tr><td><strong>Y4</strong></td><td>Slide 5: bảng hoặc sơ đồ phân biệt sáu mức — tạo ra / có bản sao / được xem / được dùng / được sửa / được chia sẻ, mỗi mức một ví dụ của nhóm</td><td>Rubric 2 · TC2</td></tr>
+      <tr><td><strong>Y5</strong></td><td>Slide 6: bảng lập luận bốn cột cho toàn bộ hành vi hồ sơ nêu. Slide 8: so sánh phương án và lựa chọn có căn cứ</td><td>Rubric 2 · TC4<br>bảo vệ ở Rubric 3</td></tr>
+      <tr><td><strong>Y6</strong></td><td>Slide 7: tác hại cụ thể trên bốn nhóm đối tượng, gắn dữ kiện của chính tình huống</td><td>Rubric 2 · TC5</td></tr>
+      <tr><td><strong>Y7</strong></td><td>Slide 9 và khối giữa infographic: quy trình hoặc checklist từ ba bước. Slide 10: kết quả thử nghiệm với người ngoài nhóm và điều chỉnh đã làm</td><td>Rubric 2 · TC5</td></tr>
       </tbody>
     </table></div>
 
-    <h3>Rubric sản phẩm — tự chấm thử</h3>
-    <p class="sm sub">Chọn một ô trên mỗi dòng. Thang quy đổi: Tốt 100% · Khá 75% · Đạt 50% · Chưa đạt 25% của tỉ trọng dòng đó. Điểm tự chấm chỉ để nhóm tự rà.</p>
-    <p><span class="pill">Điểm phần sản phẩm: <span id="score-out">chưa chọn</span></span></p>
+    <h3>Rubric 1 — Hoạt động nhóm (10%)</h3>
+    <p class="sm sub">Chấm từng học sinh. Minh chứng duy nhất là nhật kí dự án và lịch sử làm việc trên công cụ số: điều gì không ghi trong nhật kí thì không tính.</p>
+    <div class="wrap"><table>
+      <thead><tr><th style="width:175px">Tiêu chí</th><th style="width:58px">Điểm tối đa</th><th>Xuất sắc</th><th>Tốt</th><th>Đạt</th><th>Chưa đạt</th></tr></thead>
+      <tbody>
+      <tr><td>1. Hoàn thành khối lượng công việc được giao</td><td>4 đ</td><td>100% đầu việc, đúng hạn, bàn giao dùng được ngay</td><td>100% đầu việc, 1 việc trễ dưới 24 giờ, phải chỉnh sửa nhỏ</td><td>60–99% đầu việc, 2 việc trễ 1–3 ngày, cần người khác hỗ trợ</td><td>Dưới 60% đầu việc, có việc trễ quá 3 ngày hoặc không bàn giao</td></tr>
+      <tr><td>2. Tham gia hoạt động nhóm</td><td>3 đ</td><td>Có mặt 100% số buổi họp, phản hồi tin nhắn trong 24 giờ</td><td>Có mặt 80–99%, 1 lần phản hồi trễ</td><td>Có mặt 60–79%, 2–3 lần phản hồi trễ</td><td>Có mặt dưới 60%, từ 4 lần không phản hồi</td></tr>
+      <tr><td>3. Đóng góp xây dựng nhóm, có ghi nhận</td><td>3 đ</td><td>Từ 4 lượt ghi nhận, có ít nhất 1 lần nhận thêm việc</td><td>3 lượt ghi nhận, không nhận thêm việc</td><td>1–2 lượt ghi nhận, chỉ làm phần của mình</td><td>0 lượt ghi nhận</td></tr>
+      </tbody>
+    </table></div>
+    <p class="sm sub">Nộp sản phẩm sau 21h00 ngày trước buổi báo cáo thì mọi thành viên bị hạ một mức ở tiêu chí 1. Nộp đúng hạn là hành vi của quá trình, không phải chất lượng sản phẩm.</p>
+
+    <h3>Rubric 2 — Sản phẩm (60%) · tự chấm thử</h3>
+    <p class="sm sub">Chọn một ô trên mỗi dòng để xem nhóm đang ở đâu. Điểm tự chấm chỉ để rà, điểm chính thức do giáo viên chấm bằng chính bảng này.</p>
+    <p><span class="pill">Rubric 2 dự kiến: <span id="score-out">chưa chọn</span></span></p>
     <div class="wrap"><table id="rubric">
-      <thead><tr><th style="width:185px">Tiêu chí</th><th style="width:58px">Tỉ trọng</th><th>Tốt</th><th>Khá</th><th>Đạt</th><th>Chưa đạt</th></tr></thead>
+      <thead><tr><th style="width:190px">Tiêu chí</th><th style="width:58px">Điểm tối đa</th><th>Xuất sắc</th><th>Tốt</th><th>Đạt</th><th>Chưa đạt</th></tr></thead>
       <tbody></tbody>
     </table></div>
+    <div class="card warm">
+      <div class="kicker a">Quy tắc chặn ở tiêu chí 4</div>
+      <p class="sm" style="margin:0">Nếu kết luận sai từ một nửa số hành vi trở lên, tiêu chí 4 không được quá mức Đạt, dù đếm chỉ báo ra mức cao hơn. Bảng đúng hình thức không bù được kết luận pháp lí sai.</p>
+    </div>
 
-    <h3>Các công cụ đánh giá khác</h3>
-    <div class="cols">
-      <div class="card"><h4>Rubric A — quá trình</h4><p class="sm sub" style="margin:0">Nhật kí dự án, phân công và tiến độ.</p></div>
-      <div class="card"><h4>Rubric C — báo cáo</h4><p class="sm sub" style="margin:0">Trình bày rõ, trả lời được chất vấn bằng căn cứ.</p></div>
-      <div class="card"><h4>Phiếu đồng đẳng</h4><p class="sm sub" style="margin:0">Mỗi bạn đánh giá đóng góp của các thành viên; thành hệ số điều chỉnh điểm cá nhân.</p></div>
-      <div class="card"><h4>Phiếu vận dụng cá nhân</h4><p class="sm sub" style="margin:0">Làm cuối tiết 4, kiểm phần kiến thức em không trực tiếp phụ trách.</p></div>
+    <h3>Rubric 3 — Báo cáo và phản biện (30%)</h3>
+    <p class="sm sub">Chấm trong tiết 4. Giáo viên 70%, trung bình bốn nhóm bạn 30%. Rubric này đo cách nhóm bảo vệ lập luận, không chấm lại nội dung Y1–Y7.</p>
+    <div class="wrap"><table>
+      <thead><tr><th style="width:165px">Tiêu chí</th><th style="width:58px">Điểm tối đa</th><th>Chỉ báo mức Xuất sắc. Mức Tốt, Đạt, Chưa đạt hạ dần theo cùng bộ dấu hiệu, xem bản rubric đầy đủ</th></tr></thead>
+      <tbody>
+      <tr><td>1. Nội dung báo cáo</td><td>3,5 đ</td><td>(1) Trình bày đủ năm chặng: tình huống, hành vi và các bên, căn cứ pháp lí, kết luận về tính hợp pháp, giải pháp; (2) trình bày bảng lập luận và giải thích trực tiếp ít nhất một hành vi, không đọc chữ trên slide; (3) giới thiệu infographic kèm ít nhất một ví dụ về cách dùng; (4) không có thông tin pháp luật sai đến mức giáo viên phải đính chính</td></tr>
+      <tr><td>2. Phong cách thuyết trình và thời gian</td><td>2,5 đ</td><td>(1) Trình bày 10 phút, lệch không quá 1 phút; (2) từ 80% thời lượng trở lên không đọc nguyên văn kịch bản hoặc slide; (3) cả lớp nghe rõ, không quá một lần phải yêu cầu nhắc lại; (4) có từ hai lần tương tác với người nghe</td></tr>
+      <tr><td>3. Trả lời chất vấn và phản biện</td><td>3 đ</td><td>(1) Trả lời 100% số câu hỏi, tối thiểu ba câu gồm hai câu từ nhóm bạn và một câu từ giáo viên; (2) từ 80% câu trả lời nêu được căn cứ là điều khoản hoặc dữ kiện hồ sơ; (3) không có câu trả lời sai căn cứ đến mức giáo viên phải đính chính; (4) nêu được ít nhất một điểm nhóm sẽ điều chỉnh sau phản biện</td></tr>
+      <tr><td>4. Phối hợp đồng đội khi báo cáo</td><td>1 đ</td><td>Ba chỉ báo, Khá 2/3 · Đạt 1/3 · Chưa đạt 0/3: (1) 100% thành viên trực tiếp trình bày hoặc trả lời ít nhất một nội dung; (2) chuyển phần giữa các thành viên không gián đoạn quá 10 giây; (3) khi một thành viên lúng túng, có bạn khác hỗ trợ ngay</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Bảng kiểm minh chứng Y1–Y7</h3>
+    <p class="sm sub">Bản dịch của Rubric 2 sang ngôn ngữ nhóm. Rà bảng này trước khi nộp là cách nhanh nhất để không mất điểm oan.</p>
+    <div class="card">
+      <ul class="sm" style="margin-bottom:0">
+        <li><strong>Y1</strong> — Slide 2 có hai mục tách riêng góc độ đạo đức – văn hoá và góc độ pháp lí; đã liệt kê đủ hành vi và đủ bốn nhóm chủ thể.</li>
+        <li><strong>Y2</strong> — Slide 5 nêu ví dụ đủ bốn yếu tố: tài nguyên, chủ thể quyền, hành vi, quyền bị ảnh hưởng; có diễn biến và từ hai hậu quả.</li>
+        <li><strong>Y3</strong> — Slide 3–4 không có đoạn nào chép nguyên văn quá 25 từ; mỗi quy định có ví dụ và ghi điều, khoản.</li>
+        <li><strong>Y4</strong> — Slide 5 có bảng phân biệt đủ sáu mức: tạo ra, có bản sao, được xem, được dùng, được sửa, được chia sẻ; mỗi mức một ví dụ của nhóm.</li>
+        <li><strong>Y5</strong> — Slide 6 có bảng đủ bốn cột và phân tích hết số hành vi hồ sơ nêu; có ít nhất một chỗ chỉ ra dữ kiện còn thiếu.</li>
+        <li><strong>Y6</strong> — Slide 7 nêu tác hại trên đủ bốn nhóm đối tượng, mỗi tác hại gắn dữ kiện của tình huống nhóm.</li>
+        <li><strong>Y7</strong> — Infographic có checklist từ ba bước kèm ví dụ áp dụng; slide 10 ghi phản hồi của hai người dùng thử và điều chỉnh đã làm.</li>
+        <li><strong>Hình thức</strong> — 100% tài nguyên đã ghi nguồn và điều kiện sử dụng; thông tin cốt lõi giữa hai sản phẩm trùng khớp.</li>
+      </ul>
     </div>
     <p class="sm mt"><a target="_blank" rel="noopener" data-cfg-href="rubricPdf">Tải bộ rubric đầy đủ (PDF)</a></p>
   </div>
@@ -688,12 +760,14 @@ tbody tr:nth-child(even) td{background:#fcfdfe}
       </div>
       <div class="card">
         <h4>Quy định đặt tên tệp</h4>
-        <p style="font-family:'JetBrains Mono',monospace;background:var(--tint2);border:1px solid var(--line);border-radius:6px;padding:10px 12px;font-size:13.5px;margin:0">Nhom0X_TenDeTai_LoaiSanPham</p>
-        <p class="xs sub" style="margin:8px 0 0">Ví dụ: Nhom02_AnhLopLenMang_TrinhChieu</p>
+        <p style="font-family:'JetBrains Mono',monospace;background:var(--tint2);border:1px solid var(--line);border-radius:6px;padding:10px 12px;font-size:13.5px;margin:0">Lop_NhomXX_BaiTrinhChieu.pptx<br>Lop_NhomXX_Infographic.pdf</p>
+        <p class="xs sub" style="margin:8px 0 0">Ví dụ: 10A3_Nhom02_BaiTrinhChieu.pptx</p>
       </div>
     </div>
+    <p class="sm sub">Nộp sau 21h00 ngày trước buổi báo cáo thì mọi thành viên bị hạ một mức ở tiêu chí 1 của Rubric 1.</p>
 
-    <h3>Rà lại trước khi gửi <span class="pill" style="margin-left:6px">đã rà <span id="chk-count">0</span>/6</span></h3>
+    <h3>Bảng kiểm điều kiện nộp <span class="pill" style="margin-left:6px">đã rà <span id="chk-count">0</span>/5</span></h3>
+    <p class="sm sub">Thiếu bất kì mục nào, nhóm được trả lại để sửa trong 24 giờ. Quá hạn thì tiêu chí 6 của Rubric 2 bị tính theo hiện trạng.</p>
     <div class="card"><div id="checklist"></div></div>
 
     <h3>Phiếu nộp bài</h3>
@@ -709,26 +783,23 @@ tbody tr:nth-child(even) td{background:#fcfdfe}
 <!-- 9. KẾT LUẬN -->
 <section class="page" id="p-end">
   <div class="sec">
-    <h2>Kết luận</h2><div class="rule"></div>
-    <p>Hết dự án, năm nhóm có năm bộ hướng dẫn khác nhau nhưng cùng trả lời một câu hỏi: trước khi chia sẻ, đăng, dùng lại hay cài đặt một thứ gì đó, em đã kiểm tra những gì?</p>
+    <h2>Trưng bày sản phẩm</h2><div class="rule"></div>
+    <p>Sản phẩm của các nhóm đã nộp, lấy trực tiếp từ phiếu nộp bài. Mỗi thẻ là một nhóm, bấm vào để mở bài trình chiếu hoặc infographic.</p>
 
-    <div class="card tint">
-      <div class="kicker">Điều mang về sau dự án</div>
-      <ul class="sm" style="margin-bottom:0">
-        <li>Phân biệt được nhận xét đạo đức với nhận định có căn cứ pháp lí.</li>
-        <li>Biết “có trên Internet” không đồng nghĩa với “được phép dùng”.</li>
-        <li>Có một quy trình kiểm tra của riêng mình, dùng được cho tình huống mới.</li>
-      </ul>
+    <div class="card warm">
+      <p class="sm" style="margin:0"><strong>Trước khi xem.</strong> Sản phẩm ở đây là bài của bạn mình, không phải tài liệu công khai. Không tải về đăng lại nơi khác, không cắt ghép hình của nhóm bạn khi chưa hỏi. Đây chính là điều mà cả dự án đang nói tới.</p>
     </div>
 
-    <h3>Khu trưng bày sản phẩm</h3>
-    <p class="sm">Sản phẩm của năm nhóm sau khi chấm: <a target="_blank" rel="noopener" data-cfg-href="khuTrungBay">xem tại đây</a>. Chỉ đăng sau khi đã rà quyền riêng tư và nguồn tài nguyên.</p>
+    <div id="gallery-controls"></div>
+    <div id="gallery">
+      <p class="sm sub">Danh sách sẽ hiện ở đây sau khi giáo viên nối WebQuest với bảng dữ liệu.</p>
+    </div>
 
-    <h3>Câu hỏi phản tư</h3>
+    <h3>Câu hỏi phản tư sau khi xem</h3>
     <ul class="sm">
-      <li>Lập luận nào của nhóm em thay đổi sau khi đọc hồ sơ kĩ hơn?</li>
-      <li>Chỗ nào nhóm phải dừng lại vì thiếu dữ kiện, và cần xác minh điều gì?</li>
-      <li>Hướng dẫn của nhóm có khiến bạn thử nghiệm làm khác đi không? Khác ở đâu?</li>
+      <li>Nhóm bạn kết luận khác nhóm em ở chỗ nào, và vì sao họ kết luận như vậy?</li>
+      <li>Checklist của nhóm nào em sẽ thực sự dùng? Thiếu bước nào so với cách em vẫn làm?</li>
+      <li>Lập luận nào của nhóm em thay đổi sau khi nghe bốn nhóm còn lại?</li>
     </ul>
   </div>
 </section>
@@ -798,7 +869,7 @@ var TABS = [
   ["res","6. Tài nguyên", true],
   ["eval","7. Đánh giá", true],
   ["submit","8. Nộp bài", true],
-  ["end","9. Kết luận", true]
+  ["end","9. Trưng bày", true]
 ];
 
 var QUIZ = [
@@ -1025,29 +1096,34 @@ var TOPICS = [
 ];
 
 var RUBRIC = [
-  { name:"Nhận diện vấn đề, hành vi và các bên liên quan", w:10,
-    lv:["Tình huống và vấn đề trung tâm nêu rõ, đủ các bên","Nêu được vấn đề, còn sót một bên liên quan","Nêu chung chung, chưa tách được các bên","Chưa nhận diện được vấn đề"] },
-  { name:"Phân tích ví dụ bản quyền, sở hữu, sử dụng và trao đổi thông tin", w:20,
-    lv:["Một ví dụ cụ thể phân tích đến cùng: tài nguyên, chủ thể quyền, hành vi, hậu quả","Có ví dụ nhưng thiếu một thành phần","Chỉ mô tả, chưa phân tích quyền","Không có ví dụ bản quyền"] },
-  { name:"Trình bày, giải thích nội dung pháp lí và ví dụ", w:15,
-    lv:["Giải thích bằng lời nhóm, có ví dụ minh hoạ","Giải thích được nhưng ví dụ còn mờ","Chủ yếu liệt kê tên văn bản","Không có phần pháp lí"] },
-  { name:"Vận dụng quy định để xác định tính hợp pháp", w:25,
-    lv:["Bảng đối chiếu đủ 5 cột, kết luận có căn cứ cho từng hành vi","Có bảng, một vài kết luận còn treo","Bảng sơ sài, phần lớn dừng ở “cần tìm hiểu thêm”","Không có bảng đối chiếu"] },
-  { name:"Phân tích tác hại; đề xuất biện pháp an toàn, hợp pháp", w:20,
-    lv:["Hậu quả cụ thể theo từng bên; quy trình người khác dùng lại được","Có hậu quả và quy trình nhưng còn chung","Chỉ khuyên chung chung","Không có đề xuất"] },
-  { name:"Truyền đạt rõ ràng, nhất quán giữa trình chiếu và infographic", w:10,
-    lv:["Hai sản phẩm khớp nhau, trình bày rõ, ghi nguồn đủ","Rõ ràng, còn vài chỗ lệch","Khó theo dõi hoặc thiếu nguồn","Rời rạc, không ghi nguồn"] }
+  { name:"1. Nhận diện vấn đề, hành vi và các bên liên quan (Y1 · slide 1–2)", w:10,
+    lv:["Đạt 4/4 chỉ báo: (1) có một câu phát biểu vấn đề cốt lõi; (2) liệt kê đủ số hành vi hồ sơ nêu; (3) đủ bốn nhóm chủ thể — người thực hiện, người bị ảnh hưởng, chủ thể quyền, bên trung gian hoặc cộng đồng; (4) tách riêng hai mục: nhận xét đạo đức – văn hoá và nhận định pháp lí",
+        "Đạt 3/4 chỉ báo","Đạt 2/4 chỉ báo","Đạt 0–1/4 chỉ báo"] },
+  { name:"2. Ví dụ vi phạm bản quyền và khía cạnh pháp lí của thông tin số (Y2, Y4 · slide 5)", w:20,
+    lv:["Đạt 6/6 chỉ báo: (1) ví dụ đủ bốn yếu tố — tài nguyên, chủ thể quyền, hành vi, quyền bị ảnh hưởng; (2) mô tả diễn biến vi phạm theo trình tự; (3) nêu từ hai hậu quả cụ thể; (4) có bảng hoặc sơ đồ phân biệt đủ sáu mức: tạo ra, có bản sao, được xem, được dùng, được sửa, được chia sẻ; (5) mỗi mức có ít nhất một ví dụ gắn đề tài nhóm; (6) 100% tài nguyên nhóm dùng đều ghi nguồn kèm điều kiện sử dụng",
+        "Đạt 4–5/6 chỉ báo","Đạt 2–3/6 chỉ báo","Đạt 0–1/6 chỉ báo"] },
+  { name:"3. Trình bày và giải thích nội dung pháp luật (Y3 · slide 3–4)", w:15,
+    lv:["Đạt 4/4 chỉ báo: (1) nêu đúng tên và phạm vi điều chỉnh của ít nhất hai văn bản liên quan; (2) không có đoạn nào chép nguyên văn quá 25 từ; (3) mỗi quy định được dẫn đều kèm ít nhất một ví dụ; (4) 100% quy định có ghi tên văn bản và số điều, khoản",
+        "Đạt 3/4 chỉ báo","Đạt 2/4 chỉ báo","Đạt 0–1/4 chỉ báo"] },
+  { name:"4. Vận dụng quy định để xác định tính hợp pháp (Y5 · slide 6 và 8)", w:25,
+    lv:["Đạt 5/5 chỉ báo: (1) bảng lập luận đủ bốn cột — hành vi và dữ kiện / quy định áp dụng / đối chiếu dữ kiện với quy định / kết luận; (2) phân tích đủ 100% số hành vi hồ sơ yêu cầu, tối thiểu ba hành vi; (3) mỗi hành vi đối chiếu đúng văn bản và đúng điều, khoản; (4) kết luận hợp pháp hay không đúng cho 100% số hành vi; (5) có ít nhất một trường hợp chỉ ra dữ kiện còn thiếu và điều cần xác minh",
+        "Đạt 4/5 chỉ báo","Đạt 3/5 chỉ báo, hoặc bị quy tắc chặn vì kết luận sai từ một nửa số hành vi trở lên","Đạt 0–2/5 chỉ báo"] },
+  { name:"5. Tác hại của chia sẻ bất cẩn và biện pháp an toàn (Y6, Y7 · slide 7, 9, 10 và infographic)", w:20,
+    lv:["Đạt 5/5 chỉ báo: (1) nêu tác hại cụ thể trên đủ bốn nhóm đối tượng — người đăng hoặc chia sẻ, người nhận, chủ thể quyền, cộng đồng và nhà trường; (2) mỗi tác hại gắn dữ kiện của chính tình huống nhóm; (3) infographic có quy trình hoặc checklist từ ba bước, mỗi bước là một hành động kiểm tra được; (4) checklist có ít nhất một câu hỏi rẽ nhánh hoặc một ví dụ áp dụng; (5) có minh chứng thử nghiệm với ít nhất hai người ngoài nhóm, ghi phản hồi và điều chỉnh",
+        "Đạt 4/5 chỉ báo","Đạt 3/5 chỉ báo","Đạt 0–2/5 chỉ báo"] },
+  { name:"6. Truyền đạt và tính nhất quán (cả hai sản phẩm)", w:10,
+    lv:["Đạt 5/5 chỉ báo: (1) đúng quy cách nộp — tên tệp đúng cú pháp, infographic 800 × 2000 px PNG hoặc PDF, trình chiếu đủ 10 slide nội dung đúng thứ tự; (2) toàn bộ hai sản phẩm không quá hai lỗi chính tả hoặc định dạng; (3) thông tin cốt lõi trùng khớp giữa trình chiếu và infographic; (4) infographic đủ bảy khối theo mạch quy định; (5) mỗi slide không quá 80 chữ, cỡ chữ từ 20pt, infographic dùng từ ba yếu tố trực quan trở lên",
+        "Đạt 4/5 chỉ báo","Đạt 3/5 chỉ báo","Đạt 0–2/5 chỉ báo"] }
 ];
-var LV_NAME = ["Tốt","Khá","Đạt","Chưa đạt"];
-var LV_RATE = [1, 0.75, 0.5, 0.25];
+var LV_NAME = ["Xuất sắc","Tốt","Đạt","Chưa đạt"];
+var LV_RATE = [10, 7.5, 5, 2.5];
 
 var CHECKS = [
-  "Đủ 10 slide nội dung, có slide bìa và tài liệu tham khảo",
-  "Slide 6 có bảng đối chiếu hành vi với quy định, có kết luận",
-  "Infographic có ít nhất một checklist, sơ đồ hoặc quy trình",
-  "Mọi hình ảnh và số liệu đều ghi nguồn",
-  "Không dùng tên, hình ảnh hoặc hội thoại thật của bạn học",
-  "Đã cho 2–3 bạn ngoài nhóm dùng thử và ghi lại phản hồi"
+  "Tên tệp đúng cú pháp Lop_NhomXX_BaiTrinhChieu.pptx và Lop_NhomXX_Infographic.pdf",
+  "Trình chiếu đủ 10 slide nội dung đúng thứ tự, không kể bìa và tài liệu tham khảo",
+  "Infographic đúng 800 × 2000 px, định dạng PNG hoặc PDF, không quá 10 MB",
+  "Đã nộp qua Form trên WebQuest trước 21h00 ngày trước buổi báo cáo",
+  "Đã chạy thử trình chiếu trên máy của trường, không lỗi phông chữ và hình ảnh"
 ];
 
 /* ===== TRẠNG THÁI & ĐIỀU HƯỚNG ===== */
@@ -2037,7 +2113,8 @@ function renderRubric(){
   picked = [];
   for (var i=0;i<RUBRIC.length;i++){
     picked.push(null);
-    h += '<tr><td>' + esc(RUBRIC[i].name) + '</td><td>' + RUBRIC[i].w + '%</td>';
+    h += '<tr><td>' + esc(RUBRIC[i].name) + '</td><td>'
+       + String(RUBRIC[i].w / 10).replace('.', ',') + ' đ</td>';
     for (var j=0;j<4;j++)
       h += '<td style="cursor:pointer" onclick="pickRubric(this,' + i + ',' + j + ')">'
          + '<strong class="xs">' + LV_NAME[j] + '</strong><br><span class="xs">' + esc(RUBRIC[i].lv[j]) + '</span></td>';
@@ -2054,10 +2131,10 @@ function pickRubric(cell, row, lv){
   var done = true, total = 0;
   for (var r=0;r<RUBRIC.length;r++){
     if (picked[r] === null) done = false;
-    else total += RUBRIC[r].w * LV_RATE[picked[r]];
+    else total += RUBRIC[r].w * LV_RATE[picked[r]] / 100;
   }
   document.getElementById('score-out').textContent =
-    Math.round(total) + '/100' + (done ? '' : ' (chưa chọn đủ dòng)');
+    total.toFixed(2).replace('.', ',') + '/10' + (done ? '' : ' (chưa chọn đủ dòng)');
 }
 
 function renderChecks(){
@@ -2099,6 +2176,8 @@ document.addEventListener('DOMContentLoaded', function(){
 
 <!-- Nối với Google Sheets. Xoá hai dòng này nếu muốn chạy độc lập. -->
 <script src="dcl-config.js"></script>
+<script src="dcl-rubrics.js"></script>
 <script src="dcl-api.js"></script>
+<script src="dcl-admin.js"></script>
 </body>
 </html>
