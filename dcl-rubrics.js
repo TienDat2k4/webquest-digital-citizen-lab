@@ -6,7 +6,7 @@
    Thang chung: Xuất sắc 100% · Tốt 75% · Đạt 50% · Chưa đạt 25%
    của điểm tối đa tiêu chí. Tổng điểm tối đa mỗi rubric = 10.
    ===================================================================== */
-
+ 
 var DCL_MUC      = ["Xuất sắc", "Tốt", "Đạt", "Chưa đạt"];
 var DCL_HE_SO    = [1, 0.75, 0.5, 0.25];
 
