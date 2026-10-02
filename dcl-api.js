@@ -6,7 +6,7 @@
      1. Ô điểm danh Họ tên + Lớp ở mục 2, tra sổ để mở khoá theo tên.
      2. Gửi điểm mỗi lượt chơi về Google Sheets.
      3. Nhúng hai biểu mẫu Google thật ở mục 5 và mục 8.
-     4. Bảng đề tài đã có nhóm nhận, lọc theo lớp.
+     4. Bảng đề tài đã có nhóm nhận, lọc theo lớp. 
      5. Trang Trưng bày đọc trực tiếp từ phiếu nộp bài.
    ===================================================================== */
 
