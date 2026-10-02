@@ -2,7 +2,7 @@
    DIGITAL CITIZEN LAB — BẢNG ĐIỀU KHIỂN CHẤM ĐIỂM
    Nạp sau dcl-rubrics.js và dcl-api.js.
 
-   Tệp này tự thêm mục "10. Chấm điểm" vào thanh điều hướng và dựng
+   Tệp này tự thêm mục "10. Chấm điểm" vào thanh điều hướng và dựng 
    giao diện theo vai mà máy chủ trả về. Trình duyệt không tự quyết
    định vai: mọi thao tác ghi đều kèm mã phiên và được máy chủ kiểm lại.
    ===================================================================== */
