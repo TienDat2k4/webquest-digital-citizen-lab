@@ -1,56 +1,72 @@
 /* =====================================================================
    DIGITAL CITIZEN LAB — LỚP NỐI VỚI GOOGLE SHEETS
-   Nạp sau dcl-config.js. Không sửa tệp này trừ khi đổi logic.
+   Nạp sau dcl-config.js.
 
-   Tệp này tự chèn thêm giao diện vào trang, không đụng tới phần game:
+   Tệp này tự chèn thêm vào trang, không đụng tới phần game:
      1. Ô điểm danh Họ tên + Lớp ở mục 2, tra sổ để mở khoá theo tên.
      2. Gửi điểm mỗi lượt chơi về Google Sheets.
-     3. Form đăng kí tự thiết kế, tự khoá đề tài đã có nhóm trong lớp.
-     4. Form nộp bài tự thiết kế.
-     5. Nút gửi kết quả nhóm tự chấm rubric.
+     3. Nhúng hai biểu mẫu Google thật ở mục 5 và mục 8.
+     4. Bảng đề tài đã có nhóm nhận, lọc theo lớp.
+     5. Trang Trưng bày đọc trực tiếp từ phiếu nộp bài.
    ===================================================================== */
 
 (function () {
   var css = document.createElement('style');
   css.textContent =
-    '.dcl-panel{border:1px solid var(--line);border-left:4px solid var(--navy-l);' +
-    'border-radius:4px;padding:14px 16px;margin-bottom:16px;background:#fff}' +
+    '.dcl-panel{border:1px solid var(--line);border-radius:10px;padding:16px 18px;' +
+    'margin-bottom:16px;background:#fff;box-shadow:0 1px 2px rgba(23,33,43,.04)}' +
     '.dcl-row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:10px}' +
-    '.dcl-f{display:flex;flex-direction:column;gap:4px;flex:1 1 180px;min-width:150px}' +
+    '.dcl-f{display:flex;flex-direction:column;gap:4px;flex:1 1 190px;min-width:155px}' +
     '.dcl-f label{font-size:12.5px;font-weight:600;color:var(--sub)}' +
-    '.dcl-f input,.dcl-f select,.dcl-f textarea{border:1px solid #8c8f94;border-radius:4px;' +
-    'padding:8px 10px;font:inherit;font-size:14px;background:#fff;color:var(--ink);width:100%}' +
-    '.dcl-f textarea{min-height:68px;resize:vertical}' +
-    '.dcl-msg{font-size:13px;font-weight:600;margin-top:8px;display:none;padding:9px 12px;border-radius:4px}' +
+    '.dcl-f input,.dcl-f select{border:1px solid var(--line2);border-radius:6px;' +
+    'padding:9px 11px;font:inherit;font-size:14px;background:#fff;color:var(--ink);width:100%;min-height:42px}' +
+    '.dcl-msg{font-size:13px;font-weight:600;margin-top:10px;display:none;padding:10px 13px;border-radius:7px}' +
     '.dcl-msg.show{display:block}' +
-    '.dcl-msg.ok{background:var(--okbg);color:var(--ok);border:1px solid #a7dcb2}' +
-    '.dcl-msg.no{background:var(--nobg);color:var(--no);border:1px solid #f0b3b4}' +
-    '.dcl-msg.wait{background:var(--tint2);color:var(--sub);border:1px solid var(--line)}' +
-    '.dcl-who{font-size:12.5px;color:var(--sub);margin-top:6px}' +
-    '.dcl-req{color:#b32d2e}';
+    '.dcl-msg.ok{background:var(--okbg);color:var(--ok);border:1px solid #b4ddc3}' +
+    '.dcl-msg.no{background:var(--nobg);color:var(--no);border:1px solid #efc3bf}' +
+    '.dcl-msg.wait{background:var(--tint);color:var(--pri-d);border:1px solid #c9dcef}' +
+    '.dcl-form-frame{border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:12px}' +
+    '.dcl-form-frame iframe{display:block;width:100%;border:0;background:#fff}' +
+    '.dcl-slot{display:flex;justify-content:space-between;align-items:center;gap:10px;' +
+    'flex-wrap:wrap;border:1px solid var(--line);border-radius:8px;padding:10px 13px;margin-bottom:8px}' +
+    '.dcl-slot.taken{background:var(--tint2);color:var(--sub)}' +
+    '.dcl-tag{font-size:11.5px;font-weight:700;border-radius:999px;padding:3px 10px;' +
+    'background:var(--okbg);color:var(--ok);border:1px solid #b4ddc3}' +
+    '.dcl-tag.no{background:#f1f3f6;color:var(--sub);border-color:var(--line2)}' +
+    '.dcl-card{border:1px solid var(--line);border-radius:10px;padding:15px 17px;' +
+    'margin-bottom:12px;background:#fff;box-shadow:0 1px 2px rgba(23,33,43,.04)}' +
+    '.dcl-card h4{font-size:16.5px;margin-bottom:3px}';
   document.head.appendChild(css);
 })();
 
 /* ---------- Gọi API ---------- */
 function dclSan() {
-  return typeof DCL_API !== 'undefined' && DCL_API.url && DCL_API.url.indexOf('http') === 0
+  return typeof DCL_API !== 'undefined' && DCL_API.url
+    && DCL_API.url.indexOf('http') === 0
     && DCL_API.url.indexOf('DAN_MA_TRIEN_KHAI') === -1;
 }
-
 function dclGoi(action, data) {
   if (!dclSan()) return Promise.reject(new Error('Chưa cấu hình DCL_API.url'));
   // Body là chuỗi thuần, KHÔNG đặt Content-Type: application/json.
-  // Apps Script không xử lí được preflight CORS; đặt header JSON sẽ làm request hỏng.
+  // Apps Script không xử lí được preflight CORS; đặt header JSON sẽ làm hỏng request.
   return fetch(DCL_API.url, {
     method: 'POST',
     body: JSON.stringify({ action: action, token: DCL_API.token, data: data || {} })
   }).then(function (r) { return r.json(); });
 }
-
 function dclBao(el, loai, text) {
   if (!el) return;
   el.className = 'dcl-msg show ' + loai;
   el.textContent = text;
+}
+function dclEsc(s) {
+  return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+    return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c];
+  });
+}
+function dclFormSrc(url) {
+  if (!url || url.indexOf('http') !== 0) return '';
+  return url + (url.indexOf('?') > -1 ? '&' : '?') + 'embedded=true';
 }
 
 /* ---------- Danh tính học sinh ---------- */
@@ -64,10 +80,9 @@ function dclDocMe() {
     if (raw) DCL_ME = JSON.parse(raw);
   } catch (e) {}
 }
-
-function dclDungLopSelect(sel, chon) {
+function dclLopSelect(sel, chon, nhanTatCa) {
   if (!sel) return;
-  var h = '<option value="">— Chọn lớp —</option>';
+  var h = '<option value="">' + (nhanTatCa || '— Chọn lớp —') + '</option>';
   for (var i = 0; i < DCL_API.lop.length; i++) {
     var l = DCL_API.lop[i];
     h += '<option value="' + l + '"' + (l === chon ? ' selected' : '') + '>' + l + '</option>';
@@ -75,13 +90,13 @@ function dclDungLopSelect(sel, chon) {
   sel.innerHTML = h;
 }
 
-function dclThemBangDanhTinh() {
+function dclBangDanhTinh() {
   var sec = document.querySelector('#p-ontap .sec');
   if (!sec) return;
   var box = document.createElement('div');
   box.className = 'dcl-panel';
   box.innerHTML =
-    '<div class="kicker">BƯỚC 1 · ĐIỂM DANH TRƯỚC KHI VÀO PHÒNG LAB</div>' +
+    '<div class="kicker">Bước 1 · điểm danh trước khi vào phòng Lab</div>' +
     '<p class="sm sub" style="margin-bottom:10px">Nhập đúng họ tên và lớp. Điểm của em được ghi vào sổ của giáo viên. ' +
     'Nếu em đã đạt từ buổi trước, hệ thống tự mở khoá dù em đang dùng máy khác.</p>' +
     '<div class="dcl-row">' +
@@ -98,7 +113,7 @@ function dclThemBangDanhTinh() {
   if (gate && gate.nextSibling) sec.insertBefore(box, gate.nextSibling);
   else sec.insertBefore(box, sec.firstChild);
 
-  dclDungLopSelect(document.getElementById('dcl-lop'), DCL_ME.lop);
+  dclLopSelect(document.getElementById('dcl-lop'), DCL_ME.lop);
   document.getElementById('dcl-hoten').value = DCL_ME.hoTen || '';
 }
 
@@ -110,16 +125,15 @@ function dclVaoLab() {
 
   DCL_ME.hoTen = ten; DCL_ME.lop = lop; dclLuuMe();
 
-  var oDangKy = document.getElementById('dk-lop');
-  if (oDangKy) { oDangKy.value = lop; if (typeof dclTaiDeTai === 'function') dclTaiDeTai(); }
-  var oNop = document.getElementById('np-lop');
-  if (oNop) oNop.value = lop;
+  var oDK = document.getElementById('dk-lop');
+  if (oDK) { oDK.value = lop; dclTaiDeTai(); }
+  var oTB = document.getElementById('tb-lop');
+  if (oTB) { oTB.value = lop; dclTaiTrungBay(); }
 
   if (!dclSan()) {
     dclBao(msg, 'wait', 'Đã ghi nhận trên máy này. Chưa bật kết nối Google Sheets nên điểm không gửi về sổ.');
     return;
   }
-
   dclBao(msg, 'wait', 'Đang tra cứu sổ điểm…');
   dclGoi('kiemTraMo', { hoTen: ten, lop: lop }).then(function (r) {
     if (!r.ok) { dclBao(msg, 'no', 'Lỗi: ' + (r.loi || 'không tra cứu được')); return; }
@@ -127,8 +141,7 @@ function dclVaoLab() {
       window.unlocked = true;
       if (typeof saveState === 'function') saveState();
       if (typeof buildNav === 'function') buildNav();
-      var gate = document.getElementById('gate');
-      if (gate) gate.classList.remove('show');
+      var g = document.getElementById('gate'); if (g) g.classList.remove('show');
       dclBao(msg, 'ok', 'Chào ' + ten + '. Em đã đạt ' + r.diemCao + '/10 ở lần trước nên toàn bộ nhiệm vụ đã mở. Vẫn chơi lại được để cải thiện điểm.');
       if (typeof pendingTab !== 'undefined' && pendingTab) {
         var dest = pendingTab; window.pendingTab = null; go(dest);
@@ -153,244 +166,155 @@ function dclBocQNext() {
     if (!cuoi || !dclSan()) return;
     if (!DCL_ME.hoTen || !DCL_ME.lop) return;
     dclGoi('luuDiem', {
-      hoTen: DCL_ME.hoTen, lop: DCL_ME.lop,
-      diem: qScore, tong: order.length,
+      hoTen: DCL_ME.hoTen, lop: DCL_ME.lop, diem: qScore,
       xp: (typeof gXP !== 'undefined' ? gXP : 0),
       chuoi: (typeof gBestStreak !== 'undefined' ? gBestStreak : 0)
     })['catch'](function () {});
   };
 }
 
-/* ---------- Form đăng kí ---------- */
-function dclThayFormDangKy() {
+/* ---------- Mục 5: tình trạng đề tài + biểu mẫu đăng kí ---------- */
+function dclKhoiDangKy() {
   var khung = document.querySelector('#p-topics .form-wrap');
   if (!khung) return;
   var box = document.createElement('div');
-  box.className = 'dcl-panel';
   box.innerHTML =
-    '<div class="kicker">PHIẾU ĐĂNG KÍ ĐỀ TÀI</div>' +
-    '<div class="dcl-row">' +
-      '<div class="dcl-f" style="flex:0 1 160px"><label for="dk-lop">Lớp <span class="dcl-req">*</span></label>' +
-        '<select id="dk-lop" onchange="dclTaiDeTai()"></select></div>' +
-      '<div class="dcl-f"><label for="dk-nhom">Tên nhóm <span class="dcl-req">*</span></label>' +
-        '<input id="dk-nhom" type="text" placeholder="Nhóm 3 — Tổ pháp lí số"></div>' +
+    '<div class="dcl-panel">' +
+      '<div class="kicker">Đề tài đã có nhóm nhận</div>' +
+      '<p class="sm sub" style="margin-bottom:10px">Đề tài được giao bằng <strong>bốc thăm</strong> tại lớp; biểu mẫu bên dưới chỉ để xác nhận kết quả. Bảng này giúp nhóm kiểm lại mình có gõ nhầm đề tài của nhóm khác không.</p>' +
+      '<div class="dcl-row">' +
+        '<div class="dcl-f" style="flex:0 1 170px"><label for="dk-lop">Xem theo lớp</label>' +
+          '<select id="dk-lop" onchange="dclTaiDeTai()"></select></div>' +
+        '<div class="dcl-f" style="flex:0 0 auto">' +
+          '<button class="btn btn2" onclick="dclTaiDeTai()">Làm mới</button></div>' +
+      '</div>' +
+      '<div id="dk-slots"><p class="sm sub" style="margin:0">Chọn lớp để xem.</p></div>' +
     '</div>' +
-    '<div class="dcl-row">' +
-      '<div class="dcl-f"><label for="dk-truong">Họ tên nhóm trưởng <span class="dcl-req">*</span></label>' +
-        '<input id="dk-truong" type="text"></div>' +
-      '<div class="dcl-f"><label for="dk-email">Email liên hệ <span class="dcl-req">*</span></label>' +
-        '<input id="dk-email" type="email"></div>' +
+    '<div class="dcl-form-frame">' +
+      '<div class="form-head">Phiếu xác nhận đề tài · hạn ' + dclEsc(CONFIG.hanDangKy) + '</div>' +
+      '<div id="dk-frame"></div>' +
     '</div>' +
-    '<div class="dcl-row"><div class="dcl-f">' +
-      '<label for="dk-tv">Danh sách thành viên, mỗi dòng một bạn <span class="dcl-req">*</span></label>' +
-      '<textarea id="dk-tv"></textarea></div></div>' +
-    '<div class="dcl-row">' +
-      '<div class="dcl-f"><label for="dk-dt">Đề tài đăng kí <span class="dcl-req">*</span></label>' +
-        '<select id="dk-dt"></select>' +
-        '<div class="dcl-who" id="dk-who">Chọn lớp để xem đề tài nào còn trống.</div></div>' +
-      '<div class="dcl-f"><label for="dk-dp">Đề tài dự phòng</label>' +
-        '<select id="dk-dp"></select></div>' +
-    '</div>' +
-    '<div class="chk" style="margin-top:4px"><input type="checkbox" id="dk-ck">' +
-      '<label for="dk-ck">Nhóm cam kết tự làm sản phẩm và ghi nguồn đầy đủ cho mọi tài nguyên sử dụng.</label></div>' +
-    '<div class="btns">' +
-      '<button class="btn" onclick="dclGuiDangKy()">Gửi đăng kí</button>' +
-      '<button class="btn btn2" onclick="dclTaiDeTai()">Làm mới danh sách đề tài</button></div>' +
-    '<div class="dcl-msg" id="dk-msg"></div>';
+    '<p class="xs sub" style="margin-top:8px">Nếu biểu mẫu không hiện, ' +
+      '<a target="_blank" rel="noopener" href="' + dclEsc(CONFIG.formDangKy || '#') + '">mở trong tab mới</a>.</p>';
 
   khung.parentNode.replaceChild(box, khung);
-  dclDungLopSelect(document.getElementById('dk-lop'), DCL_ME.lop);
-  dclDungDeTai({});
-  if (DCL_ME.lop) dclTaiDeTai();
-}
+  dclLopSelect(document.getElementById('dk-lop'), DCL_ME.lop);
 
-function dclDungDeTai(daNhan) {
-  var dt = document.getElementById('dk-dt');
-  var dp = document.getElementById('dk-dp');
-  if (!dt) return;
-  var h1 = '<option value="">— Chọn 1 trong 5 —</option>';
-  var h2 = '<option value="">— Không chọn —</option>';
-  for (var i = 0; i < TOPICS.length; i++) {
-    var t = TOPICS[i], ma = 'DT' + t.no, nhom = daNhan[ma];
-    var nhan = t.no + '. ' + t.name + (nhom ? '  (đã có ' + nhom + ')' : '');
-    var attr = nhom ? ' disabled' : '';
-    h1 += '<option value="' + ma + '"' + attr + '>' + nhan + '</option>';
-    h2 += '<option value="' + ma + '"' + attr + '>' + nhan + '</option>';
-  }
-  dt.innerHTML = h1;
-  dp.innerHTML = h2;
+  var src = dclFormSrc(CONFIG.formDangKy);
+  document.getElementById('dk-frame').innerHTML = src
+    ? '<iframe src="' + dclEsc(src) + '" height="900" loading="lazy" title="Phiếu đăng kí đề tài"></iframe>'
+    : '<div class="form-body"><p class="sm sub" style="margin:0">Giáo viên chưa dán link biểu mẫu đăng kí.</p></div>';
+
+  if (DCL_ME.lop) dclTaiDeTai();
 }
 
 function dclTaiDeTai() {
   var sel = document.getElementById('dk-lop');
-  if (!sel) return;
+  var box = document.getElementById('dk-slots');
+  if (!sel || !box) return;
   var lop = sel.value;
-  var who = document.getElementById('dk-who');
-  if (!lop) { dclDungDeTai({}); who.textContent = 'Chọn lớp để xem đề tài nào còn trống.'; return; }
-  if (!dclSan()) { dclDungDeTai({}); who.textContent = 'Chưa bật kết nối Google Sheets nên không kiểm tra được đề tài đã có nhóm nhận.'; return; }
+  if (!lop) { box.innerHTML = '<p class="sm sub" style="margin:0">Chọn lớp để xem.</p>'; return; }
+  if (!dclSan()) { box.innerHTML = '<p class="sm sub" style="margin:0">Chưa bật kết nối Google Sheets nên không tra được.</p>'; return; }
 
-  who.textContent = 'Đang kiểm tra đề tài còn trống của lớp ' + lop + '…';
+  box.innerHTML = '<p class="sm sub" style="margin:0">Đang tra lớp ' + dclEsc(lop) + '…</p>';
   dclGoi('dsDeTai', { lop: lop }).then(function (r) {
-    if (!r.ok) { who.textContent = 'Không tải được danh sách: ' + (r.loi || ''); return; }
-    var daNhan = r.daNhan || {};
-    dclDungDeTai(daNhan);
-    var con = 0;
-    for (var i = 0; i < TOPICS.length; i++) if (!daNhan['DT' + TOPICS[i].no]) con++;
-    who.textContent = 'Lớp ' + lop + ' còn ' + con + '/5 đề tài trống. Đề tài đã có nhóm nhận bị khoá, không chọn được.';
-  })['catch'](function () { who.textContent = 'Không kết nối được máy chủ.'; });
-}
-
-function dclGuiDangKy() {
-  var msg = document.getElementById('dk-msg');
-  var lop = document.getElementById('dk-lop').value;
-  var nhom = document.getElementById('dk-nhom').value.trim();
-  var truong = document.getElementById('dk-truong').value.trim();
-  var email = document.getElementById('dk-email').value.trim();
-  var tv = document.getElementById('dk-tv').value.trim();
-  var ma = document.getElementById('dk-dt').value;
-  var dp = document.getElementById('dk-dp').value;
-  var ck = document.getElementById('dk-ck').checked;
-
-  if (!lop || !nhom || !truong || !email || !tv || !ma) { dclBao(msg, 'no', 'Điền đủ các trường có dấu sao.'); return; }
-  if (!ck) { dclBao(msg, 'no', 'Nhóm phải tích vào ô cam kết.'); return; }
-  if (!dclSan()) { dclBao(msg, 'no', 'Chưa cấu hình kết nối Google Sheets. Báo giáo viên.'); return; }
-
-  var ten = '';
-  for (var i = 0; i < TOPICS.length; i++) if ('DT' + TOPICS[i].no === ma) ten = TOPICS[i].name;
-
-  dclBao(msg, 'wait', 'Đang gửi đăng kí…');
-  dclGoi('dangKy', {
-    lop: lop, tenNhom: nhom, nhomTruong: truong, email: email, thanhVien: tv,
-    maDeTai: ma, tenDeTai: ten, duPhong: dp, camKet: ck
-  }).then(function (r) {
-    if (r.ok) {
-      dclBao(msg, 'ok', 'Đã đăng kí thành công đề tài "' + ten + '" cho ' + nhom + ' (' + lop + ').');
-      dclTaiDeTai();
-    } else if (r.lyDo === 'deTaiDaCo') {
-      dclBao(msg, 'no', 'Đề tài này vừa được "' + r.nhomDaNhan + '" nhận trước. Danh sách đã cập nhật, nhóm chọn đề tài khác nhé.');
-      dclTaiDeTai();
-    } else if (r.lyDo === 'nhomDaDangKy') {
-      dclBao(msg, 'no', 'Tên nhóm này đã đăng kí đề tài "' + r.deTaiCu + '". Nếu cần đổi, báo giáo viên.');
-    } else {
-      dclBao(msg, 'no', 'Lỗi: ' + (r.loi || 'không gửi được'));
+    if (!r.ok) { box.innerHTML = '<p class="sm sub" style="margin:0">Không tải được: ' + dclEsc(r.loi || '') + '</p>'; return; }
+    var daNhan = r.daNhan || {}, h = '', con = 0;
+    for (var i = 0; i < TOPICS.length; i++) {
+      var t = TOPICS[i], nhom = daNhan['DT' + t.no];
+      if (!nhom) con++;
+      h += '<div class="dcl-slot' + (nhom ? ' taken' : '') + '">' +
+           '<span class="sm"><strong>Đề tài ' + t.no + '</strong> — ' + dclEsc(t.name) + '</span>' +
+           '<span class="dcl-tag' + (nhom ? ' no' : '') + '">' +
+           (nhom ? 'đã có ' + dclEsc(nhom) : 'còn trống') + '</span></div>';
     }
-  })['catch'](function () { dclBao(msg, 'no', 'Không kết nối được máy chủ. Thử lại hoặc báo giáo viên.'); });
+    h += '<p class="xs sub" style="margin:8px 0 0">Lớp ' + dclEsc(lop) + ' còn ' + con + '/5 đề tài trống. Bảng cập nhật sau mỗi lần có nhóm gửi phiếu.</p>';
+    box.innerHTML = h;
+  })['catch'](function () {
+    box.innerHTML = '<p class="sm sub" style="margin:0">Không kết nối được máy chủ.</p>';
+  });
 }
 
-/* ---------- Form nộp bài ---------- */
-function dclThayFormNop() {
+/* ---------- Mục 8: biểu mẫu nộp bài ---------- */
+function dclKhoiNopBai() {
   var khung = document.querySelector('#p-submit .form-wrap');
   if (!khung) return;
+  var src = dclFormSrc(CONFIG.formNop);
   var box = document.createElement('div');
-  box.className = 'dcl-panel';
   box.innerHTML =
-    '<div class="kicker">PHIẾU NỘP SẢN PHẨM</div>' +
-    '<div class="dcl-row">' +
-      '<div class="dcl-f" style="flex:0 1 150px"><label for="np-lop">Lớp <span class="dcl-req">*</span></label>' +
-        '<select id="np-lop"></select></div>' +
-      '<div class="dcl-f"><label for="np-nhom">Tên nhóm <span class="dcl-req">*</span></label>' +
-        '<input id="np-nhom" type="text"></div>' +
-      '<div class="dcl-f"><label for="np-dt">Đề tài <span class="dcl-req">*</span></label>' +
-        '<select id="np-dt"></select></div>' +
+    '<div class="dcl-form-frame">' +
+      '<div class="form-head">Phiếu nộp sản phẩm · hạn ' + dclEsc(CONFIG.hanNop) + '</div>' +
+      (src
+        ? '<iframe src="' + dclEsc(src) + '" height="1100" loading="lazy" title="Phiếu nộp sản phẩm"></iframe>'
+        : '<div class="form-body"><p class="sm sub" style="margin:0">Giáo viên chưa dán link biểu mẫu nộp bài.</p></div>') +
     '</div>' +
-    '<div class="dcl-row">' +
-      '<div class="dcl-f"><label for="np-tc">Link bài trình chiếu <span class="dcl-req">*</span></label>' +
-        '<input id="np-tc" type="url" placeholder="Link Drive đã mở quyền xem"></div>' +
-      '<div class="dcl-f"><label for="np-ig">Link infographic <span class="dcl-req">*</span></label>' +
-        '<input id="np-ig" type="url"></div>' +
-    '</div>' +
-    '<div class="dcl-row"><div class="dcl-f"><label for="np-nk">Link nhật kí dự án</label>' +
-      '<input id="np-nk" type="url"></div></div>' +
-    '<div class="chk"><input type="checkbox" id="np-xn">' +
-      '<label for="np-xn">Nhóm xác nhận đã ghi nguồn đầy đủ cho mọi tài nguyên sử dụng.</label></div>' +
-    '<div class="btns"><button class="btn" onclick="dclGuiNopBai()">Nộp sản phẩm</button></div>' +
-    '<div class="dcl-msg" id="np-msg"></div>' +
-    '<p class="xs sub" style="margin-top:10px">Nhớ mở quyền xem cho link Drive, nếu không giáo viên sẽ không mở được bài.</p>';
-
+    '<p class="xs sub" style="margin-top:8px">Biểu mẫu yêu cầu đăng nhập Google để tải tệp lên. Nếu không hiện, ' +
+      '<a target="_blank" rel="noopener" href="' + dclEsc(CONFIG.formNop || '#') + '">mở trong tab mới</a>. ' +
+      'Nhóm nộp lại được, giáo viên lấy bản cuối cùng.</p>';
   khung.parentNode.replaceChild(box, khung);
-  dclDungLopSelect(document.getElementById('np-lop'), DCL_ME.lop);
-  var h = '<option value="">— Chọn 1 trong 5 —</option>';
-  for (var i = 0; i < TOPICS.length; i++) h += '<option value="DT' + TOPICS[i].no + '">' + TOPICS[i].no + '. ' + TOPICS[i].name + '</option>';
-  document.getElementById('np-dt').innerHTML = h;
 }
 
-function dclGuiNopBai() {
-  var msg = document.getElementById('np-msg');
-  var lop = document.getElementById('np-lop').value;
-  var nhom = document.getElementById('np-nhom').value.trim();
-  var ma = document.getElementById('np-dt').value;
-  var tc = document.getElementById('np-tc').value.trim();
-  var ig = document.getElementById('np-ig').value.trim();
-  var nk = document.getElementById('np-nk').value.trim();
-  var xn = document.getElementById('np-xn').checked;
-
-  if (!lop || !nhom || !ma || !tc || !ig) { dclBao(msg, 'no', 'Điền đủ các trường có dấu sao.'); return; }
-  if (!xn) { dclBao(msg, 'no', 'Nhóm phải xác nhận đã ghi nguồn.'); return; }
-  if (!dclSan()) { dclBao(msg, 'no', 'Chưa cấu hình kết nối Google Sheets. Báo giáo viên.'); return; }
-
-  dclBao(msg, 'wait', 'Đang nộp…');
-  dclGoi('nopBai', {
-    lop: lop, tenNhom: nhom, maDeTai: ma,
-    linkTrinhChieu: tc, linkInfographic: ig, linkNhatKy: nk, xacNhan: xn
-  }).then(function (r) {
-    if (r.ok) dclBao(msg, 'ok', 'Đã nộp thành công lúc ' + new Date().toLocaleString('vi-VN') + '. Nhóm nộp lại được, giáo viên lấy bản cuối.');
-    else dclBao(msg, 'no', 'Lỗi: ' + (r.loi || 'không nộp được'));
-  })['catch'](function () { dclBao(msg, 'no', 'Không kết nối được máy chủ.'); });
+/* ---------- Mục 9: trưng bày sản phẩm ---------- */
+function dclKhoiTrungBay() {
+  var ctrl = document.getElementById('gallery-controls');
+  if (!ctrl) return;
+  ctrl.innerHTML =
+    '<div class="dcl-row" style="margin-bottom:14px">' +
+      '<div class="dcl-f" style="flex:0 1 180px"><label for="tb-lop">Xem sản phẩm của lớp</label>' +
+        '<select id="tb-lop" onchange="dclTaiTrungBay()"></select></div>' +
+      '<div class="dcl-f" style="flex:0 0 auto">' +
+        '<button class="btn btn2" onclick="dclTaiTrungBay()">Làm mới</button></div>' +
+    '</div>';
+  dclLopSelect(document.getElementById('tb-lop'), DCL_ME.lop, '— Tất cả các lớp —');
+  dclTaiTrungBay();
 }
 
-/* ---------- Gửi kết quả tự chấm rubric ---------- */
-function dclThemGuiRubric() {
-  var bang = document.querySelector('#p-eval #rubric');
-  if (!bang) return;
-  var box = document.createElement('div');
-  box.className = 'dcl-panel';
-  box.style.marginTop = '14px';
-  box.innerHTML =
-    '<div class="kicker">GỬI KẾT QUẢ NHÓM TỰ CHẤM</div>' +
-    '<p class="sm sub" style="margin-bottom:10px">Chọn đủ 6 dòng ở bảng trên rồi gửi. Kết quả này không thay điểm giáo viên, chỉ để đối chiếu khi chấm.</p>' +
-    '<div class="dcl-row">' +
-      '<div class="dcl-f" style="flex:0 1 150px"><label for="rb-lop">Lớp</label><select id="rb-lop"></select></div>' +
-      '<div class="dcl-f"><label for="rb-nhom">Tên nhóm</label><input id="rb-nhom" type="text"></div>' +
-      '<div class="dcl-f" style="flex:0 0 auto"><button class="btn" onclick="dclGuiRubric()">Gửi kết quả tự chấm</button></div>' +
-    '</div><div class="dcl-msg" id="rb-msg"></div>';
-  bang.parentNode.parentNode.insertBefore(box, bang.parentNode.nextSibling);
-  dclDungLopSelect(document.getElementById('rb-lop'), DCL_ME.lop);
-}
-
-function dclGuiRubric() {
-  var msg = document.getElementById('rb-msg');
-  var lop = document.getElementById('rb-lop').value;
-  var nhom = document.getElementById('rb-nhom').value.trim();
-  if (!lop || !nhom) { dclBao(msg, 'no', 'Nhập lớp và tên nhóm.'); return; }
-  if (typeof picked === 'undefined') { dclBao(msg, 'no', 'Chưa chấm được.'); return; }
-
-  var nhan = [], tong = 0;
-  for (var i = 0; i < RUBRIC.length; i++) {
-    if (picked[i] === null || picked[i] === undefined) {
-      dclBao(msg, 'no', 'Còn dòng ' + (i + 1) + ' chưa chọn mức.'); return;
-    }
-    nhan.push(LV_NAME[picked[i]]);
-    tong += RUBRIC[i].w * LV_RATE[picked[i]];
+function dclTaiTrungBay() {
+  var box = document.getElementById('gallery');
+  if (!box) return;
+  if (!dclSan()) {
+    box.innerHTML = '<p class="sm sub">Chưa bật kết nối Google Sheets nên chưa đọc được danh sách nộp bài.</p>';
+    return;
   }
-  if (!dclSan()) { dclBao(msg, 'no', 'Chưa cấu hình kết nối Google Sheets.'); return; }
+  var sel = document.getElementById('tb-lop');
+  var lop = sel ? sel.value : '';
+  box.innerHTML = '<p class="sm sub">Đang tải danh sách sản phẩm…</p>';
 
-  dclBao(msg, 'wait', 'Đang gửi…');
-  dclGoi('luuRubric', { lop: lop, tenNhom: nhom, diem: nhan, tong: Math.round(tong) })
-    .then(function (r) {
-      if (r.ok) dclBao(msg, 'ok', 'Đã gửi kết quả tự chấm: ' + Math.round(tong) + '/100.');
-      else dclBao(msg, 'no', 'Lỗi: ' + (r.loi || ''));
-    })['catch'](function () { dclBao(msg, 'no', 'Không kết nối được máy chủ.'); });
+  dclGoi('dsSanPham', { lop: lop }).then(function (r) {
+    if (!r.ok) { box.innerHTML = '<p class="sm sub">Không tải được: ' + dclEsc(r.loi || '') + '</p>'; return; }
+    var ds = r.ds || [];
+    if (!ds.length) {
+      box.innerHTML = '<p class="sm sub">Chưa có nhóm nào nộp bài' + (lop ? ' ở lớp ' + dclEsc(lop) : '') + '.</p>';
+      return;
+    }
+    var h = '<p class="sm sub">' + ds.length + ' nhóm đã nộp.</p>';
+    for (var i = 0; i < ds.length; i++) {
+      var g = ds[i];
+      h += '<div class="dcl-card">' +
+           '<div class="kicker">' + dclEsc(g.lop) + (g.nhom ? ' · ' + dclEsc(g.nhom) : '') + '</div>' +
+           '<h4>' + dclEsc(g.deTai || 'Chưa ghi tên đề tài') + '</h4>' +
+           (g.nopLuc ? '<p class="xs sub" style="margin-bottom:10px">Nộp lúc ' + dclEsc(g.nopLuc) + '</p>' : '') +
+           '<div class="btns" style="margin-top:4px">' +
+           (g.trinhChieu ? '<a class="btn btn2" target="_blank" rel="noopener" href="' + dclEsc(g.trinhChieu) + '">Bài trình chiếu</a>' : '') +
+           (g.infographic ? '<a class="btn btn2" target="_blank" rel="noopener" href="' + dclEsc(g.infographic) + '">Infographic</a>' : '') +
+           ((!g.trinhChieu && !g.infographic) ? '<span class="sm sub">Chưa có tệp đính kèm</span>' : '') +
+           '</div></div>';
+    }
+    box.innerHTML = h;
+  })['catch'](function () {
+    box.innerHTML = '<p class="sm sub">Không kết nối được máy chủ.</p>';
+  });
 }
 
 /* ---------- Khởi động ---------- */
 (function () {
   function khoiDong() {
     dclDocMe();
-    dclThemBangDanhTinh();
+    dclBangDanhTinh();
     dclBocQNext();
-    dclThayFormDangKy();
-    dclThayFormNop();
-    dclThemGuiRubric();
+    dclKhoiDangKy();
+    dclKhoiNopBai();
+    dclKhoiTrungBay();
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function () { setTimeout(khoiDong, 0); });
