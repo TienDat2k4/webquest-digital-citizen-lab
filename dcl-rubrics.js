@@ -5,7 +5,7 @@
    Trang Đánh giá và mọi phiếu chấm đều dựng từ tệp này. 
 
    Thang chung: Xuất sắc 100% · Tốt 75% · Đạt 50% · Chưa đạt 25%
-   của điểm tối đa tiêu chí. Tổng điểm tối đa mỗi rubric bằng 10.
+   của điểm tối đa tiêu chí. Tổng điểm tối đa mỗi rubric bằng 10. 
    ===================================================================== */
 
 var DCL_MUC   = ['Xuất sắc', 'Tốt', 'Đạt', 'Chưa đạt'];
