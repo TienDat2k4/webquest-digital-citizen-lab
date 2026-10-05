@@ -1,116 +1,176 @@
 /* =====================================================================
-   DIGITAL CITIZEN LAB — ĐỊNH NGHĨA BA RUBRIC
-   Nạp trước dcl-admin.js. Mô tả đầy đủ bốn mức nằm ở trang Đánh giá;
-   tệp này giữ bản rút gọn để dựng phiếu chấm.
+   DIGITAL CITIZEN LAB — BA RUBRIC, NGUỒN DUY NHẤT
+   Chép theo mục Đánh giá dự án của Kế hoạch bài dạy, bản báo cáo
+   2627102_Report_Group05.
+   Trang Đánh giá và mọi phiếu chấm đều dựng từ tệp này.
 
    Thang chung: Xuất sắc 100% · Tốt 75% · Đạt 50% · Chưa đạt 25%
-   của điểm tối đa tiêu chí. Tổng điểm tối đa mỗi rubric = 10.
+   của điểm tối đa tiêu chí. Tổng điểm tối đa mỗi rubric bằng 10.
    ===================================================================== */
- 
-var DCL_MUC      = ["Xuất sắc", "Tốt", "Đạt", "Chưa đạt"];
-var DCL_HE_SO    = [1, 0.75, 0.5, 0.25];
+
+var DCL_MUC   = ['Xuất sắc', 'Tốt', 'Đạt', 'Chưa đạt'];
+var DCL_HE_SO = [1, 0.75, 0.5, 0.25];
 
 var DCL_R1 = {
-  ma: "R1",
-  ten: "Rubric 1 — Hoạt động nhóm",
-  trongSoDuAn: 0.10,
+  ma: 'R1', ten: 'Rubric 1 — Đánh giá hoạt động nhóm', trongSo: '10%',
+  moTa: 'Mỗi học sinh tự chấm, nhóm chấm chéo từng thành viên theo đúng ba tiêu chí, lấy trung bình. '
+      + 'Giáo viên đối chiếu với nhật kí và điều chỉnh nếu chênh quá một mức; điểm giáo viên duyệt là điểm cuối. '
+      + 'Minh chứng duy nhất được dùng là nhật kí dự án của nhóm và lịch sử làm việc trên công cụ số.',
   tieuChi: [
-    { ten: "Hoàn thành khối lượng công việc được giao", max: 4, goiY: [
-      "100% đầu việc, đúng hạn, bàn giao dùng được ngay",
-      "100% đầu việc, 1 việc trễ dưới 24 giờ, phải chỉnh sửa nhỏ",
-      "60–99% đầu việc, 2 việc trễ 1–3 ngày, cần người khác hỗ trợ",
-      "Dưới 60% đầu việc, có việc trễ quá 3 ngày hoặc không bàn giao" ] },
-    { ten: "Tham gia hoạt động nhóm", max: 3, goiY: [
-      "Có mặt 100% số buổi họp, phản hồi tin nhắn trong 24 giờ",
-      "Có mặt 80–99%, có 1 lần phản hồi trễ quá 24 giờ",
-      "Có mặt 60–79%, có 2–3 lần phản hồi trễ",
-      "Có mặt dưới 60%, từ 4 lần trở lên không phản hồi" ] },
-    { ten: "Đóng góp xây dựng nhóm, có ghi nhận", max: 3, goiY: [
-      "Từ 4 lượt ghi nhận trở lên, có ít nhất 1 lần nhận thêm việc",
-      "3 lượt ghi nhận, không nhận thêm việc ngoài phân công",
-      "1–2 lượt ghi nhận, chỉ làm đúng phần việc của mình",
-      "0 lượt ghi nhận, không góp ý, không phản hồi bản nháp của ai" ] }
+    { ten: '1. Hoàn thành phần việc được giao', max: 4, mucDo: [
+      ['Hoàn thành 100% đầu việc trong bảng phân công, đúng hoặc trước hạn nhóm đặt ra'],
+      ['Hoàn thành 100% đầu việc, có 1 đầu việc trễ dưới 24 giờ'],
+      ['Hoàn thành từ 60% đầu việc trở lên, hoặc có 2 đầu việc trễ từ 1 đến 3 ngày'],
+      ['Hoàn thành dưới 60% đầu việc, hoặc có đầu việc trễ quá 3 ngày']
+    ] },
+    { ten: '2. Tham gia làm việc nhóm', max: 3, mucDo: [
+      ['Có mặt ở 100% số buổi họp nhóm ghi trong nhật kí',
+       'Tích cực phát biểu, đưa ra ý kiến giúp nhóm cải thiện sản phẩm hoặc tiến độ'],
+      ['Có mặt từ 80% số buổi trở lên',
+       'Có trao đổi, góp ý và hợp tác cùng các bạn'],
+      ['Có mặt từ 60% số buổi trở lên',
+       'Có mặt nhưng thụ động, rất ít khi lên tiếng đóng góp ý kiến'],
+      ['Có mặt dưới 60% số buổi, hoặc không có sự tương tác với nhóm']
+    ] },
+    { ten: '3. Ý thức xây dựng nhóm', max: 3, mucDo: [
+      ['Luôn tích cực, thân thiện, hợp tác tốt với các thành viên',
+       'Chủ động hỗ trợ nhóm, góp phần tạo môi trường học tập tích cực'],
+      ['Giao tiếp lịch sự, tôn trọng và phối hợp nghiêm túc với các thành viên'],
+      ['Có hợp tác, nhưng còn rụt rè hoặc ít tham gia trao đổi'],
+      ['Thái độ thiếu thiện chí hoặc gây ảnh hưởng tiêu cực đến nhóm']
+    ], khongDemDuoc: true }
   ]
 };
 
 var DCL_R2 = {
-  ma: "R2",
-  ten: "Rubric 2 — Sản phẩm",
-  trongSoDuAn: 0.60,
+  ma: 'R2', ten: 'Rubric 2 — Đánh giá sản phẩm', trongSo: '60%',
+  moTa: 'Giáo viên chấm dựa trên hai sản phẩm của nhóm: bài trình chiếu và infographic.',
   tieuChi: [
-    { ten: "1. Nhận diện vấn đề, hành vi và các bên liên quan (Y1 · slide 1–2)", max: 1, goiY: [
-      "Đủ câu phát biểu vấn đề, 100% hành vi, 4 nhóm chủ thể, tách riêng đạo đức và pháp lí",
-      "Đủ hành vi, 3/4 nhóm chủ thể, đạo đức và pháp lí viết chung một mục",
-      "Nêu vấn đề chưa rõ, 50–99% hành vi, 2/4 chủ thể, thiếu nhận định pháp lí",
-      "Không nêu được vấn đề, dưới 50% hành vi, 0–1 chủ thể" ] },
-    { ten: "2. Ví dụ bản quyền và khía cạnh pháp lí của thông tin số (Y2, Y4 · slide 5)", max: 2, goiY: [
-      "Ví dụ đủ 4 yếu tố, có diễn biến và 2 hậu quả, bảng đủ 6 mức kèm ví dụ, 100% tài nguyên ghi nguồn và điều kiện",
-      "Đủ 4 yếu tố, 1 hậu quả, bảng 4–5/6 mức, 1–2 tài nguyên thiếu điều kiện sử dụng",
-      "2–3 yếu tố, không mô tả diễn biến, bảng 2–3/6 mức không ví dụ, 3–5 tài nguyên chưa ghi nguồn",
-      "Dưới 2 yếu tố, không nêu hậu quả, không có bảng 6 mức, từ 6 tài nguyên không ghi nguồn" ] },
-    { ten: "3. Trình bày và giải thích nội dung pháp luật (Y3 · slide 3–4)", max: 1.5, goiY: [
-      "Đúng 2 văn bản, 0 đoạn chép quá 25 từ, 100% quy định ghi điều khoản, mỗi quy định có ví dụ",
-      "Đúng 2 văn bản, 1 đoạn chép quá 25 từ, đủ điều khoản, 1 quy định thiếu ví dụ",
-      "Chỉ 1 văn bản, 2–3 đoạn chép quá 25 từ, dưới 50% có điều khoản, không ví dụ",
-      "Dẫn sai hoặc không dẫn văn bản, trên 3 đoạn chép, không ghi điều khoản" ] },
-    { ten: "4. Vận dụng quy định để xác định tính hợp pháp (Y5 · slide 6 và 8)", max: 2.5, goiY: [
-      "Bảng đủ 4 cột, 100% hành vi, kết luận đúng 100%, có chỉ ra dữ kiện còn thiếu",
-      "Bảng đủ 4 cột, 100% hành vi, kết luận đúng 80–99%, không chỉ ra dữ kiện thiếu",
-      "Bảng 2–3 cột, phân tích 50–79% hành vi, kết luận đúng 50–79%",
-      "Bảng dưới 2 cột hoặc không có, dưới 50% hành vi, kết luận đúng dưới 50%" ] },
-    { ten: "5. Tác hại và biện pháp an toàn (Y6, Y7 · slide 7, 9, 10 và infographic)", max: 2, goiY: [
-      "Đủ 4 nhóm đối tượng, 100% gắn dữ kiện, checklist từ 3 bước có rẽ nhánh, thử nghiệm 2 người và ghi điều chỉnh",
-      "Đủ 4 nhóm, 1–2 tác hại nêu chung, checklist 3 bước có ví dụ, thử nghiệm 1 người hoặc chưa ghi điều chỉnh",
-      "2–3 nhóm đối tượng, tác hại nêu chung chung, checklist dưới 3 bước, không thử nghiệm",
-      "0–1 nhóm đối tượng, không có checklist hay quy trình nào" ] },
-    { ten: "6. Truyền đạt và tính nhất quán (cả hai sản phẩm)", max: 1, goiY: [
-      "Đúng tên tệp, đúng 800×2000, đủ 10 slide, 0–2 lỗi, 0 mâu thuẫn, infographic đủ 7 khối",
-      "Đúng tên tệp, lệch kích thước dưới 10%, lệch 1–2 slide, 3–4 lỗi, 0 mâu thuẫn, 6–7 khối",
-      "Sai tên tệp 1 tệp, sai kích thước, lệch 3–5 slide, 5–8 lỗi, 1 điểm mâu thuẫn, 4–5 khối",
-      "Sai tên tệp cả hai, sai kích thước và định dạng, lệch trên 5 slide, trên 8 lỗi, từ 2 mâu thuẫn" ] }
-  ],
-  chan: { tieuChi: 3, mucToiDa: 2,
-    canhBao: "Nếu kết luận sai từ một nửa số hành vi trở lên, tiêu chí 4 không được quá mức Đạt." }
+    { ten: '1. Nội dung bài trình chiếu', max: 3, mucDo: [
+      ['Trình bày đầy đủ các nội dung cốt lõi của hồ sơ',
+       'Thông tin chính xác, bám dữ kiện; lập luận thể hiện rõ mạch dữ kiện đến quy định đến đối chiếu đến kết luận',
+       'Phân tích có chiều sâu, liên kết được khía cạnh đạo đức và văn hoá với pháp lí, đề xuất giải pháp phù hợp tình huống',
+       'Mỗi quy định kèm ít nhất 1 ví dụ minh hoạ'],
+      ['Nội dung cơ bản đầy đủ và đúng trọng tâm; còn thiếu một vài chi tiết nhỏ nhưng không làm thay đổi kết luận chính',
+       'Căn cứ và lập luận nhìn chung chính xác; một số chỗ đối chiếu hoặc giải thích chưa sâu',
+       'Giải pháp phù hợp nhưng phần dự đoán, điều chỉnh hoặc minh chứng còn chưa rõ',
+       'Có ít nhất 1 quy định không có ví dụ minh hoạ'],
+      ['Trình bày được các nội dung chính nhưng còn thiếu một số phần hoặc liên kết giữa các phần chưa rõ',
+       'Có căn cứ pháp lí nhưng việc giải thích và đối chiếu còn thiên về mô tả; xuất hiện một số nhận định chưa chính xác nhưng chưa làm sai hoàn toàn hướng xử lí',
+       'Giải pháp còn chung, chưa thể hiện rõ quy trình hành động',
+       'Có ví dụ minh hoạ nhưng chưa phù hợp'],
+      ['Thiếu nhiều nội dung cốt lõi hoặc trình bày sai bản chất tình huống',
+       'Căn cứ pháp lí không phù hợp, thiếu nguồn hoặc kết luận chủ yếu dựa trên cảm tính, không có đối chiếu',
+       'Không làm rõ được tác hại, phương án xử lí hoặc khuyến nghị an toàn và hợp pháp',
+       'Không có ví dụ minh hoạ']
+    ] },
+    { ten: '2. Nội dung Infographic', max: 3, mucDo: [
+      ['Cô đọng đúng các thông tin quan trọng từ kết quả nghiên cứu, không sao chép nguyên bài trình chiếu',
+       'Người đọc có thể hiểu độc lập: nhận diện được vấn đề và rủi ro, biết điều nên làm và không nên làm, xác định được hành động tiếp theo',
+       'Checklist hoặc quy trình rõ ràng, khả thi; nội dung hoàn toàn thống nhất với kết luận của bài trình chiếu'],
+      ['Tóm tắt đúng và tương đối đầy đủ các thông tin cốt lõi; còn một vài chi tiết chưa thật cô đọng hoặc chưa được trực quan hoá tốt',
+       'Checklist hoặc quy trình sử dụng được; thông điệp chính rõ và không mâu thuẫn với bài trình chiếu'],
+      ['Có các thông tin chính nhưng còn dài dòng, thiên về chép chữ từ bài trình chiếu hoặc chưa tập trung vào hành động',
+       'Checklist hoặc quy trình còn đơn giản; một số thông tin khó xác định nhanh hoặc chưa liên kết rõ với tình huống'],
+      ['Thiếu hoặc sai các thông tin cốt lõi; thông điệp không rõ hoặc có mâu thuẫn với bài trình chiếu',
+       'Không hình thành được checklist hoặc quy trình có thể sử dụng; infographic không thực hiện được chức năng hướng dẫn hành động']
+    ] },
+    { ten: '3. Hình thức sản phẩm', max: 1, mucDo: [
+      ['Tên tệp được đặt đúng theo cú pháp quy định',
+       'Infographic đúng kích thước yêu cầu',
+       'Bài trình chiếu có số lượng slide đúng quy định',
+       'Không có lỗi chính tả, dùng từ hoặc trình bày; câu chữ rõ ràng, thống nhất'],
+      ['Tên tệp đúng cú pháp',
+       'Kích thước infographic chỉ sai lệch nhẹ so với yêu cầu',
+       'Số lượng slide chênh lệch không quá 1 đến 2 slide so với quy định',
+       'Có một vài lỗi nhỏ về chính tả hoặc diễn đạt'],
+      ['Tên tệp chưa hoàn toàn đúng cú pháp',
+       'Infographic không đúng kích thước quy định',
+       'Số lượng slide chênh lệch khoảng 3 đến 4 slide so với yêu cầu',
+       'Có một số lỗi chính tả, dùng từ hoặc diễn đạt; tuy nhiên nội dung chính vẫn có thể hiểu được'],
+      ['Tên tệp sai rõ so với cú pháp quy định',
+       'Infographic sai kích thước rõ rệt',
+       'Số lượng slide chênh lệch lớn, từ 5 slide trở lên so với yêu cầu',
+       'Có nhiều lỗi chính tả, dùng từ hoặc diễn đạt, gây khó khăn cho việc đọc hiểu và làm giảm chất lượng sản phẩm']
+    ] },
+    { ten: '4. Bố cục, màu sắc và tính trực quan', max: 1, mucDo: [
+      ['Bố cục rõ ràng, có thứ bậc thông tin; chữ, bảng, hình và khoảng trắng phối hợp hợp lí',
+       'Màu sắc hài hoà, có độ tương phản phù hợp, thống nhất giữa các thành phần và hỗ trợ làm nổi bật thông tin quan trọng',
+       'PowerPoint hỗ trợ lập luận; infographic trực quan, cô đọng và dễ sử dụng'],
+      ['Bố cục nhìn chung rõ, dễ đọc; màu sắc tương đối hài hoà và thống nhất',
+       'Còn một vài vị trí dày chữ, thiếu điểm nhấn, phối màu chưa tối ưu hoặc chưa cân đối nhưng không cản trở việc hiểu'],
+      ['Bố cục và màu sắc ở mức cơ bản; một số phần dày chữ, chữ và hình chưa cân đối, tương phản hoặc thứ bậc thông tin chưa rõ',
+       'Người xem vẫn nhận biết được nội dung chính'],
+      ['Bố cục rối hoặc thiếu nhất quán; màu sắc gây khó đọc, tương phản kém hoặc dùng quá nhiều màu làm phân tán chú ý',
+       'Hình và bảng không hỗ trợ nội dung, gây khó khăn đáng kể cho việc theo dõi và sử dụng sản phẩm']
+    ] },
+    { ten: '5. Nguồn tài liệu và quyền sử dụng', max: 1, mucDo: [
+      ['Các thông tin, số liệu và căn cứ pháp lí quan trọng có nguồn chính thống và đáng tin cậy, truy xuất được và ghi nhất quán',
+       'Hình ảnh, icon, mẫu thiết kế hoặc tài nguyên bên ngoài có nguồn và điều kiện sử dụng phù hợp; không dùng tài nguyên vượt quyền cho phép'],
+      ['Nguồn nhìn chung uy tín và kiểm chứng được; còn một vài thiếu sót nhỏ về cách ghi nguồn hoặc điều kiện sử dụng nhưng không ảnh hưởng các kết luận chính'],
+      ['Có ghi nguồn nhưng chưa nhất quán; một số nguồn hoặc tài nguyên chưa làm rõ độ tin cậy, quyền sử dụng và cần kiểm tra bổ sung'],
+      ['Nhiều thông tin quan trọng không có nguồn hoặc dựa chủ yếu vào nguồn khó kiểm chứng; sử dụng tài nguyên không rõ nguồn và quyền, hoặc có dấu hiệu vượt phạm vi cho phép']
+    ] },
+    { ten: '6. Thời hạn nộp sản phẩm', max: 1, mucDo: [
+      ['Nộp đầy đủ 02 sản phẩm trước hoặc đúng thời hạn cuối được công bố'],
+      ['Nộp đầy đủ 02 sản phẩm trễ không quá 2 giờ so với thời hạn cuối'],
+      ['Nộp đầy đủ 02 sản phẩm trễ trên 2 giờ đến không quá 6 giờ so với thời hạn cuối'],
+      ['Nộp trễ trên 6 giờ đến không quá 12 giờ. Không nộp sản phẩm thì phần sản phẩm không có minh chứng được tính 0 điểm theo quy định']
+    ], tuDongTheoGio: true }
+  ]
 };
 
 var DCL_R3 = {
-  ma: "R3",
-  ten: "Rubric 3 — Báo cáo và phản biện",
-  trongSoDuAn: 0.30,
-  trongSoGV: 0.7,
-  trongSoNhomBan: 0.3,
+  ma: 'R3', ten: 'Rubric 3 — Đánh giá trình bày sản phẩm', trongSo: '30%',
+  moTa: 'Giáo viên chấm dựa trên phần thuyết trình sản phẩm của các nhóm. '
+      + 'Các nhóm bạn vẫn gửi phiếu theo rubric này để luyện kĩ năng đánh giá, '
+      + 'nhưng phiếu của nhóm bạn là tham khảo, không tính vào điểm.',
   tieuChi: [
-    { ten: "1. Nội dung báo cáo", max: 3.5, goiY: [
-      "Đủ 5 chặng, giải thích trực tiếp 1 hành vi, giới thiệu infographic kèm ví dụ, không phải đính chính",
-      "Đủ 5 chặng, phần lập luận đọc theo slide, chưa nêu cách dùng infographic, đính chính 1 chi tiết",
-      "3–4 chặng, đọc slide phần lớn thời lượng, chỉ chiếu infographic, đính chính 2 chi tiết",
-      "Dưới 3 chặng, không rõ kết luận về tính hợp pháp, đính chính từ 3 chi tiết" ] },
-    { ten: "2. Phong cách thuyết trình và thời gian", max: 2.5, goiY: [
-      "10 phút lệch dưới 1 phút, dưới 20% đọc slide, nghe rõ hoàn toàn, từ 2 lần tương tác",
-      "Lệch 1–2 phút, 20–40% đọc slide, 1 lần phải nhắc lại, 1 lần tương tác",
-      "Lệch 2–4 phút, 40–70% đọc slide, 2–3 lần phải nhắc lại, không tương tác",
-      "Lệch trên 4 phút, trên 70% đọc slide, từ 4 lần phải nhắc lại" ] },
-    { ten: "3. Trả lời chất vấn và phản biện", max: 3, goiY: [
-      "Trả lời 100% câu hỏi, từ 80% có căn cứ, 0 câu sai căn cứ, nêu được điểm sẽ điều chỉnh",
-      "Trả lời 100% câu hỏi, 50–79% có căn cứ, 0 câu sai căn cứ, có nêu điểm điều chỉnh",
-      "Trả lời 50–99% câu hỏi, dưới 50% có căn cứ, 1 câu sai phải đính chính",
-      "Trả lời dưới 50% hoặc né tránh, từ 2 câu sai căn cứ" ] },
-    { ten: "4. Phối hợp đồng đội khi báo cáo", max: 1, goiY: [
-      "100% thành viên tham gia, chuyển phần dưới 10 giây, có hỗ trợ khi bạn lúng túng",
-      "80–99% thành viên tham gia, 1 lần chuyển phần gián đoạn quá 10 giây",
-      "50–79% thành viên tham gia, 2–3 lần gián đoạn không ai hỗ trợ",
-      "Dưới 50% thành viên tham gia, một người gánh toàn bộ" ] }
+    { ten: '1. Nội dung báo cáo', max: 4, mucDo: [
+      ['Trình bày mạch lạc, bám đúng trọng tâm, làm nổi bật được đủ 5 nội dung chính: tình huống, hành vi và các bên, căn cứ pháp lí, kết luận về tính hợp pháp, giải pháp'],
+      ['Trình bày rõ và đủ 5 nội dung chính, nhưng có lúc sa vào chi tiết phụ, chưa thật tập trung'],
+      ['Trình bày được khoảng 80% nội dung chính của sản phẩm'],
+      ['Trình bày qua loa, chưa đi vào nội dung chính của sản phẩm, từ 3 trong 5 nội dung trở xuống']
+    ] },
+    { ten: '2. Phong cách thuyết trình và thời gian', max: 3, mucDo: [
+      ['Thời lượng 10 phút, lệch không quá 1 phút',
+       'Tự tin, lưu loát, diễn đạt tự nhiên, ngôn ngữ phù hợp',
+       'Có tương tác tích cực với người nghe'],
+      ['Thời lượng lệch 1 đến 2 phút',
+       'Tự tin, rõ ràng, ngôn ngữ phù hợp',
+       'Có giao tiếp với người nghe nhưng còn lúng túng'],
+      ['Thời lượng lệch 2 đến 4 phút',
+       'Giọng rõ nhưng đôi lúc còn vấp, phụ thuộc slide hoặc kịch bản ở phần lớn bài',
+       'Ít giao tiếp với người nghe'],
+      ['Thời lượng lệch trên 4 phút',
+       'Thiếu tự tin, đọc lại toàn bộ nội dung',
+       'Không tương tác với người nghe']
+    ] },
+    { ten: '3. Trả lời chất vấn và phản biện', max: 3, mucDo: [
+      ['Trả lời chính xác, logic và đầy đủ câu hỏi'],
+      ['Trả lời đúng phần lớn câu hỏi, lập luận hợp lí'],
+      ['Trả lời được các câu hỏi cơ bản'],
+      ['Không trả lời được hoặc trả lời sai nội dung']
+    ] }
   ]
 };
 
 var DCL_RUBRICS = { R1: DCL_R1, R2: DCL_R2, R3: DCL_R3 };
 
+function dclMilli(x) { return Math.round(Number(x) * 1000); }
 function dclTongDiem(rubric, muc) {
-  var t = 0;
+  var m = 0;
   for (var i = 0; i < rubric.tieuChi.length; i++) {
-    var m = muc[i];
-    if (m === null || m === undefined || m < 0 || m > 3) return null;
-    t += rubric.tieuChi[i].max * DCL_HE_SO[m];
+    var v = muc[i];
+    if (v === null || v === undefined || v < 0 || v > 3) return null;
+    m += dclMilli(rubric.tieuChi[i].max * DCL_HE_SO[v]);
   }
-  return Math.round(t * 100) / 100;
+  return m / 1000;
+}
+function dclSo(x) {
+  if (x === null || x === undefined || x === '') return '—';
+  var m = dclMilli(x), am = Math.abs(m);
+  var cents = Math.floor(am / 10) + (am % 10 >= 5 ? 1 : 0);
+  if (m < 0) cents = -cents;
+  return (cents / 100).toFixed(2).replace('.', ',');
 }
