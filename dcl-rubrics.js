@@ -1,11 +1,5 @@
 /* =====================================================================
-   DIGITAL CITIZEN LAB — BA RUBRIC, NGUỒN DUY NHẤT
-   Chép theo mục Đánh giá dự án của Kế hoạch bài dạy, bản báo cáo
-   2627102_Report_Group05.
-   Trang Đánh giá và mọi phiếu chấm đều dựng từ tệp này. 
-
-   Thang chung: Xuất sắc 100% · Tốt 75% · Đạt 50% · Chưa đạt 25%
-   của điểm tối đa tiêu chí. Tổng điểm tối đa mỗi rubric bằng 10. 
+   DIGITAL CITIZEN LAB — RUBRIC
    ===================================================================== */
 
 var DCL_MUC   = ['Xuất sắc', 'Tốt', 'Đạt', 'Chưa đạt'];
