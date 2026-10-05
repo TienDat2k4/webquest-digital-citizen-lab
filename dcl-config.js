@@ -1,50 +1,71 @@
 /* =====================================================================
    DIGITAL CITIZEN LAB — TỆP CẤU HÌNH
-   Đây là tệp duy nhất giáo viên cần sửa. Sửa xong thì commit & push,
-   GitHub Pages tự cập nhật sau khoảng một phút.
+   Đây là tệp DUY NHẤT giáo viên cần sửa trong kho GitHub.
+
+   Danh sách lớp, danh sách học sinh, hạn nộp, số nhóm, mã nhóm đều nằm
+   trên máy chủ Google Sheets, không khai ở đây.
+
+   Nguyên tắc: tệp này nạp SAU index.html nên mọi dòng ở đây sẽ GHI ĐÈ
+   giá trị trong index.html. Vì vậy chỉ mở dòng nào thật sự muốn đổi.
+   Dòng nào để nguyên dấu chú thích thì index.html giữ giá trị sẵn có.
    ===================================================================== */
 
-/* ---------- 1. Kết nối Google Sheets qua Apps Script ---------- */
+
+/* ---------------------------------------------------------------------
+   PHẦN BẮT BUỘC SỬA — nối trang với máy chủ
+   --------------------------------------------------------------------- */
+
 var DCL_API = {
-  // Link lấy ở bước Triển khai > Ứng dụng web trong Apps Script
+
+  // Link lấy ở bước Triển khai > Ứng dụng web trong Apps Script.
+  // Phải kết thúc bằng /exec, không phải /dev.
   url:   "https://script.google.com/macros/s/AKfycbynSe_iwIEhEKKShviiOKBcwjiuEslkS1nBjikfzazd7WzQ2bep1ZJsv5aRnSv6MIheuw/exec",
 
-  // Phải trùng hệt biến TOKEN trong tệp Code.gs
-  token: "DOI_CHUOI_NAY_THANH_CUA_BAN",
+  // Phải trùng HỆT biến TOKEN ở đầu tệp Code.gs.
+  token: "DOI_CHUOI_NAY_THANH_CUA_BAN"
 
-  // Danh sách lớp, dùng cho ô điểm danh và bộ lọc trang Trưng bày
-  lop:   ["10A1", "10A2", "10A3", "10A4", "10A5", "10A6", "10A7", "10A8"]
 };
 
-/* ---------- 2. Hai biểu mẫu Google ---------- */
+
+/* ---------------------------------------------------------------------
+   PHẦN TUỲ CHỌN — bỏ dấu // ở đầu dòng nào muốn đổi
+   --------------------------------------------------------------------- */
+
 (function () {
   if (typeof CONFIG === 'undefined') return;
 
-  CONFIG.formDangKy = "https://forms.gle/WzMnKtkbQbMaWP5k6";
-  CONFIG.formNop    = "https://forms.gle/S24gJ78Dg18hwBJx7";
+  /* --- Vòng ôn tập --- */
 
-  /* ---------- 3. Cơ chế mở khoá ---------- */
-  CONFIG.diemDat           = 7;       // số hồ sơ đúng tối thiểu trên 10
-  CONFIG.batBuocMoKhoa     = true;    // false = mở sẵn mọi mục, dùng khi trình bày
-  CONFIG.choPhepBoQuaNhanh = false;   // true = hiện nút Bỏ qua
-  CONFIG.maMoKhoaNhanh     = "HN1-DCL";  // mã dự phòng, giáo viên đọc cho lớp khi mạng hỏng
-  CONFIG.hienMaThongHanh   = false;   // true = in mã lên màn hình kết quả của học sinh
+  // Số hồ sơ phải giải đúng để mở khoá. Mặc định 7 trên 10.
+  // CONFIG.diemDat = 7;
 
-  /* ---------- 4. Mốc thời gian ---------- */
-  CONFIG.hanDangKy = "[NGÀY] · [GIỜ]";
-  CONFIG.hanNop    = "[NGÀY] · 21h00";
+  // Đặt false nếu muốn mở sẵn mọi mục, không bắt chơi vòng ôn tập.
+  // Dùng khi dạy thử hoặc khi lớp không kịp thời gian.
+  // CONFIG.batBuocMoKhoa = true;
 
-  /* ---------- 5. Liên kết tài nguyên: dán link Drive đã mở quyền xem ---------- */
-  CONFIG.mauTrinhChieu    = "#";
-  CONFIG.mauInfographic   = "#";
-  CONFIG.hocLieuPhapLy    = "#";
-  CONFIG.huongDanGhiNguon = "#";
-  CONFIG.khoAnh           = "#";
-  CONFIG.mauNhatKy        = "#";
-  CONFIG.mauBangDoiChieu  = "#";
-  CONFIG.mauPhanHoiCheo   = "#";
-  CONFIG.rubricPdf        = "#";
-  CONFIG.nguonAnh         = "[TÊN NGUỒN ẢNH] — [GIẤY PHÉP SỬ DỤNG]";
 
+  /* --- Hai sản phẩm mẫu của giáo viên ---
+     index.html đã có sẵn link Canva. Chỉ mở hai dòng dưới nếu đổi link. */
+
+  // CONFIG.mauTrinhChieu  = "https://...";
+  // CONFIG.mauInfographic = "https://...";
+
+
+  /* --- Thư mục học liệu ---
+     index.html đã có sẵn bốn link Drive ở mục Tài nguyên.
+     Chỉ mở dòng nào nếu đổi thư mục. */
+
+  // CONFIG.hocLieuPhapLy = "https://drive.google.com/...";
+  // CONFIG.quyentacgia   = "https://drive.google.com/...";
+  // CONFIG.ungxu         = "https://drive.google.com/...";
+  // CONFIG.video         = "https://drive.google.com/...";
+
+
+  /* --- Biểu mẫu ---
+     Hai biểu mẫu đang gắn thẳng trong index.html ở mục Đề tài và Nộp bài.
+     Đổi link thì sửa ngay trong index.html, không sửa ở đây. */
+
+
+  /* Gọi lại để các thay đổi phía trên có hiệu lực trên giao diện. */
   if (typeof applyConfig === 'function') applyConfig();
 })();
