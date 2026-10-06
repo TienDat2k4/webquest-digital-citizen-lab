@@ -303,10 +303,23 @@ function dclKhoiNhanMa() {
 
 function dclNhanMaNhomDs() {
   var lop = dclEl('nm-lop').value, sel = dclEl('nm-nhom');
+  if (!sel) return;
   if (!lop) { sel.innerHTML = '<option value="">— chọn lớp trước —</option>'; return; }
-  var h = '';
-  for (var i = 1; i <= 9; i++) h += '<option value="Nhóm ' + i + '">Nhóm ' + i + '</option>';
-  sel.innerHTML = '<option value="">— chọn nhóm —</option>' + h;
+  sel.innerHTML = '<option value="">— đang tải —</option>';
+  dclGoi('dsNhomCongKhai', { lop: lop }).then(function (r) {
+    if (!r || !r.ok || !r.ds.length) {
+      sel.innerHTML = '<option value="">— chưa nhóm nào đăng kí —</option>';
+      dclBao(dclEl('nm-msg'), 'wait',
+        'Lớp này chưa có nhóm nào nộp biểu mẫu đăng kí. Nhóm trưởng điền biểu mẫu ở mục Đề tài trước đã.');
+      return;
+    }
+    var h = '<option value="">— chọn nhóm —</option>';
+    for (var i = 0; i < r.ds.length; i++)
+      h += '<option value="' + dclEsc(r.ds[i]) + '">' + dclEsc(r.ds[i]) + '</option>';
+    sel.innerHTML = h;
+  })['catch'](function () {
+    sel.innerHTML = '<option value="">— không tải được —</option>';
+  });
 }
 
 function dclNhanMa() {
