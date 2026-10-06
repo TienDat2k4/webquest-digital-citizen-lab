@@ -31,10 +31,29 @@
     '.dcl-card{border:1px solid var(--line);border-radius:10px;padding:15px 17px;' +
     'margin-bottom:12px;background:#fff;box-shadow:0 1px 2px rgba(23,33,43,.04)}' +
     '.dcl-card h4{font-size:16.5px;margin-bottom:3px}' +
-    '.rb-tc{border:1px solid var(--line);border-radius:10px;margin-bottom:12px;overflow:hidden}' +
-    '.rb-head{background:var(--tint);padding:11px 14px;display:flex;justify-content:space-between;' +
-    'gap:10px;flex-wrap:wrap;align-items:baseline}' +
-    '.rb-head strong{font-size:14.5px}' +
+    '.rb-rubric{border:1px solid var(--line);border-radius:12px;margin-bottom:12px;background:#fff;' +
+    'overflow:hidden;box-shadow:0 1px 2px rgba(23,33,43,.04)}' +
+    '.rb-rubric>summary{list-style:none;cursor:pointer;padding:16px 18px;display:flex;' +
+    'align-items:center;gap:14px;min-height:60px}' +
+    '.rb-rubric>summary::-webkit-details-marker{display:none}' +
+    '.rb-rubric>summary:hover{background:var(--tint2)}' +
+    '.rb-rubric[open]>summary{background:var(--tint);border-bottom:1px solid var(--line)}' +
+    '.rb-ma{flex-shrink:0;width:38px;height:38px;border-radius:9px;background:var(--pri);color:#fff;' +
+    'display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800}' +
+    '.rb-ten{flex:1;font-weight:700;font-size:16px;line-height:1.3}' +
+    '.rb-ten small{display:block;font-weight:400;font-size:12.5px;color:var(--sub);margin-top:3px}' +
+    '.rb-ts{flex-shrink:0;background:var(--warm);border:1px solid #e9d2a6;color:var(--acc);' +
+    'border-radius:999px;padding:5px 13px;font-size:14px;font-weight:800}' +
+    '.rb-than{padding:14px 16px 6px}' +
+    '.rb-tc{border:1px solid var(--line);border-radius:9px;margin-bottom:9px;overflow:hidden}' +
+    '.rb-tc>summary{list-style:none;cursor:pointer;background:var(--tint2);padding:11px 14px;' +
+    'display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;' +
+    'min-height:48px}' +
+    '.rb-tc>summary::-webkit-details-marker{display:none}' +
+    '.rb-tc>summary:hover{background:var(--tint)}' +
+    '.rb-tc[open]>summary{background:var(--tint);border-bottom:1px solid var(--line)}' +
+    '.rb-tc-ten{font-size:14.5px;font-weight:600}' +
+    '.rb-diem{font-weight:400;opacity:.75}' +
     '.rb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:var(--line)}' +
     '.rb-muc{background:#fff;padding:11px 13px}' +
     '.rb-muc .nhan{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;' +
@@ -79,15 +98,46 @@ function dclDocMe() {
 }
 
 var DCL_DS_LOP = [];
+var DCL_LOI_LOP = '';     // vì sao danh sách lớp rỗng
 function dclTaiDsLop() {
-  if (!dclSan()) return Promise.resolve([]);
+  if (!dclSan()) {
+    DCL_LOI_LOP = 'chưa cấu hình DCL_API.url trong dcl-config.js';
+    return Promise.resolve([]);
+  }
   return dclGoi('dsLop').then(function (r) {
-    DCL_DS_LOP = (r && r.ok) ? r.ds : [];
+    if (!r || !r.ok) {
+      DCL_DS_LOP = [];
+      DCL_LOI_LOP = (r && r.loi) ? r.loi : 'máy chủ trả về lỗi';
+      return [];
+    }
+    DCL_DS_LOP = r.ds || [];
+    DCL_LOI_LOP = DCL_DS_LOP.length ? '' :
+      'chưa có lớp nào. Giáo viên dán danh sách vào tab DanhSachHS rồi chạy hàm nhapDanhSach';
     return DCL_DS_LOP;
-  })['catch'](function () { return []; });
+  })['catch'](function (e) {
+    DCL_DS_LOP = [];
+    DCL_LOI_LOP = 'không gọi được máy chủ. Kiểm tra link /exec, TOKEN, '
+      + 'và nhớ Triển khai > Phiên bản Mới sau khi sửa Code.gs';
+    return [];
+  });
 }
 function dclDoLop(sel, chon, nhan) {
   if (!sel) return;
+  if (!DCL_DS_LOP.length) {
+    sel.innerHTML = '<option value="">— chưa có lớp —</option>';
+    var bao = sel.parentNode ? sel.parentNode.parentNode : null;
+    if (bao && !dclEl('lop-loi')) {
+      var p = document.createElement('p');
+      p.id = 'lop-loi';
+      p.className = 'xs';
+      p.style.color = 'var(--no)';
+      p.style.margin = '6px 0 0';
+      p.textContent = 'Không nạp được danh sách lớp: ' + (DCL_LOI_LOP || 'chưa rõ nguyên nhân') + '.';
+      bao.appendChild(p);
+    }
+    return;
+  }
+  var cu = dclEl('lop-loi'); if (cu) cu.remove();
   var h = '<option value="">' + (nhan || '— Chọn lớp —') + '</option>';
   for (var i = 0; i < DCL_DS_LOP.length; i++) {
     var l = DCL_DS_LOP[i];
@@ -197,26 +247,37 @@ function dclBocQNext() {
 
 /* ---------- 3. Trang Đánh giá, dựng từ dcl-rubrics.js ---------- */
 function dclVeRubric(rubric) {
-  var h = '<h3>' + dclEsc(rubric.ten) + ' (' + dclEsc(rubric.trongSo) + ')</h3>'
-        + '<p class="sm sub">' + dclEsc(rubric.moTa) + '</p>';
+  var h = '<details class="rb-rubric"><summary>'
+    + '<span class="rb-ma">' + dclEsc(rubric.ma) + '</span>'
+    + '<span class="rb-ten">' + dclEsc(rubric.ten.replace(/^Rubric \d+ — /, ''))
+    + '<small>' + rubric.tieuChi.length + ' tiêu chí · tổng 10 điểm</small></span>'
+    + '<span class="rb-ts">' + dclEsc(rubric.trongSo) + '</span>'
+    + '</summary><div class="rb-than">'
+    + '<p class="sm sub">' + dclEsc(rubric.moTa) + '</p>';
+
   for (var i = 0; i < rubric.tieuChi.length; i++) {
     var tc = rubric.tieuChi[i];
-    h += '<div class="rb-tc"><div class="rb-head">'
-       + '<strong>' + dclEsc(tc.ten) + '</strong>'
+    h += '<details class="rb-tc"><summary>'
+       + '<span class="rb-tc-ten">' + dclEsc(tc.ten) + '</span>'
        + '<span class="pill">' + String(tc.max).replace('.', ',') + ' điểm'
-       + (tc.yccd ? ' · ' + dclEsc(tc.yccd) : '') + '</span></div><div class="rb-grid">';
+       + (tc.yccd ? ' · ' + dclEsc(tc.yccd) : '') + '</span>'
+       + '</summary><div class="rb-grid">';
     for (var m = 0; m < 4; m++) {
-      h += '<div class="rb-muc"><div class="nhan">' + DCL_MUC[m] + '</div><ul>';
+      h += '<div class="rb-muc"><div class="nhan">' + DCL_MUC[m]
+         + ' <span class="rb-diem">' + String(tc.max * DCL_HE_SO[m]).replace('.', ',')
+         + ' đ</span></div><ul>';
       for (var k = 0; k < tc.mucDo[m].length; k++)
         h += '<li>' + dclEsc(tc.mucDo[m][k]) + '</li>';
       h += '</ul></div>';
     }
-    h += '</div></div>';
+    h += '</div></details>';
   }
+
   if (rubric.chan)
     h += '<div class="card warm"><p class="sm" style="margin:0">' + dclEsc(rubric.chan) + '</p></div>';
-  return h;
+  return h + '</div></details>';
 }
+
 
 /* Nhóm tự lấy mã sau khi nhóm trưởng đã nộp biểu mẫu đăng kí.
    Giáo viên không phải gọi từng nhóm lên phát mã. */
@@ -338,6 +399,28 @@ function dclTaiTrungBay(phien) {
   })['catch'](function () { box.innerHTML = '<p class="sm sub">Không kết nối được máy chủ.</p>'; });
 }
 
+/* Tự kiểm sau khi trang đã dựng xong: báo thẳng tệp nào không nạp được,
+   thay vì để người dùng nhìn mãi dòng "Đang tải". */
+function dclTuKiem() {
+  function keu(box, ten, viec) {
+    if (!box) return;
+    var t = (box.textContent || '').trim();
+    if (t.length > 120) return;                 // đã dựng xong thì thôi
+    box.innerHTML = '<div class="card warm"><p class="sm" style="margin:0">'
+      + '<strong>Phần này chưa dựng được.</strong> Trang không nạp được tệp <code>' + ten + '</code>, '
+      + 'nên ' + viec + ' không hiện. Kiểm tra ba điều: tệp đã tải lên GitHub chưa, '
+      + 'tên tệp có đúng chữ hoa chữ thường không, và mở F12 tab Console xem có dòng đỏ nào.'
+      + '</p></div>';
+  }
+  if (typeof NV_HOSO === 'undefined') {
+    keu(dclEl('detai-body'), 'dcl-nhiemvu.js', 'năm hồ sơ đề tài');
+    var t = document.querySelector('#p-task .sec');
+    if (t && !dclEl('nv-chung')) keu(t.lastElementChild, 'dcl-nhiemvu.js', 'phần nhiệm vụ chung');
+  }
+  if (typeof DCL_RUBRICS === 'undefined')
+    keu(dclEl('eval-body'), 'dcl-rubrics.js', 'ba bảng rubric');
+}
+
 /* ---------- khởi động ---------- */
 (function () {
   function khoiDong() {
@@ -357,6 +440,7 @@ function dclTaiTrungBay(phien) {
         sec.insertBefore(p, sec.firstChild);
       }
     }
+    setTimeout(dclTuKiem, 1500);
   }
   if (document.readyState === 'loading')
     document.addEventListener('DOMContentLoaded', function () { setTimeout(khoiDong, 0); });
