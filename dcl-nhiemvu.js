@@ -3,10 +3,8 @@
    Nạp sau dcl-api.js.
 
    Cách trình bày: học sinh chỉ thấy một lớp thông tin tại một thời điểm.
-     Mục 6 "Nhiệm vụ"  → phần chung: ba phần việc, hai sản phẩm, quy cách.
-     Mục "Đề tài"      → chỉ hồ sơ của nhóm mình, hiện sau khi đăng nhập.
-   Mọi khối dài đều gấp lại, mở từng khối một. Bảng 10 slide chuyển thành
-   danh sách thẻ nên không phải cuộn ngang trên điện thoại.
+   Tệp này chỉ dựng năm hồ sơ đề tài ở mục Đề tài. Phần nhiệm vụ chung,
+   quy cách sản phẩm và bảng minh chứng đã nằm sẵn trong index.html.
    ===================================================================== */
 
 (function () {
@@ -43,65 +41,7 @@
   document.head.appendChild(css);
 })();
 
-// /* ---------- Phần chung ---------- */
-// var NV_VIEC = [
-//   { ten: 'Đọc hồ sơ và nhận diện vấn đề',
-//     tom: 'Tình huống đang cần giải quyết điều gì, cho ai, và ai liên quan.',
-//     y: ['Tóm tắt tình huống và viết một câu phát biểu vấn đề: điều gì đang cần giải quyết, cho ai.',
-//         'Lập danh sách các hành vi cần xem xét. Hồ sơ đã liệt kê sẵn, nhóm phải phân tích hết, không được bỏ bớt.',
-//         'Lập danh sách các bên liên quan theo bốn nhóm: người thực hiện hành vi, người bị ảnh hưởng, chủ thể quyền, bên trung gian hoặc cộng đồng.',
-//         'Tách rõ hai góc độ: điều gì là vấn đề đạo đức và văn hoá, điều gì là vấn đề có căn cứ pháp lí. Hai góc độ này nằm ở hai mục riêng trong sản phẩm, không viết lẫn.'] },
-//   { ten: 'Tìm căn cứ và đối chiếu',
-//     tom: 'Quy định nào áp dụng được, và áp dụng vào dữ kiện của hồ sơ ra sao.',
-//     y: ['Tìm các quy định liên quan, ít nhất hai văn bản. Ghi đúng tên văn bản và số điều, khoản.',
-//         'Giải thích mỗi quy định bằng lời của nhóm, kèm ít nhất một ví dụ. Chép nguyên văn điều luật dài không được tính là giải thích.',
-//         'Phân biệt rõ sáu mức đối với tài nguyên số: tạo ra, có bản sao, được xem, được dùng, được sửa, được chia sẻ. Có quyền ở mức này không đương nhiên có quyền ở mức kia.',
-//         'Lập bảng đối chiếu bốn cột cho từng hành vi: hành vi và dữ kiện, quy định áp dụng, đối chiếu dữ kiện với quy định, kết luận. Thiếu dữ kiện để kết luận thì ghi rõ thiếu gì và cần xác minh điều gì, thay vì đoán.'] },
-//   { ten: 'Đề xuất và đóng gói thành sản phẩm dùng được',
-//     tom: 'Tác hại, phương án được chọn, và một quy trình người khác dùng lại được.',
-//     y: ['Phân tích tác hại đối với đủ bốn nhóm đối tượng: người đăng hoặc chia sẻ, người nhận, chủ thể quyền, cộng đồng và nhà trường. Tác hại phải gắn với dữ kiện của chính hồ sơ.',
-//         'So sánh ít nhất hai phương án xử lí, nêu ưu và nhược điểm, rồi chọn một phương án và nói rõ căn cứ.',
-//         'Xây dựng một quy trình hoặc checklist từ ba bước, mỗi bước là một hành động người khác kiểm tra được, kèm ít nhất một câu hỏi rẽ nhánh hoặc một ví dụ áp dụng.',
-//         'Dự đoán ít nhất hai kết quả cụ thể khi áp dụng quy trình, mỗi dự đoán có căn cứ từ tình huống; chỉ ra ít nhất một hạn chế hoặc rủi ro và đề xuất ít nhất một điều chỉnh khả thi.'] }
-// ];
-
-// var NV_SLIDE = [
-//   [1, 'Tóm tắt hồ sơ và một câu phát biểu vấn đề nhóm phải giải quyết', 'Y1'],
-//   [2, 'Các hành vi cần xem xét; bốn nhóm các bên liên quan; hai mục tách riêng: góc độ đạo đức và văn hoá, góc độ pháp lí', 'Y1'],
-//   [3, 'Căn cứ pháp lí 1: giải thích bằng lời nhóm, tên văn bản, điều khoản, ví dụ', 'Y3'],
-//   [4, 'Căn cứ pháp lí 2: giải thích bằng lời nhóm, tên văn bản, điều khoản, ví dụ', 'Y3'],
-//   [5, 'Quyền đối với nội dung số: ví dụ vi phạm nêu đủ tài nguyên, chủ thể quyền, hành vi, quyền bị ảnh hưởng, kèm diễn biến và hậu quả; bảng phân biệt sáu mức, mỗi mức một ví dụ của đề tài nhóm', 'Y2, Y4'],
-//   [6, 'Bảng đối chiếu pháp lí bốn cột: hành vi và dữ kiện, quy định áp dụng, đối chiếu dữ kiện, kết luận. Phân tích toàn bộ hành vi hồ sơ nêu, tối thiểu ba hành vi', 'Y5'],
-//   [7, 'Tác hại của việc chia sẻ bất cẩn trên bốn nhóm đối tượng', 'Y6'],
-//   [8, 'So sánh ít nhất hai phương án: ưu, nhược điểm, căn cứ, phương án được chọn', 'Y5, Y7'],
-//   [9, 'Quy trình hoặc checklist từ ba bước, mỗi bước là một hành động kiểm tra được', 'Y7'],
-//   [10, 'Dự đoán ít nhất hai kết quả khi áp dụng quy trình, mỗi dự đoán có căn cứ; một hạn chế hoặc rủi ro; một điều chỉnh đề xuất', 'Y7']
-// ];
-
-// var NV_KHOI_IG = ['Nhận diện vấn đề', 'Điều cần lưu ý', 'Điều nên làm', 'Điều không nên làm',
-//   'Quy trình hoặc checklist', 'Thông điệp hành động', 'Nguồn tham chiếu'];
-
-// var NV_QUY_CACH = [
-//   ['Bài trình chiếu', '.pptx hoặc .pdf · 10 slide nội dung bắt buộc, tối đa 5 slide phụ · mỗi slide không quá 80 chữ, cỡ chữ từ 20pt'],
-//   ['Infographic', '.png hoặc .pdf · 800 × 2000 px · không quá 10 MB · đủ 7 khối theo mạch'],
-//   ['Đặt tên tệp', 'Nhom0X_TenDeTai_LoaiSanPham'],
-//   ['Nguồn', 'Mọi số liệu, hình ảnh, trích dẫn đều ghi nguồn kèm điều kiện sử dụng'],
-//   ['Hình ảnh', 'Chỉ dùng ảnh có điều kiện sử dụng phù hợp, ghi rõ nguồn'],
-//   ['Quyền riêng tư', 'Không dùng hội thoại, tên, hình ảnh thật của bạn học'],
-//   ['Nhật kí dự án', 'Ghi trong khu Chấm điểm: bảng phân công, biên bản họp, sổ ghi nhận']
-// ];
-
-// var NV_MINH_CHUNG = [
-//   ['Y1', 'Slide 1 có một câu phát biểu vấn đề. Slide 2 có đủ số hành vi hồ sơ nêu, đủ bốn nhóm các bên liên quan, và hai mục tách riêng.'],
-//   ['Y2', 'Slide 5 có một ví dụ nêu đủ bốn yếu tố: tài nguyên, chủ thể quyền, hành vi, quyền bị ảnh hưởng, kèm diễn biến và từ hai hậu quả.'],
-//   ['Y3', 'Slide 3 và 4 có ít nhất hai văn bản, mỗi quy định diễn đạt bằng lời nhóm, không đoạn nào chép nguyên văn quá 25 từ, có ghi điều khoản và ví dụ.'],
-//   ['Y4', 'Slide 5 có bảng phân biệt đủ sáu mức, mỗi mức một ví dụ gắn đề tài nhóm.'],
-//   ['Y5', 'Slide 6 có bảng bốn cột cho toàn bộ hành vi, tối thiểu ba hành vi, kết luận đúng cho từng hành vi, và ít nhất một chỗ chỉ rõ dữ kiện còn thiếu. Slide 8 so sánh phương án và chọn có căn cứ.'],
-//   ['Y6', 'Slide 7 nêu tác hại cụ thể trên đủ bốn nhóm đối tượng, mỗi tác hại gắn dữ kiện của chính hồ sơ.'],
-//   ['Y7', 'Slide 9 và khối 5 của infographic có checklist từ ba bước, có câu hỏi rẽ nhánh hoặc ví dụ. Slide 10 có hai dự đoán có căn cứ, một hạn chế, một điều chỉnh.']
-// ];
-
-/* ---------- Năm hồ sơ ---------- */
+/* ---------- Phần chung ---------- */
 var NV_HOSO = [
 { no: 1, ten: 'Bản tin lớp học đáng tin cậy',
   cauHoi: 'Làm thế nào để bản tin chia sẻ trong nhóm lớp vừa đáng tin cậy, vừa tôn trọng quyền đối với nội dung được sử dụng?',
@@ -218,58 +158,6 @@ function nvBang(cot, dong) {
 }
 
 /* ---------- Mục Nhiệm vụ: phần chung ---------- */
-function nvKhoiPhanChung() {
-  var sec = document.querySelector('#p-task .sec');
-  if (!sec || dclEl('nv-chung')) return;
-  var box = document.createElement('div');
-  box.id = 'nv-chung';
-
-  var h = '<div class="nv-canh"><strong>Đọc theo thứ tự này.</strong> Mở từng khối một, '
-    + 'không cần đọc hết trong một lần. Khối 1 đến 3 là việc mọi nhóm đều phải làm; '
-    + 'khối 4 và 5 là quy cách sản phẩm; khối 6 là bảng tự rà trước khi nộp. '
-    + 'Hồ sơ riêng của nhóm em nằm ở mục Đề tài.</div>';
-
-  for (var i = 0; i < NV_VIEC.length; i++) {
-    var v = NV_VIEC[i], than = '<ol>';
-    for (var j = 0; j < v.y.length; j++) than += '<li>' + dclEsc(v.y[j]) + '</li>';
-    than += '</ol>';
-    h += nvBuoc(i + 1, v.ten, v.tom, than, i === 0);
-  }
-
-  var tSlide = '<p class="sm sub">Không kể slide bìa và slide tài liệu tham khảo. '
-    + 'Thứ tự cố định để cả năm nhóm được chấm bằng một rubric. Nhóm cần thêm có thể chèn '
-    + 'tối đa 5 slide phụ, nhưng 10 slide dưới đây phải có và đúng thứ tự.</p>';
-  for (i = 0; i < NV_SLIDE.length; i++)
-    tSlide += '<div class="nv-slide"><b>Slide ' + NV_SLIDE[i][0] + '</b>'
-      + '<span class="nv-ma">' + NV_SLIDE[i][2] + '</span>'
-      + '<p>' + dclEsc(NV_SLIDE[i][1]) + '</p></div>';
-  tSlide += '<p class="sm">Slide 6 là phần bắt buộc để chấm Y5. Đây là hoạt động vận dụng quy định '
-    + 'vào tình huống học tập, không phải yêu cầu học sinh kết tội hay định mức xử phạt cho một người thật.</p>';
-  h += nvBuoc(4, 'Bài trình chiếu — 10 slide, thứ tự cố định',
-    'Phần phân tích. Mỗi slide có một việc phải làm.', tSlide);
-
-  var tIg = '<p class="sm sub">Infographic là phần truyền thông rút ra từ chính phân tích ở trên, '
-    + 'không phải bản tóm tắt bài trình chiếu. Bảy khối theo đúng mạch này:</p><ol>';
-  for (i = 0; i < NV_KHOI_IG.length; i++) tIg += '<li>' + dclEsc(NV_KHOI_IG[i]) + '</li>';
-  tIg += '</ol><h4 style="font-size:15px;margin:14px 0 8px">Quy cách nộp</h4>'
-    + nvBang(['Hạng mục', 'Quy định'], NV_QUY_CACH)
-    + '<p class="sm">Hai sản phẩm phải nhất quán: kết luận, checklist và thông điệp trên infographic '
-    + 'phải trùng với nội dung trong bài trình chiếu.</p>';
-  h += nvBuoc(5, 'Infographic và quy cách nộp',
-    'Bảy khối, 800 × 2000 px, và cách đặt tên tệp.', tIg);
-
-  var tMc = '<p class="sm sub">Cột phải là thứ người chấm sẽ tìm trên sản phẩm. '
-    + 'Nhóm nào làm đủ thì không mất điểm oan ở Rubric 2.</p>';
-  for (i = 0; i < NV_MINH_CHUNG.length; i++)
-    tMc += '<div class="chk"><input type="checkbox" id="mc-' + NV_MINH_CHUNG[i][0] + '">'
-      + '<label for="mc-' + NV_MINH_CHUNG[i][0] + '"><strong>' + NV_MINH_CHUNG[i][0] + '</strong> — '
-      + dclEsc(NV_MINH_CHUNG[i][1]) + '</label></div>';
-  h += nvBuoc(6, 'Rà trước khi nộp — bảy minh chứng',
-    'Tick từng dòng. Thiếu dòng nào là mất điểm ở Rubric 2.', tMc);
-
-  box.innerHTML = h;
-  sec.appendChild(box);
-}
 
 /* ---------- Mục Đề tài: công khai cả năm hồ sơ ---------- */
 /* Giáo viên quay số tại lớp, nhóm điền biểu mẫu để ghi nhận.
@@ -310,10 +198,7 @@ function nvVeMotHoSo(hs, mo) {
 function nvKhoiHoSo() {
   var box = dclEl('detai-body');
   if (!box) return;
-  var h = '<div class="nv-canh"><strong>Cách dùng trang này.</strong> '
-    + 'Giáo viên quay số giao đề tài tại lớp. Nhóm trưởng mở biểu mẫu bên dưới để ghi nhận '
-    + 'đề tài và danh sách thành viên. Sau đó mở đúng hồ sơ của nhóm mình để đọc. '
-    + 'Bốn hồ sơ còn lại vẫn xem được, dùng để hiểu toàn cảnh và nghe nhóm bạn báo cáo.</div>';
+  var h = '';
   for (var i = 0; i < NV_HOSO.length; i++) h += nvVeMotHoSo(NV_HOSO[i], false);
   h += '<p class="xs sub" style="margin-top:14px">Mọi tình huống đều hư cấu, phục vụ học tập. '
      + 'Không dùng tên, hình ảnh hay hội thoại thật của bạn học để phân tích.</p>';
@@ -321,7 +206,7 @@ function nvKhoiHoSo() {
 }
 
 (function () {
-  function start() { setTimeout(function () { nvKhoiPhanChung(); nvKhoiHoSo(); }, 40); }
+  function start() { setTimeout(nvKhoiHoSo, 40); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
   else start();
 })();
