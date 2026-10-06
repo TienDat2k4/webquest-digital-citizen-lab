@@ -1312,8 +1312,8 @@ main.shell { width:100% !important; max-width:none !important; margin:0 !importa
       </div>
 
       <div class="ieo-login">
-        <button onclick="document.getElementById('top-code-inp')?.focus()">Mã truy cập</button>
-        <button class="login-main" onclick="go('intro')">Trang chủ</button>
+        <button class="login-main" id="adm-vao" onclick="go('admin')">Đăng nhập bằng mã</button>
+        <button onclick="go('intro')">Trang chủ</button>
       </div>
     </div>
   </div>
@@ -1325,9 +1325,9 @@ main.shell { width:100% !important; max-width:none !important; margin:0 !importa
   <div class="quick-bar" id="quick-bar">
     <div id="quick-status"></div>
     <div class="quick-form" id="quick-controls">
-      <span class="xs">Mã truy cập</span>
-      <label class="sr" for="top-code-inp">Mã truy cập</label>
-      <input type="text" id="top-code-inp" class="code-inp" placeholder="Nhập mã" maxlength="12"
+      <span class="xs">Mã mở khoá nhanh của giáo viên</span>
+      <label class="sr" for="top-code-inp">Mã mở khoá nhanh</label>
+      <input type="text" id="top-code-inp" class="code-inp" placeholder="Bỏ qua vòng ôn tập" maxlength="12"
              onkeydown="if(event.key==='Enter')unlockByCode('top-code-inp','top-code-msg')">
       <button class="sm-btn pri" onclick="unlockByCode('top-code-inp','top-code-msg')">Mở khoá</button>
       <span class="msg-inline" id="top-code-msg"></span>
@@ -2201,11 +2201,16 @@ function updateQuickBar(){
   if (!bar || !st) return;
   if (unlocked){
     bar.classList.add('unlocked');
-    st.innerHTML = '<strong>Đã mở khoá toàn bộ dự án.</strong> Các mục 3–9 đã dùng được.';
+    st.innerHTML = '<strong>Đã mở khoá toàn bộ dự án.</strong> Các mục 3–9 đã dùng được. '
+      + '<button class="sm-btn pri" style="margin-left:10px" onclick="go(\'admin\')">'
+      + 'Vào khu chấm điểm</button>';
     if (ctrl) ctrl.style.display = 'none';
   } else {
     bar.classList.remove('unlocked');
-    st.innerHTML = '<strong>Các mục 3–9 đang khoá.</strong> Cần đạt ' + CONFIG.diemDat + '/10 hồ sơ ở mục 2.';
+    st.innerHTML = '<strong>Các mục 3–9 đang khoá.</strong> Cần đạt ' + CONFIG.diemDat
+      + '/10 hồ sơ ở mục 2. '
+      + '<button class="sm-btn" style="margin-left:10px" onclick="go(\'admin\')">'
+      + 'Giáo viên đăng nhập</button>';
     if (ctrl) ctrl.style.display = 'flex';
   }
 }
