@@ -372,6 +372,61 @@ function admThemGhiNhan() {
 }
 
 /* ===================================================================
+   CHỌN LỚP VÀ NHÓM — dùng chung cho các màn của giáo viên
+   =================================================================== */
+
+/** Dựng hai ô chọn Lớp và Nhóm. onchange là tên hàm sẽ gọi khi đổi nhóm. */
+function admChonLopNhom(pre, onchange) {
+  var h = '<div class="dcl-row">'
+    + '<div class="dcl-f" style="flex:0 1 160px"><label for="' + pre + '-lop">Lớp</label>'
+    + '<select id="' + pre + '-lop" onchange="admDoiLopGV(\'' + pre + '\')"></select></div>'
+    + '<div class="dcl-f" style="flex:0 1 180px"><label for="' + pre + '-nhom">Nhóm</label>'
+    + '<select id="' + pre + '-nhom" onchange="' + onchange + '">'
+    + '<option value="">— chọn lớp trước —</option></select></div>'
+    + '</div>';
+  ADM_SAU_CHON[pre] = onchange;
+  setTimeout(function () {
+    dclTaiDsLop().then(function () {
+      dclDoLop(dclEl(pre + '-lop'), admLopGV());
+      if (admLopGV()) admTaiNhom(pre);
+    });
+  }, 0);
+  return h;
+}
+
+var ADM_SAU_CHON = {};     // pre -> câu lệnh chạy sau khi chọn nhóm
+
+function admDoiLopGV(pre) {
+  var l = dclEl(pre + '-lop');
+  if (!l) return;
+  admDatLopGV(l.value);
+  admTaiNhom(pre);
+}
+
+function admTaiNhom(pre) {
+  var l = dclEl(pre + '-lop'), sel = dclEl(pre + '-nhom');
+  if (!l || !sel) return;
+  if (!l.value) { sel.innerHTML = '<option value="">— chọn lớp trước —</option>'; return; }
+  admGoi('dsNhom', { lop: l.value }).then(function (r) {
+    var h = '<option value="">— chọn nhóm —</option>';
+    for (var i = 0; i < ((r && r.ds) || []).length; i++)
+      h += '<option value="' + dclEsc(r.ds[i]) + '">' + dclEsc(r.ds[i]) + '</option>';
+    sel.innerHTML = h;
+    var sau = ADM_SAU_CHON[pre];
+    if (sau) { try { eval(sau); } catch (e) {} }
+  })['catch'](function () {
+    sel.innerHTML = '<option value="">— không tải được —</option>';
+  });
+}
+
+/** Lớp và nhóm đang chọn. Học sinh thì luôn là lớp và nhóm của chính mình. */
+function admPV(pre) {
+  if (!admLaGV()) return {};
+  var l = dclEl(pre + '-lop'), n = dclEl(pre + '-nhom');
+  return { lop: l ? l.value : '', nhom: n ? n.value : '' };
+}
+
+/* ===================================================================
    TAB: RUBRIC 1 — NHÓM THỐNG NHẤT, MỘT MÁY NHẬP
    =================================================================== */
 var R1_DS = [], R1_VT = 0, R1_QUYEN = false;
@@ -863,12 +918,21 @@ function admVeTab() {
   var t = dclEl('adm-tab');
   if (!t) return;
   if (ADM_HEN && ADM_TAB !== 'r3') { clearInterval(ADM_HEN); ADM_HEN = null; }
-  if (ADM_TAB === 'nk') return admTabNhatKy(t);
-  if (ADM_TAB === 'r1') return admTabR1(t);
-  if (ADM_TAB === 'r2') return admTabR2(t);
-  if (ADM_TAB === 'r3') return admTabR3(t);
-  if (ADM_TAB === 'td') return admTabTienDo(t);
-  if (ADM_TAB === 'th') return admTabTongHop(t);
+  /* Bọc để một lỗi trong màn này không làm trắng cả khu chấm điểm. */
+  try {
+    if (ADM_TAB === 'nk') return admTabNhatKy(t);
+    if (ADM_TAB === 'r1') return admTabR1(t);
+    if (ADM_TAB === 'r2') return admTabR2(t);
+    if (ADM_TAB === 'r3') return admTabR3(t);
+    if (ADM_TAB === 'td') return admTabTienDo(t);
+    if (ADM_TAB === 'th') return admTabTongHop(t);
+  } catch (e) {
+    t.innerHTML = '<div class="card warm"><p class="sm" style="margin:0">'
+      + '<strong>Màn này lỗi nên chưa dựng được.</strong> Chi tiết: '
+      + dclEsc(e && e.message ? e.message : e)
+      + '. Thường là do tệp dcl-admin.js trên GitHub chưa phải bản mới nhất. '
+      + 'Tải lại tệp rồi nhấn Ctrl F5.</p></div>';
+  }
 }
 
 (function () {
