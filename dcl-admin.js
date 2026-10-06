@@ -88,20 +88,16 @@ function admSauDangNhap() {
 /* Khu chấm điểm là khu vận hành riêng: có đường vào từ thanh trạng thái,
    không nằm trên thanh điều hướng của học sinh. */
 function admDuongVao() {
-  var bar = document.querySelector('.quick-bar .quick-form') || document.querySelector('.quick-bar');
-  if (!bar || dclEl('adm-vao')) return;
+  /* index.html đã có nút "Đăng nhập bằng mã" sẵn trên thanh tiêu đề.
+     Hàm này chỉ làm dự phòng cho bản giao diện cũ chưa có nút đó. */
+  if (dclEl('adm-vao')) return;
+  var bar = document.querySelector('.ieo-login') || document.querySelector('.quick-bar');
+  if (!bar) return;
   var b = document.createElement('button');
   b.id = 'adm-vao';
   b.className = 'sm-btn pri';
-  b.textContent = 'Khu chấm điểm';
-  b.onclick = function () {
-    if (typeof unlocked !== 'undefined' && !unlocked) {
-      window.alert('Khu chấm điểm mở sau khi em hoàn thành vòng ôn tập ở mục 2.');
-      if (typeof go === 'function') go('ontap');
-      return;
-    }
-    if (typeof go === 'function') go('admin');
-  };
+  b.textContent = 'Đăng nhập bằng mã';
+  b.onclick = function () { if (typeof go === 'function') go('admin'); };
   bar.appendChild(b);
 }
 
@@ -733,9 +729,14 @@ function admDuyetTB(nhom, bat) {
 function admDongBoDangKy() {
   dclBao(dclEl('td-msg'), 'wait', 'Đang đọc biểu mẫu đăng kí…');
   admGoi('dongBoDangKy', {}).then(function (r) {
-    dclBao(dclEl('td-msg'), r.ok ? 'ok' : 'no', r.ok
-      ? ('Đã đọc ' + r.tong + ' lượt đăng kí, sinh thêm ' + r.moi + ' mã nhóm mới.')
-      : (r.loi || 'Không đồng bộ được'));
+    if (!r.ok) { dclBao(dclEl('td-msg'), 'no', r.loi || 'Không đồng bộ được'); return; }
+    var tin = 'Đã đọc ' + r.tong + ' lượt đăng kí, sinh thêm ' + r.moi + ' mã nhóm, '
+      + 'ghép được ' + r.ghep + ' học sinh vào nhóm theo đúng khai báo.';
+    if (r.chuaKhop && r.chuaKhop.length)
+      tin += ' Còn ' + r.chuaKhop.length + ' tên chưa ghép được: '
+        + r.chuaKhop.slice(0, 8).join('; ')
+        + (r.chuaKhop.length > 8 ? '…' : '') + '. Sửa lại tên trong biểu mẫu hoặc trong DanhSachHS rồi đồng bộ lại.';
+    dclBao(dclEl('td-msg'), (r.chuaKhop && r.chuaKhop.length) ? 'wait' : 'ok', tin);
     admTaiTienDo();
   })['catch'](function () { dclBao(dclEl('td-msg'), 'no', 'Không kết nối được máy chủ.'); });
 }
