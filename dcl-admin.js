@@ -744,7 +744,7 @@ function admTaiTienDo() {
             : '<span class="adm-co o">chưa đăng kí</span>') + '</td>'
         + '<td>' + dclEsc(g.deTai || '<em>chưa gán</em>')
         + '<br><button class="sm-btn" style="margin-top:4px" onclick="admDatDeTai(\'' + dclEsc(g.nhom)
-        + '\')">Gán đề tài</button></td>'
+        + '\')">Sửa đề tài</button></td>'
         + '<td>' + (g.daNop
             ? (g.tre ? '<span class="adm-co c">trễ</span> ' : '<span class="adm-co x">đúng hạn</span> ') + dclEsc(g.nopLuc)
             : '<span class="adm-co o">chưa nộp</span>') + '</td>'
@@ -764,7 +764,8 @@ function admTaiTienDo() {
 
 /** Giáo viên quay số tại lớp rồi gán đề tài cho nhóm bằng nút này. */
 function admDatDeTai(nhom) {
-  var so = window.prompt('Nhóm ' + nhom + ' nhận đề tài số mấy? Nhập 1 đến 5:');
+  var so = window.prompt('Sửa đề tài cho ' + nhom + '. Bình thường đề tài lấy từ biểu mẫu '
+    + 'đăng kí, chỉ dùng nút này khi nhóm khai sai. Nhập 1 đến 5:');
   if (!so) return;
   admGoi('datDeTai', { lop: dclEl('td-lop').value, nhom: nhom, soDeTai: so }).then(function (r) {
     dclBao(dclEl('td-msg'), r.ok ? 'ok' : 'no',
@@ -791,12 +792,23 @@ function admDongBoDangKy() {
   admGoi('dongBoDangKy', {}).then(function (r) {
     if (!r.ok) { dclBao(dclEl('td-msg'), 'no', r.loi || 'Không đồng bộ được'); return; }
     var tin = 'Đã đọc ' + r.tong + ' lượt đăng kí, sinh thêm ' + r.moi + ' mã nhóm, '
-      + 'ghép được ' + r.ghep + ' học sinh vào nhóm theo đúng khai báo.';
-    if (r.chuaKhop && r.chuaKhop.length)
+      + 'ghép được ' + r.ghep + ' học sinh vào nhóm, gán ' + (r.ganDeTai || 0)
+      + ' đề tài theo đúng khai báo.';
+    var canLuuY = false;
+    if (r.chuaKhop && r.chuaKhop.length) {
+      canLuuY = true;
       tin += ' Còn ' + r.chuaKhop.length + ' tên chưa ghép được: '
-        + r.chuaKhop.slice(0, 8).join('; ')
-        + (r.chuaKhop.length > 8 ? '…' : '') + '. Sửa lại tên trong biểu mẫu hoặc trong DanhSachHS rồi đồng bộ lại.';
-    dclBao(dclEl('td-msg'), (r.chuaKhop && r.chuaKhop.length) ? 'wait' : 'ok', tin);
+        + r.chuaKhop.slice(0, 8).join('; ') + (r.chuaKhop.length > 8 ? '…' : '')
+        + '. Sửa tên trong biểu mẫu hoặc trong DanhSachHS rồi đồng bộ lại.';
+    }
+    if (r.deTaiLa && r.deTaiLa.length) {
+      canLuuY = true;
+      tin += ' Có ' + r.deTaiLa.length + ' ô đề tài không đọc được: '
+        + r.deTaiLa.join('; ') + '. Dùng nút Gán đề tài để sửa.';
+    }
+    if (r.trungDeTai && r.trungDeTai.length)
+      tin += ' Nguy cơ sao chép, cùng lớp trùng đề tài: ' + r.trungDeTai.join('; ') + '.';
+    dclBao(dclEl('td-msg'), canLuuY ? 'wait' : 'ok', tin);
     admTaiTienDo();
   })['catch'](function () { dclBao(dclEl('td-msg'), 'no', 'Không kết nối được máy chủ.'); });
 }
