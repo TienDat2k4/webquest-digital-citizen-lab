@@ -35,7 +35,40 @@ var ADM_HEN   = null;         // bộ hẹn giờ cho phiên Rubric 3
     '.adm-co{display:inline-block;border-radius:999px;padding:2px 9px;font-size:11.5px;font-weight:700}' +
     '.adm-co.x{background:var(--okbg);color:var(--ok)}' +
     '.adm-co.o{background:#f1f3f6;color:var(--sub)}' +
-    '.adm-co.c{background:var(--warm);color:var(--acc)}';
+    '.adm-co.c{background:var(--warm);color:var(--acc)}' +
+    '.pd-tc{border:1px solid var(--line);border-radius:10px;margin-bottom:10px;overflow:hidden}' +
+    '.pd-tc-dau{background:var(--tint2);padding:11px 14px;display:flex;justify-content:space-between;' +
+    'gap:10px;flex-wrap:wrap;align-items:center;border-bottom:1px solid var(--line)}' +
+    '.pd-muc{border-radius:999px;padding:4px 12px;font-size:13px;font-weight:800;white-space:nowrap}' +
+    '.pd-muc.m0{background:var(--okbg);color:var(--ok)}' +
+    '.pd-muc.m1{background:var(--tint);color:var(--pri-d)}' +
+    '.pd-muc.m2{background:var(--warm);color:var(--acc)}' +
+    '.pd-muc.m3{background:var(--nobg);color:var(--no)}' +
+    '.pd-mota{padding:12px 14px 4px}' +
+    '.pd-nhan{font-size:11.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;' +
+    'color:var(--sub);margin-bottom:6px}' +
+    '.pd-mota ul{margin:0 0 10px 18px}' +
+    '.pd-mota li{font-size:13.5px;margin-bottom:5px;line-height:1.5}' +
+    '.pd-len{border-top:1px solid var(--line);padding:10px 14px}' +
+    '.pd-len>summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--pri-d);list-style:none}' +
+    '.pd-len>summary::-webkit-details-marker{display:none}' +
+    '.pd-len ul{margin:9px 0 2px 18px}' +
+    '.pd-len li{font-size:13px;margin-bottom:4px;color:var(--sub)}' +
+    '.ct-tc{border:1px solid var(--line);border-radius:9px;padding:12px 14px;margin-bottom:9px}' +
+    '.ct-tc.ct-trong{opacity:.6}' +
+    '.ct-ten{font-size:14.5px;font-weight:600;display:flex;justify-content:space-between;gap:10px;' +
+    'flex-wrap:wrap;align-items:baseline}' +
+    '.ct-max{font-size:12px;font-weight:400;color:var(--sub)}' +
+    '.ct-muc{display:inline-flex;align-items:center;gap:8px;border-radius:999px;' +
+    'padding:4px 13px;font-size:13px;font-weight:700;margin:8px 0 6px}' +
+    '.ct-muc strong{font-weight:800}' +
+    '.ct-muc.xs{background:var(--okbg);color:var(--ok)}' +
+    '.ct-muc.tot{background:var(--tint);color:var(--pri-d)}' +
+    '.ct-muc.dat{background:var(--warm);color:var(--acc)}' +
+    '.ct-muc.chua{background:var(--nobg);color:var(--no)}' +
+    '.ct-mota{margin:0 0 0 18px}' +
+    '.ct-mota li{font-size:13px;line-height:1.5;margin-bottom:3px}' +
+    '.ct-tong{font-size:15px;margin:12px 0 10px;padding-top:10px;border-top:1px solid var(--line)}';
   document.head.appendChild(css);
 })();
 
@@ -114,7 +147,7 @@ function admVe() {
   var tabs = admLaGV()
     ? [['td', 'Tiến độ lớp'], ['r2', 'Chấm sản phẩm'], ['r3', 'Điều hành báo cáo'],
        ['r1', 'Duyệt hoạt động nhóm'], ['th', 'Tổng hợp và công bố']]
-    : [['r1', 'Chấm hoạt động nhóm'], ['nk', 'Nhật kí dự án'], ['th', 'Điểm của nhóm']];
+    : [['r1', 'Chấm hoạt động nhóm'], ['nk', 'Nhật kí dự án'], ['th', 'Phiếu điểm chi tiết']];
 
   var co = false;
   for (var i = 0; i < tabs.length; i++) if (tabs[i][0] === ADM_TAB) co = true;
@@ -837,23 +870,106 @@ function admDongBo() {
    TAB: TỔNG HỢP
    =================================================================== */
 function admTabTongHop(t) {
-  t.innerHTML = '<div class="dcl-panel"><div class="kicker">Tổng hợp điểm dự án</div>'
-    + '<p class="sm sub">Điểm dự án = 0,1 × Rubric 1 + 0,6 × Rubric 2 + 0,3 × Rubric 3. '
-    + 'Rubric 3 của nhóm = 0,7 × phiếu giáo viên + 0,3 × trung bình phiếu các nhóm bạn. '
-    + 'Chỉ dòng có Rubric 3 ở trạng thái Chính thức mới được công bố.</p>'
-    + (admLaGV()
-      ? admChonLopNhom('th', 'admTaiTongHop()').replace(
+  if (admLaGV()) {
+    t.innerHTML = '<div class="dcl-panel"><div class="kicker">Tổng hợp điểm dự án</div>'
+      + '<p class="sm sub">Điểm dự án = 0,1 × Rubric 1 + 0,6 × Rubric 2 + 0,3 × Rubric 3.</p>'
+      + admChonLopNhom('th', 'admTaiTongHop()').replace(
           /<div class="dcl-f" style="flex:0 1 180px">[\s\S]*?<\/select><\/div>/, '')
-        + '<div class="btns" style="margin-top:0">'
-        + '<button class="btn btn2" onclick="admTaiTongHop()">Làm mới</button>'
-        + '<button class="btn btn2" onclick="admXuatCSV()">Xuất CSV</button>'
-        + '<button class="btn btn2" onclick="admDoiTrangThai(\'Đã chốt\')">Chốt điểm lớp</button>'
-        + '<button class="btn btn2" onclick="admDoiTrangThai(\'Đã công bố\')">Công bố</button>'
-        + '<button class="btn btn2" onclick="admDoiTrangThai(\'Đang chấm\')">Mở lại</button></div>'
-      : '')
-    + '<div class="dcl-msg" id="th-msg"></div>'
-    + '<div id="th-ds" style="margin-top:14px"><p class="sm sub">Đang tải…</p></div></div>';
-  setTimeout(admTaiTongHop, admLaGV() ? 400 : 0);
+      + '<div class="btns" style="margin-top:0">'
+      + '<button class="btn btn2" onclick="admTaiTongHop()">Làm mới</button>'
+      + '<button class="btn btn2" onclick="admXuatCSV()">Xuất CSV</button>'
+      + '<button class="btn btn2" onclick="admDoiTrangThai(\'Đã chốt\')">Chốt điểm lớp</button>'
+      + '<button class="btn btn2" onclick="admDoiTrangThai(\'Đã công bố\')">Công bố</button>'
+      + '<button class="btn btn2" onclick="admDoiTrangThai(\'Đang chấm\')">Mở lại</button></div>'
+      + '<div class="dcl-msg" id="th-msg"></div>'
+      + '<div id="th-ds" style="margin-top:14px"><p class="sm sub">Chọn lớp để xem.</p></div></div>';
+    setTimeout(admTaiTongHop, 400);
+    return;
+  }
+  /* Nhóm: xem phiếu điểm chi tiết của chính nhóm mình. */
+  t.innerHTML = '<div id="pd-box"><p class="sm sub">Đang tải phiếu điểm…</p></div>';
+  admPhieuDiem();
+}
+
+/* ---------- Phiếu điểm chi tiết cho nhóm ---------- */
+
+function pdMucDaDat(rubric, i, muc) {
+  if (muc === '' || muc === null || muc === undefined) return '';
+  var m = Number(muc), tc = rubric.tieuChi[i];
+  var h = '<div class="pd-tc"><div class="pd-tc-dau">'
+    + '<strong>' + dclEsc(tc.ten) + '</strong>'
+    + '<span class="pd-muc m' + m + '">' + DCL_MUC[m] + ' · '
+    + String(tc.max * DCL_HE_SO[m]).replace('.', ',') + '/'
+    + String(tc.max).replace('.', ',') + ' điểm</span></div>'
+    + '<div class="pd-mota"><div class="pd-nhan">Nhóm được đánh giá ở mức này vì</div><ul>';
+  for (var k = 0; k < tc.mucDo[m].length; k++)
+    h += '<li>' + dclEsc(tc.mucDo[m][k]) + '</li>';
+  h += '</ul></div>';
+  if (m > 0) {
+    h += '<details class="pd-len"><summary>Muốn lên mức ' + DCL_MUC[m - 1]
+       + ' thì cần gì</summary><ul>';
+    for (k = 0; k < tc.mucDo[m - 1].length; k++)
+      h += '<li>' + dclEsc(tc.mucDo[m - 1][k]) + '</li>';
+    h += '</ul></details>';
+  }
+  return h + '</div>';
+}
+
+function pdKhoiRubric(rubric, nhan, du) {
+  if (!du) return '<div class="dcl-panel"><div class="kicker">' + nhan + '</div>'
+    + '<p class="sm sub" style="margin:0">Giáo viên chưa chấm phần này.</p></div>';
+  if (du.khongNop) return '<div class="dcl-panel"><div class="kicker">' + nhan + '</div>'
+    + '<p class="sm" style="margin:0"><strong>0 điểm, ngoài thang.</strong> '
+    + 'Nhóm không nộp sản phẩm hoặc không báo cáo.</p></div>';
+  var h = '<div class="dcl-panel"><div class="kicker">' + nhan + '</div>'
+    + '<p class="sm" style="margin-bottom:12px"><span class="pill">Tổng ' + du.hienThi
+    + '/10</span> <span class="xs sub">Chấm lúc ' + dclEsc(du.luc) + '</span></p>';
+  for (var i = 0; i < rubric.tieuChi.length; i++) h += pdMucDaDat(rubric, i, du.muc[i]);
+  if (du.chan)
+    h += '<div class="card warm"><p class="sm" style="margin:0">Đã áp quy tắc chặn ở tiêu chí 4: '
+       + 'kết luận sai từ một nửa số hành vi trở lên nên không được quá mức Đạt.</p></div>';
+  if (du.nhanXet)
+    h += '<div class="card tint"><div class="kicker">Nhận xét của giáo viên</div>'
+       + '<p class="sm" style="margin:0">' + dclEsc(du.nhanXet) + '</p></div>';
+  return h + '</div>';
+}
+
+function admPhieuDiem() {
+  var box = dclEl('pd-box');
+  if (!box) return;
+  admGoi('phieuDiemNhom', admPV('th')).then(function (r) {
+    if (!r.ok) { box.innerHTML = '<p class="sm sub">' + dclEsc(r.loi || '') + '</p>'; return; }
+
+    var h = '<div class="dcl-panel"><div class="kicker">Phiếu điểm của nhóm</div>'
+      + '<h4 style="font-size:18px;margin:2px 0 4px">' + dclEsc(r.lop) + ' · ' + dclEsc(r.nhom) + '</h4>'
+      + '<p class="sm sub" style="margin-bottom:8px">' + dclEsc(r.deTai || 'Chưa có đề tài') + '</p>'
+      + '<span class="adm-co ' + (r.chinhThuc ? 'x' : 'c') + '">'
+      + dclEsc(r.trangThaiLop) + '</span> <span class="xs sub">' + dclEsc(r.ghiChu) + '</span></div>';
+
+    h += pdKhoiRubric(DCL_R2, 'Rubric 2 — Sản phẩm · 60%', r.r2);
+    h += pdKhoiRubric(DCL_R3, 'Rubric 3 — Báo cáo và phản biện · 30%', r.r3);
+
+    h += '<div class="dcl-panel"><div class="kicker">Rubric 1 — Hoạt động nhóm · 10%</div>'
+      + '<p class="sm sub">Mức này do chính nhóm thống nhất và đã khoá.</p>'
+      + '<div class="wrap"><table class="adm-bang"><thead><tr><th>Thành viên</th>'
+      + '<th>Mức từng tiêu chí</th><th>R1</th><th>Điểm dự án</th></tr></thead><tbody>';
+    for (var i = 0; i < r.ds.length; i++) {
+      var x = r.ds[i];
+      var mucTxt = x.r1Muc
+        ? x.r1Muc.map(function (m, k) {
+            return 'TC' + (k + 1) + ' ' + DCL_MUC[Number(m)]; }).join(' · ')
+        : '<em>chưa chấm</em>';
+      h += '<tr><td><strong>' + dclEsc(x.hoTen) + '</strong>'
+         + (x.r1DaKhoa ? ' <span class="adm-co x">đã khoá</span>' : '') + '</td>'
+         + '<td>' + mucTxt + '</td><td>' + x.r1HienThi + '</td>'
+         + '<td><strong>' + x.duAnHienThi + '</strong></td></tr>';
+    }
+    h += '</tbody></table></div>'
+      + '<p class="xs sub" style="margin-top:8px">Điểm dự án = 0,1 × Rubric 1 của em '
+      + '+ 0,6 × Rubric 2 của nhóm + 0,3 × Rubric 3 của nhóm.</p></div>';
+
+    box.innerHTML = h;
+  })['catch'](function () { box.innerHTML = '<p class="sm sub">Không kết nối được máy chủ.</p>'; });
 }
 
 function admTaiTongHop() {
@@ -923,6 +1039,104 @@ function admXuatCSV() {
     document.body.appendChild(a); a.click(); a.remove();
     dclBao(dclEl('th-msg'), 'ok', 'Đã tải tệp CSV.');
   })['catch'](function () { dclBao(dclEl('th-msg'), 'no', 'Không kết nối được máy chủ.'); });
+}
+
+/* ===================================================================
+   BẢNG ĐIỂM KÈM RUBRIC — nhóm thấy mình đạt mức nào ở từng tiêu chí
+   =================================================================== */
+
+/** Một tiêu chí: tên, mức đạt, điểm, và mô tả đầy đủ của mức đó. */
+function admVeTieuChi(tc, muc) {
+  if (muc === null || muc === undefined || muc === '') {
+    return '<div class="ct-tc ct-trong"><div class="ct-ten">' + dclEsc(tc.ten) + '</div>'
+      + '<div class="ct-muc"><em>chưa chấm</em></div></div>';
+  }
+  var lop = ['xs', 'tot', 'dat', 'chua'][muc];
+  var h = '<div class="ct-tc"><div class="ct-ten">' + dclEsc(tc.ten)
+    + '<span class="ct-max">tối đa ' + String(tc.max).replace('.', ',') + ' đ</span></div>'
+    + '<div class="ct-muc ' + lop + '">' + DCL_MUC[muc]
+    + '<strong>' + String(tc.max * DCL_HE_SO[muc]).replace('.', ',') + ' đ</strong></div>'
+    + '<ul class="ct-mota">';
+  for (var k = 0; k < tc.mucDo[muc].length; k++)
+    h += '<li>' + dclEsc(tc.mucDo[muc][k]) + '</li>';
+  return h + '</ul></div>';
+}
+
+function admVeRubricDaCham(rubric, o) {
+  if (!o) return '<p class="sm sub">Giáo viên chưa chấm phần này.</p>';
+  if (o.khongNop)
+    return '<div class="card warm"><p class="sm" style="margin:0">'
+      + '<strong>Nhóm không nộp sản phẩm.</strong> Phần này tính 0 điểm, '
+      + 'ghi là ngoài thang chứ không phải mức Chưa đạt.</p></div>';
+  var h = '';
+  for (var i = 0; i < rubric.tieuChi.length; i++)
+    h += admVeTieuChi(rubric.tieuChi[i], o.muc ? o.muc[i] : null);
+  h += '<p class="ct-tong">Tổng ' + dclEsc(rubric.ma) + ': <strong>' + o.hienThi + '/10</strong>'
+     + ' · trọng số ' + dclEsc(rubric.trongSo) + '</p>';
+  if (o.chan)
+    h += '<p class="xs" style="color:var(--acc)">Đã áp quy tắc chặn ở tiêu chí 4.</p>';
+  if (o.nhanXet)
+    h += '<div class="card tint"><div class="kicker">Nhận xét của giáo viên</div>'
+       + '<p class="sm" style="margin:0">' + dclEsc(o.nhanXet) + '</p></div>';
+  return h;
+}
+
+function admTaiChiTiet(boxId, d) {
+  var box = dclEl(boxId);
+  if (!box) return;
+  box.innerHTML = '<p class="sm sub">Đang tải…</p>';
+  admGoi('chiTietDiem', d || {}).then(function (r) {
+    if (!r.ok) { box.innerHTML = '<p class="sm sub">' + dclEsc(r.loi || '') + '</p>'; return; }
+
+    var h = '<div class="dcl-panel"><div class="kicker">' + dclEsc(r.lop) + ' · ' + dclEsc(r.nhom) + '</div>'
+      + '<p class="sm sub" style="margin-bottom:0">' + dclEsc(r.deTai || 'Chưa có đề tài')
+      + (r.nopTre ? ' · <span class="adm-co c">nộp trễ</span>' : '') + '</p></div>';
+
+    h += '<details class="rb-rubric" open><summary>'
+      + '<span class="rb-ma">R2</span><span class="rb-ten">Sản phẩm'
+      + '<small>Giáo viên chấm · 60% điểm dự án</small></span>'
+      + '<span class="rb-ts">' + (r.r2 ? r.r2.hienThi + '/10' : '—') + '</span></summary>'
+      + '<div class="rb-than">' + admVeRubricDaCham(DCL_R2, r.r2) + '</div></details>';
+
+    h += '<details class="rb-rubric"><summary>'
+      + '<span class="rb-ma">R3</span><span class="rb-ten">Báo cáo và phản biện'
+      + '<small>Giáo viên chấm · 30% điểm dự án</small></span>'
+      + '<span class="rb-ts">' + (r.r3 ? r.r3.hienThi + '/10' : '—') + '</span></summary>'
+      + '<div class="rb-than">' + admVeRubricDaCham(DCL_R3, r.r3) + '</div></details>';
+
+    h += '<details class="rb-rubric"><summary>'
+      + '<span class="rb-ma">R1</span><span class="rb-ten">Hoạt động nhóm'
+      + '<small>Nhóm thống nhất · 10% điểm dự án · chấm riêng từng bạn</small></span>'
+      + '<span class="rb-ts">' + r.ds.length + ' bạn</span></summary><div class="rb-than">';
+    for (var i = 0; i < r.ds.length; i++) {
+      var x = r.ds[i];
+      h += '<details class="rb-tc"><summary><span class="rb-tc-ten">' + dclEsc(x.hoTen)
+         + (x.vai === 'truongnhom' ? ' · nhóm trưởng' : '') + '</span>'
+         + '<span class="pill">' + x.hienThi + '/10'
+         + (x.daKhoa ? ' · đã khoá' : ' · chưa khoá') + '</span></summary><div style="padding:12px 14px">';
+      if (!x.muc) h += '<p class="sm sub" style="margin:0">Nhóm chưa chấm cho bạn này.</p>';
+      else for (var k = 0; k < DCL_R1.tieuChi.length; k++)
+        h += admVeTieuChi(DCL_R1.tieuChi[k], x.muc[k]);
+      h += '</div></details>';
+    }
+    h += '</div></details>';
+
+    h += '<div class="dcl-panel"><div class="kicker">Điểm dự án từng bạn</div>'
+      + '<p class="sm sub">Điểm dự án = 0,1 × Rubric 1 + 0,6 × Rubric 2 + 0,3 × Rubric 3. '
+      + 'Rubric 2 và Rubric 3 giống nhau cho cả nhóm, Rubric 1 riêng từng bạn.</p>'
+      + '<div class="wrap"><table class="adm-bang"><thead><tr><th>Họ tên</th>'
+      + '<th>R1</th><th>R2</th><th>R3</th><th>Điểm dự án</th></tr></thead><tbody>';
+    for (i = 0; i < r.ds.length; i++) {
+      var y = r.ds[i];
+      h += '<tr><td>' + dclEsc(y.hoTen) + '</td><td>' + y.hienThi + '</td>'
+        + '<td>' + (r.r2 ? r.r2.hienThi : '—') + '</td>'
+        + '<td>' + (r.r3 ? r.r3.hienThi : '—') + '</td>'
+        + '<td><strong>' + y.duAnHienThi + '</strong></td></tr>';
+    }
+    h += '</tbody></table></div></div>';
+
+    box.innerHTML = h;
+  })['catch'](function () { box.innerHTML = '<p class="sm sub">Không kết nối được máy chủ.</p>'; });
 }
 
 /* ---------- điều phối tab ---------- */
