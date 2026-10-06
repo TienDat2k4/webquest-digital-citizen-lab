@@ -158,7 +158,12 @@ function admDangNhap() {
   if (!ma) { dclBao(dclEl('dn2-msg'), 'no', 'Nhập mã truy cập.'); return; }
   dclBao(dclEl('dn2-msg'), 'wait', 'Đang kiểm tra…');
   dclGoi('dangNhap', { ma: ma, idHS: id }).then(function (r) {
-    if (!r.ok) { dclBao(dclEl('dn2-msg'), 'no', r.loi || 'Không đăng nhập được'); return; }
+    if (!r.ok) {
+      var tin = r.loi || 'Không đăng nhập được';
+      if (r.chanDoan && r.chanDoan.goiY) tin += ' — ' + r.chanDoan.goiY;
+      dclBao(dclEl('dn2-msg'), 'no', tin);
+      return;
+    }
     admLuu(r.phien);
     ADM_U = { vai: r.vai, lop: r.lop, nhom: r.nhom, hoTen: r.hoTen, idHS: r.idHS };
     ADM_TAB = admLaGV() ? 'td' : (admLaTruong() ? 'nk' : 'r1');
